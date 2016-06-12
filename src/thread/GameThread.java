@@ -3,11 +3,8 @@ package thread;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import org.omg.CORBA.SetOverrideType;
-
+import Animation.ReadyAnimation;
 import panel.game.PanelGame;
 import user.Player;
 import user.User;
@@ -39,6 +36,7 @@ public class GameThread extends Thread {
 		this.level = level;
 		preTime = (int) System.currentTimeMillis();
 		screen.setInfo(level, preTime);
+		new ReadyAnimation(screen, level, this);
 	}
 
 	public void run() {
@@ -78,12 +76,7 @@ public class GameThread extends Thread {
 				screen.initTextField();
 				break;
 			case KeyEvent.VK_ESCAPE: // ECS
-				if (pause) {
-					continueGame();
-				}
-				else {
-					pause = true;
-				}
+				pause();
 				break;
 			case KeyEvent.VK_BACK_SPACE: // 백스페이스
 				combo = 0; // 백스페이스 입력 시 콤보 초기화
@@ -139,6 +132,7 @@ public class GameThread extends Thread {
 	public void nextLevel() {
 		if (level < 10) {
 			level++;
+			initGame();
 		}
 		else {
 			// 무한모드
@@ -158,6 +152,15 @@ public class GameThread extends Thread {
 			}
 		}
 	}
+	
+	public void pause() {
+		if (pause) {
+			continueGame();
+		}
+		else {
+			pause = true;
+		}
+	}
 
 	public void continueGame() {
 		synchronized (this) {
@@ -173,9 +176,11 @@ public class GameThread extends Thread {
 	}
 
 	public void checkTime() {
-		if(!screen.updateTime()) {
-			// 게임 끝
+		if (!screen.updateTime()) {
+			System.out.println("겜끝 담레벨");
+			/*게임 끝을 알림 */
+			nextLevel();
 		}
-		
+
 	}
 }

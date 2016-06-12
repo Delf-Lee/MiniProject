@@ -4,12 +4,19 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class InfoPanel extends JPanel {
+	private static final int[] LVL_LOCATION = { 10, 30 };
+	private static final int[] TIME_LOCATION = { 230, 10 };
+	private static final int X = 0;
+	private static final int Y = 1;
 	JLabel levelLabel = new JLabel();
 	JLabel timeLabel = new JLabel();
+	ImageIcon clock = new ImageIcon("images/시계.png");
+	JLabel clockLabel = new JLabel(clock);
 	int level;
 	int preTime;
 	int limitTime;
@@ -20,20 +27,22 @@ public class InfoPanel extends JPanel {
 	}
 
 	private void setComponent() {
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-		setBounds(10, 20, 500, 500);
-
+		setBounds(10, 0, 1000, 300);
+		setLayout(null);
 		levelLabel = new JLabel();
-		levelLabel.setFont(new Font("Silkscreen", Font.BOLD, 50));
+		levelLabel.setFont(new Font("Silkscreen", Font.BOLD, 40));
 		levelLabel.setForeground(Color.WHITE);
+		levelLabel.setBounds(LVL_LOCATION[X], LVL_LOCATION[Y], 300, 50);
 
-		timeLabel.setLocation(0, 0);
-		timeLabel.setLocation(300, 100);
+		clockLabel.setBounds(TIME_LOCATION[X], TIME_LOCATION[Y], clock.getIconWidth(), clock.getIconHeight());
+
 		timeLabel = new JLabel("time " + Integer.toString(preTime));
-		timeLabel.setFont(new Font("Silkscreen", Font.BOLD, 50));
+		timeLabel.setFont(new Font("Silkscreen", Font.BOLD, 40));
 		timeLabel.setForeground(Color.WHITE);
+		timeLabel.setBounds(TIME_LOCATION[X] + 60, TIME_LOCATION[Y] - 10, 300, 100);
 
-		//add(levelLabel);
+		add(levelLabel);
+		add(clockLabel);
 		add(timeLabel);
 
 		this.setOpaque(false);
@@ -55,7 +64,7 @@ public class InfoPanel extends JPanel {
 	public boolean updateTime() {
 		int printTime = limitTime - (((int) System.currentTimeMillis() - preTime) / 1000);
 		timeLabel.setText(Integer.toString(printTime));
-		if (printTime > limitTime) {
+		if (printTime < 0) {
 			return false; // 시간초과
 		}
 		return true;

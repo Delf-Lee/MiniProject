@@ -13,6 +13,7 @@ import panel.menu.PanelLevelChoice;
 import panel.menu.PanelMenu;
 import panel.menu.PanelRanking;
 import panel.menu.PanelWordSetting;
+import thread.AnimationThread;
 import user.UserManager;
 
 public class PanelManager {
@@ -32,7 +33,6 @@ public class PanelManager {
 	public static final String WORD_SETTING_BACKGROUND_IMG = "";
 
 	public UserManager user = new UserManager(); // user∏¶ ∫§≈Õ∑Œ
-
 	public static JFrame main;
 	private PanelHome home;
 	private PanelLogin login;
