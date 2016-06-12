@@ -13,7 +13,6 @@ import panel.menu.PanelLevelChoice;
 import panel.menu.PanelMenu;
 import panel.menu.PanelRanking;
 import panel.menu.PanelWordSetting;
-import thread.AnimationThread;
 import user.UserManager;
 
 public class PanelManager {
@@ -55,7 +54,7 @@ public class PanelManager {
 		game = new PanelGame();
 	}
 
-	public void setContentPane(Container c) {
+	public static void setContentPane(Container c) {
 		main.setContentPane(c);
 		// 코드의 유연성 증가
 	}
@@ -121,7 +120,8 @@ public class PanelManager {
 	public PanelGame getGamePanel() {
 		return game;
 	}
+
 	public PanelWordSetting getWordSettingPanel() {
-		return wordSetting; 
+		return wordSetting;
 	}
 }

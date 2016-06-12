@@ -63,10 +63,12 @@ public class InfoPanel extends JPanel {
 
 	public boolean updateTime() {
 		int printTime = limitTime - (((int) System.currentTimeMillis() - preTime) / 1000);
-		timeLabel.setText(Integer.toString(printTime));
 		if (printTime < 0) {
+			timeLabel.setText("0");
 			return false; // 시간초과
 		}
+		timeLabel.setText(Integer.toString(printTime));
+		
 		return true;
 	}
 }

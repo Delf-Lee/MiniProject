@@ -86,6 +86,10 @@ public class PanelGame extends BasePanel {
 	public void lostLife() {
 		lifeBar.lostLife();
 	}
+	
+	public int getLife() {
+		return lifeBar.getLife();
+	}
 
 	public void initGame() {
 		initTextField();

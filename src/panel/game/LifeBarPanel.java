@@ -21,6 +21,7 @@ public class LifeBarPanel extends JPanel {
 		setOpaque(false);
 	}
 
+	/** 라이프를 초기화 */
 	public void initLife() {
 		maxLife = 5; // 임시
 		nowLife = maxLife;
@@ -37,12 +38,11 @@ public class LifeBarPanel extends JPanel {
 			nowLife--;
 		}
 		paintHeart();
-		System.out.println("lost one heart " + nowLife);
 	}
 
 	private void paintHeart() {
 		removeAll();
-		
+
 		// 빨간색 하트
 		for (int i = 0; i < nowLife; i++) {
 			JLabel oneLife = new JLabel(filledHeart);
@@ -54,10 +54,13 @@ public class LifeBarPanel extends JPanel {
 			JLabel oneLife = new JLabel(emptyHeart);
 			add(oneLife);
 		}
-		
 		revalidate();
 	}
-	
+
+	public int getLife() {
+		return nowLife;
+	}
+
 	public void updateLifeBar(/* fail 신호 */) {
 		/*
 		 * 라이프를 하나 줄이고 다시 출력

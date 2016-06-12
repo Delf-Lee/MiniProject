@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 
 import thread.GameThread;
 
+/**
+ * 게임 시작 전 현재 레벨을 출력 후, 페이드 아웃하며 사라지는 레이블을 만드는 스레드
+ */
 public class ReadyAnimation extends Thread {
 	private JLabel levelLabel = new JLabel();
 	private JPanel panel;

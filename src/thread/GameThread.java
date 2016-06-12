@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import java.util.Calendar;
 
 import Animation.ReadyAnimation;
+import panel.MsgWinow;
+import panel.PanelManager;
 import panel.game.PanelGame;
 import user.Player;
 import user.User;
@@ -15,28 +17,27 @@ public class GameThread extends Thread {
 	WordManager wordList;
 	PanelGame screen;
 	Player player;
-	Calendar cal = Calendar.getInstance();
-
-	int score;
+	PanelManager panel;
 	boolean pause = false;
+	boolean terminate = false;
 	int level;
 	int preTime;
 	int combo;
 
 	/** 생성자 */
-	public GameThread(PanelGame screen) {
+	public GameThread(PanelManager panel) {
+		this.panel = panel;
+		this.screen = panel.getGamePanel();
 		wordList = new WordManager(this);
-		this.screen = screen;
-
 	}
 
 	/** 플레이어와 게임레벨을 설정 */
 	public void setGame(User user, int level) {
-		player = new Player(user);
-		this.level = level;
-		preTime = (int) System.currentTimeMillis();
-		screen.setInfo(level, preTime);
-		new ReadyAnimation(screen, level, this);
+		player = new Player(user); // 게임할 플레이어 설정
+		this.level = level; // 플레이어가 플레이 가능한 게임 레벨
+		preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
+		screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
+		new ReadyAnimation(screen, level, this); // 준비 애니메이션
 	}
 
 	public void run() {
@@ -45,7 +46,9 @@ public class GameThread extends Thread {
 				createWord(); // 단어 객체 생성
 				wordList.flowWord(); // 단어 이동
 
+				
 				checkTime();
+				checkLife();
 				checkPause();
 
 				screen.repaint();
@@ -53,9 +56,8 @@ public class GameThread extends Thread {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return;
 		}
-
-		return;
 	}
 
 	/** 키 리스너 */
@@ -129,6 +131,7 @@ public class GameThread extends Thread {
 		}
 	}
 
+	/** 해당 레벨을 클리어 시, 다음 레벨로 진입한다. */
 	public void nextLevel() {
 		if (level < 10) {
 			level++;
@@ -145,6 +148,7 @@ public class GameThread extends Thread {
 		screen.repaint();
 	}
 
+	/** 스레드 내에서 pause를 감지한다. */
 	public void checkPause() throws InterruptedException {
 		synchronized (this) {
 			while (pause) {
@@ -152,7 +156,8 @@ public class GameThread extends Thread {
 			}
 		}
 	}
-	
+
+	/** 게임중 exc키를 누를 시, 일시 정지한다. */
 	public void pause() {
 		if (pause) {
 			continueGame();
@@ -162,6 +167,7 @@ public class GameThread extends Thread {
 		}
 	}
 
+	/** pause에서 resume을 누를시 게임을 재개한다. */
 	public void continueGame() {
 		synchronized (this) {
 			while (pause) {
@@ -171,16 +177,28 @@ public class GameThread extends Thread {
 		}
 	}
 
+	/** 라이프 하나 소멸 */
 	public void lostLife() {
 		screen.lostLife();
+	}
+	
+	private void checkLife() {
+		if(screen.getLife() == 0) {
+			// 게임오버
+			interrupt(); // 일단 임시로 종료시킴
+		}
 	}
 
 	public void checkTime() {
 		if (!screen.updateTime()) {
-			System.out.println("겜끝 담레벨");
-			/*게임 끝을 알림 */
-			nextLevel();
+			boolean confirm = MsgWinow.confirm("level " + level + " CLEAR!\n다음 레벨을 진행하시겠습니까?");
+			if (confirm) {
+				nextLevel();
+			}
+			else {
+				panel.setContentPane(PanelManager.MENU);
+				interrupt();
+			}
 		}
-
 	}
 }

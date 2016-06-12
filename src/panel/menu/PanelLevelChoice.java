@@ -96,7 +96,7 @@ public class PanelLevelChoice extends BasePanel {
 	/** 게임 구동 스레드를 생성하고 게임을 실행 */
 	public void gameStart(int level) {
 		repaint(); // 넣어야 될지 다시 생각해보기
-		GameThread newGame = new GameThread(panel.getGamePanel());
+		GameThread newGame = new GameThread(panel);
 		newGame.setGame(UserManager.user, level);
 		newGame.start();
 		newGame.setFocus();

@@ -19,7 +19,7 @@ import user.UserManager;
 
 public class PanelMenu extends BasePanel {
 	private PanelManager panel;
-	
+
 	// 정적변수
 	private static final String GAME_START = "게임시작";
 	private static final String WORD_SETTING = "단어입력";
@@ -129,14 +129,14 @@ public class PanelMenu extends BasePanel {
 		}
 	}
 
-//	/** 게임 구동 스레드를 생성하고 게임을 실행 */
-//	public void gameStart() {
-//		GameThread newGame = new GameThread(panel.getGamePanel());
-//		int stage = 1; /* 스테이지를 결정할 수 있는 패널 만들기! */
-//		newGame.setGame(UserManager.user, stage);
-//		newGame.start();
-//		newGame.setFocus();
-//	}
+	//	/** 게임 구동 스레드를 생성하고 게임을 실행 */
+	//	public void gameStart() {
+	//		GameThread newGame = new GameThread(panel.getGamePanel());
+	//		int stage = 1; /* 스테이지를 결정할 수 있는 패널 만들기! */
+	//		newGame.setGame(UserManager.user, stage);
+	//		newGame.start();
+	//		newGame.setFocus();
+	//	}
 
 	/** 메뉴패널에 대한 버튼들의 마우스리스너 */
 	class MenuMouseEvent extends MouseAdapter {
