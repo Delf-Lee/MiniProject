@@ -16,9 +16,9 @@ public class MainFrame extends JFrame {
 	// 스태틱 변수
 	public static int WIDTH = 1024;
 	public static int HEIGHT = 788;
-	public static String FILEROOT = "C:\\Users\\delf\\Desktop"; //상훈
+	//public static String FILEROOT = "C:\\Users\\delf\\Desktop"; //상훈
 	//public static String FILEROOT = "C:\\Users\\Administrator\\Desktop"; //학교
-	//public static String FILEROOT = "C:\\Users\\TEST\\Desktop\\JP_ing"; //도연노트북
+	public static String FILEROOT = "C:\\Users\\TEST\\Desktop\\JP_ing"; //도연노트북
 
 	/** 생성자 */
 	public MainFrame() {
