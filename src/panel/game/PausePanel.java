@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import panel.BasePanel;
 import panel.MsgWinow;
 import panel.PanelManager;
+import panel.menu.LevelChoicePanel;
 import thread.GameThread;
 import user.UserManager;
 
@@ -99,35 +100,46 @@ public class PausePanel extends BasePanel {
 			switch (pressedBtn.getText()) {
 			case "게임 재개":
 				setVisible(false);
+				thrd.continueGame();
 
 				break;
 			case "재시작":
 				boolean confirm = MsgWinow.confirm("재시작 하시겠습니까?");
 				if (confirm) {
+					thrd.initGame();
+					thrd.interrupt();
 					panel.setContentPane(PanelManager.GAME);
+					panel.getLevelChoicePanel().gameStart(panel.getGamePanel().getLevel());
+					setVisible(false);
 				}
-				thrd.initGame();
 				break;
+
 			case "레벨 선택":
 				panel.getLevelChoicePanel().setNowPanel(1);
 				panel.setContentPane(PanelManager.LEVELCHOICE);
 				panel.getLevelChoicePanel().setButtonEnable(); // 버튼 비활성화 설정
-				panel.getGamePanel().repaint();
+
 				thrd.initGame();
 				thrd.interrupt();
+				setVisible(false);
+
+				repaint();
+				panel.getGamePanel().repaint();
 				break;
+
 			case "메뉴":
 				confirm = MsgWinow.confirm("메뉴화면으로 돌아가시겠습니까?");
 				if (confirm) {
 					panel.setContentPane(PanelManager.MENU);
 					thrd.initGame();
 					thrd.interrupt();
+					setVisible(false);
 				}
 				else {
 
 				}
-
 				break;
+
 			case "로그아웃":
 				confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
 				if (confirm) {
@@ -138,8 +150,9 @@ public class PausePanel extends BasePanel {
 				else {
 
 				}
-
+				setVisible(false);
 				break;
+
 			case "종료":
 				confirm = MsgWinow.confirm("종료 하시겠습니까?");
 				if (confirm) {
@@ -151,7 +164,6 @@ public class PausePanel extends BasePanel {
 				}
 				break;
 			}
-			setVisible(false);
 		}
 	}
 
