@@ -5,7 +5,7 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 
-import panel.game.PanelGame;
+import panel.game.GamePanel;
 import panel.game.PausePanel;
 import panel.home.HomePanel;
 import panel.home.LoginPanel;
@@ -42,7 +42,7 @@ public class PanelManager {
 	private LevelChoicePanel levelChoice;
 	private WordSettingPanel wordSetting;
 	private RankingPanel ranking;
-	private PanelGame game;
+	private GamePanel game;
 	private PausePanel pause;
 
 	public PanelManager(JFrame main) {
@@ -54,7 +54,7 @@ public class PanelManager {
 		levelChoice = new LevelChoicePanel(310, 160, 400, 450, this);
 		wordSetting = new WordSettingPanel(this);
 		ranking = new RankingPanel(this);
-		game = new PanelGame();
+		game = new GamePanel();
 		pause = new PausePanel(340, 110, 350, 500, this);
 	}
 
@@ -124,7 +124,7 @@ public class PanelManager {
 		return levelChoice;
 	}
 
-	public PanelGame getGamePanel() {
+	public GamePanel getGamePanel() {
 		return game;
 	}
 

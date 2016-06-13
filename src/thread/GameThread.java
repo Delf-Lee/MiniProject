@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import Animation.ReadyAnimation;
 import panel.MsgWinow;
 import panel.PanelManager;
-import panel.game.PanelGame;
+import panel.game.GamePanel;
 import user.Player;
 import user.User;
 import word.Word;
@@ -22,7 +22,7 @@ public class GameThread extends Thread {
 	private static final boolean itemFlag[] = { false, false, false };
 
 	private WordManager wordList;
-	private PanelGame screen;
+	private GamePanel screen;
 	private Player player;
 	private PanelManager panel;
 
