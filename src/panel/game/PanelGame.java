@@ -96,4 +96,8 @@ public class PanelGame extends BasePanel {
 		lifeBar.initLife();
 
 	}
+	
+	public int getLevel() {
+		return gameInfoBox.level;
+	}
 }

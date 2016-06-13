@@ -92,6 +92,9 @@ public class GameThread extends Thread {
 				if(pause()) {
 					popPausePanel();
 				}
+				else {
+					panel.getPausePanel().setVisible(false);
+				}
 				break;
 			case KeyEvent.VK_BACK_SPACE: // 백스페이스
 				combo = 0; // 백스페이스 입력 시 콤보 초기화
