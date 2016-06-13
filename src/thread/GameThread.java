@@ -2,7 +2,6 @@ package thread;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Calendar;
 
 import Animation.ReadyAnimation;
 import panel.MsgWinow;
@@ -87,14 +86,17 @@ public class GameThread extends Thread {
 				screen.initTextField();
 				break;
 			case KeyEvent.VK_ESCAPE: // ECS
+				panel.getPausePanel().setVisible(true);
+				screen.add(panel.getPausePanel());
+				screen.repaint();
 				pause();
 				break;
 			case KeyEvent.VK_BACK_SPACE: // 백스페이스
 				combo = 0; // 백스페이스 입력 시 콤보 초기화
 				break;
 			default:
-				if (e.getKeyCode() >= SLOW && e.getKeyCode() >= ALL_SAVE) {
-					//useItem();
+				if (e.getKeyChar() >= SLOW && e.getKeyChar() >= ALL_SAVE) {
+					useItem(e.getKeyCode());
 				}
 				break;
 			}
@@ -176,8 +178,9 @@ public class GameThread extends Thread {
 			panel.getPausePanel().setVisible(false);
 		}
 		else {
+			System.out.println("호출");
 			pause = true;
-			screen.add(panel.getPausePanel());
+			
 		}
 	}
 
