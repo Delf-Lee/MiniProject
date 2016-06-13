@@ -15,7 +15,10 @@ public class PausePanel extends BasePanel {
 	JLabel stringBoxPause;
 	// ¹öÆ°
 	JButton btnStart;
+	JButton btnRestart;
+	JButton btnLevelChoice;
 	JButton btnMenu;
+	
 	// À§Ä¡ Á¤Àûº¯¼ö
 	private static final int X = 70;
 	private static final int Y = 100;
@@ -40,18 +43,28 @@ public class PausePanel extends BasePanel {
 	private void setComponent() {
 		stringBoxPause = new JLabel("Pause", JLabel.CENTER);
 		stringBoxPause.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		stringBoxPause.setBounds(100, 10, 200, 100);
+		stringBoxPause.setBounds(50, 10, 200, 100);
 
 		btnStart = new JButton("°ÔÀÓ Àç°³");
 		btnStart.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		btnStart.setBounds(100, 50, 200, 100);
+		btnStart.setBounds(50, 100, 200, 50);
+		
+		btnRestart = new JButton("Àç½ÃÀÛ");
+		btnRestart.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+		btnRestart.setBounds(50, 170, 200, 50);
+		
+		btnLevelChoice = new JButton("·¹º§ ¼±ÅÃ");
+		btnLevelChoice.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+		btnLevelChoice.setBounds(50, 240, 200, 50);
 		
 		btnMenu = new JButton("¸Þ´º");
 		btnMenu.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		btnMenu.setBounds(100, 100, 200, 100);
+		btnMenu.setBounds(50, 310, 200, 50);
 		
 		add(stringBoxPause);
 		add(btnStart);
+		add(btnRestart);
+		add(btnLevelChoice);
 		add(btnMenu);
 	}
 
