@@ -101,8 +101,12 @@ public class PausePanel extends BasePanel {
 			switch (pressedBtn.getText()) {
 			case "게임 재개":
 				setVisible(false);
-				thrd.continueGame();
-
+				JLabel timerLabel = new JLabel("3");
+				timerLabel.setFont(new Font("맑은 고딕", Font.BOLD, 100));
+				timerLabel.setBounds(450, 300, 100, 100);
+				panel.getGamePanel().add(timerLabel);
+				TimerThread th = new TimerThread(timerLabel);
+				th.start();
 				break;
 			case "재시작":
 				boolean confirm = MsgWinow.confirm("재시작 하시겠습니까?");
@@ -114,7 +118,6 @@ public class PausePanel extends BasePanel {
 					setVisible(false);
 				}
 				break;
-
 			case "레벨 선택":
 				panel.getLevelChoicePanel().setNowPanel(1);
 				screen.add(panel.getLevelChoicePanel());
@@ -131,9 +134,6 @@ public class PausePanel extends BasePanel {
 					thrd.interrupt();
 					setVisible(false);
 				}
-				else {
-
-				}
 				break;
 
 			case "로그아웃":
@@ -142,11 +142,8 @@ public class PausePanel extends BasePanel {
 					panel.setContentPane(PanelManager.HOME);
 					thrd.initGame();
 					thrd.interrupt();
+					setVisible(false);
 				}
-				else {
-
-				}
-				setVisible(false);
 				break;
 
 			case "종료":
@@ -155,10 +152,31 @@ public class PausePanel extends BasePanel {
 					UserManager.saveUserData();
 					System.exit(0);
 				}
-				else {
-
-				}
 				break;
+			}
+		}
+	}
+	
+	class TimerThread extends Thread {
+		JLabel la;
+		public TimerThread(JLabel la) {
+			this.la = la;
+		}
+		public void run() {
+			while (true) {
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					return;
+				}
+				int n = Integer.parseInt(la.getText());
+				n--;
+				if (n == 0) {
+					thrd.continueGame();
+					la.setVisible(false);
+					return;
+				}
+				la.setText(Integer.toString(n));
 			}
 		}
 	}

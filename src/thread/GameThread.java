@@ -1,11 +1,15 @@
 package thread;
 
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JLabel;
 
 import Animation.ReadyAnimation;
 import panel.MsgWinow;
 import panel.PanelManager;
+import panel.game.GamePanel;
 import panel.game.GamePanel;
 import user.Player;
 import user.User;
@@ -47,21 +51,20 @@ public class GameThread extends Thread {
 		player = new Player(user); // 게임할 플레이어 설정
 		this.level = level; // 플레이어가 플레이 가능한 게임 레벨
 		new ReadyAnimation(screen, level, this); // 준비 애니메이션
-		
+		preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
+		screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
 	}
-	
+
 	public void run() {
 		try {
-			preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
-			screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
 			while (true) {
 				createWord(); // 단어 객체 생성
 				wordList.flowWord(); // 단어 이동
 
-				checkTime(); // 제한시간 체크
-				checkLife(); // 라이프 수 체크
-				checkPause(); // 일시정시 체크
-				checkItem(); // 아이템 사용시간 체크
+				checkTime();
+				checkLife();
+				checkPause();
+				checkItem();
 
 				screen.repaint();
 				sleep(100);
@@ -90,11 +93,17 @@ public class GameThread extends Thread {
 				screen.initTextField();
 				break;
 			case KeyEvent.VK_ESCAPE: // ECS
-				if (pause()) {
+				if(pause()) {
 					popPausePanel();
 				}
 				else {
 					panel.getPausePanel().setVisible(false);
+					JLabel timerLabel = new JLabel("3");
+					timerLabel.setFont(new Font("맑은 고딕", Font.BOLD, 100));
+					timerLabel.setBounds(450, 300, 100, 100);
+					panel.getGamePanel().add(timerLabel);
+					TimerThread th = new TimerThread(timerLabel);
+					th.start();
 				}
 				break;
 			case KeyEvent.VK_BACK_SPACE: // 백스페이스
@@ -108,11 +117,35 @@ public class GameThread extends Thread {
 			}
 		}
 	}
-
+	
+	class TimerThread extends Thread {
+		JLabel la;
+		public TimerThread(JLabel la) {
+			this.la = la;
+		}
+		public void run() {
+			while (true) {
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					return;
+				}
+				int n = Integer.parseInt(la.getText());
+				n--;
+				if (n == 0) {
+					continueGame();
+					la.setVisible(false);
+					return;
+				}
+				la.setText(Integer.toString(n));
+			}
+		}
+	}
+	
 	/** 게임중 esc키를 누를 시, 일시 정지한다. */
 	public boolean pause() {
 		if (pause) {
-			continueGame();
+			//continueGame();
 			return false;
 		}
 		else {
@@ -189,6 +222,8 @@ public class GameThread extends Thread {
 		}
 	}
 
+	
+
 	/** pause에서 resume을 누를시 게임을 재개한다. */
 	public void continueGame() {
 		synchronized (this) {
@@ -212,8 +247,6 @@ public class GameThread extends Thread {
 	}
 
 	public void checkTime() {
-		int printTime = 30 - (((int) System.currentTimeMillis() - preTime) / 1000);
-		System.out.println(printTime);
 		if (!screen.updateTime()) {
 			boolean confirm = MsgWinow.confirm("level " + level + " CLEAR!\n다음 레벨을 진행하시겠습니까?");
 			if (confirm) {
@@ -260,7 +293,6 @@ public class GameThread extends Thread {
 		}
 
 	}
-
 	private void popPausePanel() {
 		panel.getPausePanel().setVisible(true);
 		//panel.setContentPane(PanelManager.PAUSE);
