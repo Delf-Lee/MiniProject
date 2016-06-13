@@ -1,5 +1,6 @@
 package thread;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -99,8 +100,9 @@ public class GameThread extends Thread {
 				else {
 					panel.getPausePanel().setVisible(false);
 					JLabel timerLabel = new JLabel("3");
-					timerLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 100));
-					timerLabel.setBounds(450, 300, 100, 100);
+					timerLabel.setForeground(Color.WHITE);
+					timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 100));
+					timerLabel.setBounds(490, 300, 100, 100);
 					panel.getGamePanel().add(timerLabel);
 					TimerThread th = new TimerThread(timerLabel);
 					th.start();

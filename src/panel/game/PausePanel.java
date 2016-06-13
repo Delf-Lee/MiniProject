@@ -102,8 +102,8 @@ public class PausePanel extends BasePanel {
 			case "∞‘¿” ¿Á∞≥":
 				setVisible(false);
 				JLabel timerLabel = new JLabel("3");
-				timerLabel.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 100));
-				timerLabel.setBounds(450, 300, 100, 100);
+				timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 100));
+				timerLabel.setBounds(490, 300, 100, 100);
 				panel.getGamePanel().add(timerLabel);
 				TimerThread th = new TimerThread(timerLabel);
 				th.start();
