@@ -123,7 +123,7 @@ public class PanelManager {
 	public LevelChoicePanel getLevelChoicePanel() {
 		return levelChoice;
 	}
-	
+
 	public RankingPanel getRankingPanel() {
 		return ranking;
 	}
@@ -135,7 +135,8 @@ public class PanelManager {
 	public WordSettingPanel getWordSettingPanel() {
 		return wordSetting;
 	}
+
 	public PausePanel getPausePanel() {
-		return pause; 
+		return pause;
 	}
 }

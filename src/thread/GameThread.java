@@ -29,7 +29,7 @@ public class GameThread extends Thread {
 	private Player player;
 	private PanelManager panel;
 	private GamePanel screen;
-	private PausePanel stop;
+	private PausePanel pauseMenu;
 
 	private MyKeyListener listener = new MyKeyListener();
 
@@ -43,14 +43,16 @@ public class GameThread extends Thread {
 
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
-		this.panel = panel;
+		this.panel = panel; // 패널에 대한 레퍼런스 설정
 		screen = panel.getGamePanel();
-		stop = panel.getPausePanel();
+		pauseMenu = panel.getPausePanel();
+		
 		wordList = new WordManager(this);
-		panel.getPausePanel().setThread(this);
-		panel.getLevelChoicePanel().setThread(this);
-		screen.add(stop);
-		stop.setVisible(false);
+		
+		panel.getPausePanel().setThread(this); // 선언 순서 때문에 여기서 스레드 레퍼런스 전달
+		
+		screen.add(pauseMenu); // puase 패널을 미리 붙여놓음 (배치 문제때문에)
+		pauseMenu.setVisible(false);
 	}
 
 	/** 플레이어와 게임레벨을 설정 */
@@ -309,7 +311,7 @@ public class GameThread extends Thread {
 	}
 
 	private void popPausePanel() {
-		panel.getPausePanel().setVisible(true);
+		pauseMenu.setVisible(true); // 가시화
 		screen.repaint();
 	}
 

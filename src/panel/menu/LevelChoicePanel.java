@@ -16,7 +16,7 @@ import user.UserManager;
 public class LevelChoicePanel extends BasePanel {
 
 	public static final int MENU = 0;
-	public static final int LVL_CHOICE = 1;
+	public static final int PAUSE = 1;
 
 	private PanelManager panel;
 	private GameThread thrd;
@@ -106,7 +106,7 @@ public class LevelChoicePanel extends BasePanel {
 				if (nowPanel == MENU) { // 메뉴에서 레벨선택
 					panel.setContentPane(PanelManager.MENU);
 				}
-				else if (nowPanel == LVL_CHOICE) { // pause에서 레벨선택
+				else if (nowPanel == PAUSE) { // pause에서 레벨선택
 					//panel.getGamePanel().add(panel.getLevelChoicePanel());
 					panel.getPausePanel().setVisible(true);
 					setVisible(false);
@@ -115,7 +115,7 @@ public class LevelChoicePanel extends BasePanel {
 
 			default: // 그 외에 레벨을 선택 시,
 				setVisible(false);
-				if (nowPanel == LVL_CHOICE) {
+				if (nowPanel == PAUSE) {
 					thrd.initGame(); // pause에서 레벨 선택 시, 게임 재시작을 위해 초기화
 				}
 				String tmp = pressedBtn.getText();

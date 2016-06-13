@@ -13,8 +13,7 @@ public class LifeBarPanel extends JPanel {
 	int nowLife;
 
 	public LifeBarPanel() {
-		maxLife = 5; // 임시
-		nowLife = 3; // 임시
+		initLife();
 		setLayout(new FlowLayout());
 		setBounds(780, 620, 200, 35); // 200, 30
 		paintHeart();
