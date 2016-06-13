@@ -263,6 +263,7 @@ public class GameThread extends Thread {
 
 	private void popPausePanel() {
 		panel.getPausePanel().setVisible(true);
+		//panel.setContentPane(PanelManager.PAUSE);
 		screen.add(panel.getPausePanel());
 		screen.repaint();
 	}

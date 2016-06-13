@@ -101,4 +101,5 @@ public class GamePanel extends BasePanel {
 	public int getLevel() {
 		return gameInfoBox.level;
 	}
+
 }

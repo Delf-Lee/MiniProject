@@ -102,7 +102,9 @@ public class LevelChoicePanel extends BasePanel {
 					panel.setContentPane(PanelManager.MENU);
 				}
 				else { // 게임실행 -> pause -> 레벨선택 -> back
-					panel.setContentPane(PanelManager.GAME);
+					//panel.getGamePanel().add(panel.getLevelChoicePanel());
+					panel.getPausePanel().setVisible(true);
+					setVisible(false);
 				}
 				break;
 			default:
@@ -130,4 +132,5 @@ public class LevelChoicePanel extends BasePanel {
 		// TODO Auto-generated method stub
 	}
 
+	
 }

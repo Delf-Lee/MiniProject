@@ -11,13 +11,13 @@ import javax.swing.JLabel;
 import panel.BasePanel;
 import panel.MsgWinow;
 import panel.PanelManager;
-import panel.menu.LevelChoicePanel;
 import thread.GameThread;
 import user.UserManager;
 
 public class PausePanel extends BasePanel {
 	private PanelManager panel;
 	private GameThread thrd;
+	private GamePanel screen;
 	// 레이블
 	private JLabel stringBoxPause;
 	// 버튼
@@ -35,6 +35,7 @@ public class PausePanel extends BasePanel {
 	public PausePanel(int x, int y, int width, int height, PanelManager panel) {
 		super(/*이미지 경로*/);
 		this.panel = panel;
+		this.screen = panel.getGamePanel();
 		setBounds(x, y, width, height);
 		setBackground(Color.CYAN); // 삭제 예정 라인
 
@@ -109,22 +110,17 @@ public class PausePanel extends BasePanel {
 					thrd.initGame();
 					thrd.interrupt();
 					panel.setContentPane(PanelManager.GAME);
-					panel.getLevelChoicePanel().gameStart(panel.getGamePanel().getLevel());
+					panel.getLevelChoicePanel().gameStart(screen.getLevel());
 					setVisible(false);
 				}
 				break;
 
 			case "레벨 선택":
 				panel.getLevelChoicePanel().setNowPanel(1);
-				panel.setContentPane(PanelManager.LEVELCHOICE);
+				screen.add(panel.getLevelChoicePanel());
+				panel.getLevelChoicePanel().setVisible(true);
 				panel.getLevelChoicePanel().setButtonEnable(); // 버튼 비활성화 설정
-
-				thrd.initGame();
-				thrd.interrupt();
 				setVisible(false);
-
-				repaint();
-				panel.getGamePanel().repaint();
 				break;
 
 			case "메뉴":
@@ -176,4 +172,14 @@ public class PausePanel extends BasePanel {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void setEnable(boolean i) {
+		btnStart.setEnabled(i);
+		btnRestart.setEnabled(i);
+		btnLevelChoice.setEnabled(i);
+		btnMenu.setEnabled(i);
+		btnLogout.setEnabled(i);
+		btnExit.setEnabled(i);
+	}
+
 }
