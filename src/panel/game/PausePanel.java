@@ -27,8 +27,7 @@ public class PausePanel extends BasePanel {
 	private JButton btnMenu;
 	private JButton btnLogout;
 	private JButton btnExit;
-	
-	
+
 	// 위치 정적변수
 	private static final int X = 75;
 	private static final int Y = 100;
@@ -42,7 +41,7 @@ public class PausePanel extends BasePanel {
 		setComponent(); // 버튼 세팅
 		setListener();
 	}
-	
+
 	/** 리스너 설정 */
 	private void setListener() {
 		btnStart.addActionListener(new PauseListener());
@@ -52,7 +51,7 @@ public class PausePanel extends BasePanel {
 		btnLogout.addActionListener(new PauseListener());
 		btnExit.addActionListener(new PauseListener());
 	}
-	
+
 	/** 컴포넌트 설정 및 배치 */
 	private void setComponent() {
 		stringBoxPause = new JLabel("Pause", JLabel.CENTER);
@@ -62,27 +61,27 @@ public class PausePanel extends BasePanel {
 		btnStart = new JButton("게임 재개");
 		btnStart.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnStart.setBounds(X, Y, 200, 50);
-		
+
 		btnRestart = new JButton("재시작");
 		btnRestart.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnRestart.setBounds(X, Y + 60, 200, 50);
-		
+
 		btnLevelChoice = new JButton("레벨 선택");
 		btnLevelChoice.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		btnLevelChoice.setBounds(X, Y + (60*2), 200, 50);
-		
+		btnLevelChoice.setBounds(X, Y + (60 * 2), 200, 50);
+
 		btnMenu = new JButton("메뉴");
 		btnMenu.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		btnMenu.setBounds(X, Y + (60*3), 200, 50);
-		
+		btnMenu.setBounds(X, Y + (60 * 3), 200, 50);
+
 		btnLogout = new JButton("로그아웃");
 		btnLogout.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		btnLogout.setBounds(X, Y + (60*4), 200, 50);
-		
+		btnLogout.setBounds(X, Y + (60 * 4), 200, 50);
+
 		btnExit = new JButton("종료");
 		btnExit.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		btnExit.setBounds(X, Y + (60*5), 200, 50);
-		
+		btnExit.setBounds(X, Y + (60 * 5), 200, 50);
+
 		add(stringBoxPause);
 		add(btnStart);
 		add(btnRestart);
@@ -92,7 +91,6 @@ public class PausePanel extends BasePanel {
 		add(btnExit);
 	}
 
-	
 	/** 패널 내 버튼에 대한 리스너 */
 	class PauseListener implements ActionListener {
 		@Override
@@ -102,8 +100,8 @@ public class PausePanel extends BasePanel {
 			switch (pressedBtn.getText()) {
 			case "게임 재개":
 				setVisible(false);
-				
 				thrd.continueGame();
+
 				break;
 			case "재시작":
 				boolean confirm = MsgWinow.confirm("재시작 하시겠습니까?");
@@ -115,18 +113,20 @@ public class PausePanel extends BasePanel {
 					setVisible(false);
 				}
 				break;
+
 			case "레벨 선택":
 				panel.getLevelChoicePanel().setNowPanel(1);
 				panel.setContentPane(PanelManager.LEVELCHOICE);
 				panel.getLevelChoicePanel().setButtonEnable(); // 버튼 비활성화 설정
-				
+
 				thrd.initGame();
 				thrd.interrupt();
 				setVisible(false);
-				
+
 				repaint();
 				panel.getGamePanel().repaint();
 				break;
+
 			case "메뉴":
 				confirm = MsgWinow.confirm("메뉴화면으로 돌아가시겠습니까?");
 				if (confirm) {
@@ -135,34 +135,45 @@ public class PausePanel extends BasePanel {
 					thrd.interrupt();
 					setVisible(false);
 				}
+				else {
+
+				}
 				break;
+
 			case "로그아웃":
 				confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
 				if (confirm) {
 					panel.setContentPane(PanelManager.HOME);
 					thrd.initGame();
 					thrd.interrupt();
-					setVisible(false);
-				} 
+				}
+				else {
+
+				}
+				setVisible(false);
 				break;
+
 			case "종료":
 				confirm = MsgWinow.confirm("종료 하시겠습니까?");
 				if (confirm) {
 					UserManager.saveUserData();
 					System.exit(0);
 				}
+				else {
+
+				}
 				break;
 			}
 		}
 	}
-	
+
 	public void setThread(GameThread thrd) {
 		this.thrd = thrd;
 	}
-	
+
 	@Override
 	public void initPanel() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

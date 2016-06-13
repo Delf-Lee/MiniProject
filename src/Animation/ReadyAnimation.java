@@ -49,7 +49,6 @@ public class ReadyAnimation extends Thread {
 		}
 		panel.remove(levelLabel);
 		thrd.continueGame();
-		System.out.println("¶¯");
 	}
 
 	public void run() {

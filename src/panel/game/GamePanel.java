@@ -72,8 +72,9 @@ public class GamePanel extends BasePanel {
 	}
 
 	public boolean updateTime() {
-		
-		if(gameInfoBox.updateTime()) {
+
+
+		if (gameInfoBox.updateTime()) {
 			return true;
 		}
 		return false;
@@ -86,7 +87,7 @@ public class GamePanel extends BasePanel {
 	public void lostLife() {
 		lifeBar.lostLife();
 	}
-	
+
 	public int getLife() {
 		return lifeBar.getLife();
 	}
@@ -96,7 +97,7 @@ public class GamePanel extends BasePanel {
 		lifeBar.initLife();
 
 	}
-	
+
 	public int getLevel() {
 		return gameInfoBox.level;
 	}
