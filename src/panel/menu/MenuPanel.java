@@ -111,6 +111,7 @@ public class MenuPanel extends BasePanel {
 			switch (pressedBtn.getText()) {
 			case GAME_START:
 				panel.getLevelChoicePanel().setNowPanel(0);
+				panel.getLevelChoicePanel().setVisible(true);
 				panel.setContentPane(PanelManager.LEVELCHOICE);
 				panel.getLevelChoicePanel().setButtonEnable(); // 버튼 비활성화 설정
 				break;

@@ -37,28 +37,28 @@ public class RankingPanel extends BasePanel {
 	private JLabel stringBoxIDs[];
 	private JLabel stringBoxScores[];
 
-   public RankingPanel(PanelManager panel) {
-      // 창 설정
-	  super(/*이미지 경로*/);
-      setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
-      setLocation(0, 25);
-      setBackground(Color.lightGray); // 삭제 예정 라인
-      
-      setComponent(); // 버튼 세팅
-      setListener();
+	public RankingPanel(PanelManager panel) {
+		// 창 설정
+		super(/*이미지 경로*/);
+		this.panel = panel;
+		setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
+		setLocation(0, 25);
+		setBackground(Color.lightGray); // 삭제 예정 라인
 
-      requestFocus();
+		setComponent(); // 버튼 세팅
+		setListener();
+
+		requestFocus();
 	}
-   
-   /** 리스너 설정 */
+
+	/** 리스너 설정 */
 	private void setListener() {
 		btnSearch.addActionListener(new SearchActionListnener());
 		IDInputBox.addKeyListener(new SearchKeyListnener());
 		btnBack.addActionListener(new BackActionListnener());
 	}
-   
-   
-   /** 컴포넌트 설정 및 배치 */
+
+	/** 컴포넌트 설정 및 배치 */
 	private void setComponent() {
 
 		stringBoxLank = new JLabel("순위", JLabel.CENTER);
@@ -72,16 +72,16 @@ public class RankingPanel extends BasePanel {
 		stringBoxScore = new JLabel("SCORE", JLabel.CENTER);
 		stringBoxScore.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		stringBoxScore.setBounds(650, 80, 100, 100);
-		
+
 		UserManager.sortUserList(); // vector score 내림차순
-		
-		if(UserManager.userList.size() < 10) {
+
+		if (UserManager.userList.size() < 10) {
 			setArrayRanks(UserManager.userList.size());
-	      }
+		}
 		else {
 			setArrayRanks(10);
 		}
-		
+
 		searchCombo = new JComboBox<String>();
 		searchCombo.addItem("ID");
 		searchCombo.setFont(new Font("맑은 고딕", Font.BOLD, 30));
@@ -121,7 +121,7 @@ public class RankingPanel extends BasePanel {
 			stringBoxIDs[i] = new JLabel(UserManager.userList.get(i).getUserName(), JLabel.CENTER);
 			stringBoxIDs[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
 			stringBoxIDs[i].setBounds(405, 130 + 40 * i, 200, 100);
-			stringBoxScores[i] = new JLabel(Integer.toString(UserManager.userList.get(i).getBestScore()),JLabel.CENTER);
+			stringBoxScores[i] = new JLabel(Integer.toString(UserManager.userList.get(i).getBestScore()), JLabel.CENTER);
 			stringBoxScores[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
 			stringBoxScores[i].setBounds(650, 130 + 40 * i, 100, 100);
 			add(stringBoxLanks[i]);
@@ -129,15 +129,14 @@ public class RankingPanel extends BasePanel {
 			add(stringBoxScores[i]);
 		}
 	}
-   
-	
+
 	class SearchActionListnener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			search();
 		}
 	}
-	
+
 	class SearchKeyListnener extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -145,113 +144,114 @@ public class RankingPanel extends BasePanel {
 			}
 		}
 	}
-	
+
 	class BackActionListnener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel.setContentPane(PanelManager.MENU);
 			repaint();
 		}
-		
+
 	}
-	
+
 	public void search() {
 		for (int i = 0; i < UserManager.userList.size(); i++) {
-			  if (UserManager.userList.get(i).getUserName().equals(IDInputBox.getText())) {
-				  if(UserManager.userList.size() < 10) {
-					  for (int j = 0; j < UserManager.userList.size(); j++) {
-						  stringBoxLanks[j].setText(Integer.toString(j + 1));
-						  stringBoxIDs[j].setText(UserManager.userList.get(j).getUserName());
-						  stringBoxScores[j].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
-						  stringBoxLanks[j].setForeground(Color.BLACK);
-						  stringBoxIDs[j].setForeground(Color.BLACK);
-						  stringBoxScores[j].setForeground(Color.BLACK);
-					  }
-					  stringBoxLanks[i].setForeground(Color.CYAN);
-					  stringBoxIDs[i].setForeground(Color.CYAN);
-					  stringBoxScores[i].setForeground(Color.CYAN);	
-					  
-					  IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
-					  return;
+			if (UserManager.userList.get(i).getUserName().equals(IDInputBox.getText())) {
+				if (UserManager.userList.size() < 10) {
+					for (int j = 0; j < UserManager.userList.size(); j++) {
+						stringBoxLanks[j].setText(Integer.toString(j + 1));
+						stringBoxIDs[j].setText(UserManager.userList.get(j).getUserName());
+						stringBoxScores[j].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
+						stringBoxLanks[j].setForeground(Color.BLACK);
+						stringBoxIDs[j].setForeground(Color.BLACK);
+						stringBoxScores[j].setForeground(Color.BLACK);
 					}
-					else if (i < 4) {
-						for (int j = 0; j < 10; j++) {
-							stringBoxLanks[j].setText(Integer.toString(j + 1));
-							stringBoxIDs[j].setText(UserManager.userList.get(j).getUserName());
-							stringBoxScores[j].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
-							stringBoxLanks[j].setForeground(Color.BLACK);
-							stringBoxIDs[j].setForeground(Color.BLACK);
-							stringBoxScores[j].setForeground(Color.BLACK);
-						}
-						stringBoxLanks[i].setForeground(Color.CYAN);
-						stringBoxIDs[i].setForeground(Color.CYAN);
-						stringBoxScores[i].setForeground(Color.CYAN);
+					stringBoxLanks[i].setForeground(Color.CYAN);
+					stringBoxIDs[i].setForeground(Color.CYAN);
+					stringBoxScores[i].setForeground(Color.CYAN);
 
-						IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
-						return;
+					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
+					return;
+				}
+				else if (i < 4) {
+					for (int j = 0; j < 10; j++) {
+						System.out.println(i + " " + j);
+						stringBoxLanks[j].setText(Integer.toString(j + 1));
+						stringBoxIDs[j].setText(UserManager.userList.get(j).getUserName());
+						stringBoxScores[j].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
+						stringBoxLanks[j].setForeground(Color.BLACK);
+						stringBoxIDs[j].setForeground(Color.BLACK);
+						stringBoxScores[j].setForeground(Color.BLACK);
 					}
-					else if (i >= UserManager.userList.size() - 5) {
-						int k = 0;
-						for (int j = UserManager.userList.size() - 10; j < UserManager.userList.size(); j++) {
-							stringBoxLanks[k].setText(Integer.toString(j + 1));
-							stringBoxIDs[k].setText(UserManager.userList.get(j).getUserName());
-							stringBoxScores[k].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
+					stringBoxLanks[i].setForeground(Color.CYAN);
+					stringBoxIDs[i].setForeground(Color.CYAN);
+					stringBoxScores[i].setForeground(Color.CYAN);
 
-							stringBoxLanks[k].setForeground(Color.BLACK);
-							stringBoxIDs[k].setForeground(Color.BLACK);
-              	   stringBoxScores[k].setForeground(Color.BLACK);
-              	   k++;
+					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
+					return;
+				}
+				else if (i >= UserManager.userList.size() - 5) {
+					int k = 0;
+					for (int j = UserManager.userList.size() - 10; j < UserManager.userList.size(); j++) {
+						stringBoxLanks[k].setText(Integer.toString(j + 1));
+						stringBoxIDs[k].setText(UserManager.userList.get(j).getUserName());
+						stringBoxScores[k].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
+
+						stringBoxLanks[k].setForeground(Color.BLACK);
+						stringBoxIDs[k].setForeground(Color.BLACK);
+						stringBoxScores[k].setForeground(Color.BLACK);
+						k++;
 					}
-						stringBoxLanks[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
-						stringBoxIDs[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
-						stringBoxScores[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
-						IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
-						return;
+					stringBoxLanks[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
+					stringBoxIDs[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
+					stringBoxScores[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
+					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
+					return;
+				}
+				else {
+					int k = 0;
+					for (int j = i - 4; j <= i + 5; j++) {
+						stringBoxLanks[k].setText(Integer.toString(j + 1));
+						stringBoxIDs[k].setText(UserManager.userList.get(j).getUserName());
+						stringBoxScores[k].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
+						stringBoxLanks[k].setForeground(Color.BLACK);
+						stringBoxIDs[k].setForeground(Color.BLACK);
+						stringBoxScores[k].setForeground(Color.BLACK);
+						k++;
 					}
-					else {
-						int k = 0;
-						for (int j = i - 4; j <= i + 5; j++) {
-							stringBoxLanks[k].setText(Integer.toString(j + 1));
-							stringBoxIDs[k].setText(UserManager.userList.get(j).getUserName());
-							stringBoxScores[k].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
-							stringBoxLanks[k].setForeground(Color.BLACK);
-							stringBoxIDs[k].setForeground(Color.BLACK);
-							stringBoxScores[k].setForeground(Color.BLACK);
-							k++;
-						}
-						stringBoxLanks[4].setForeground(Color.CYAN);
-						stringBoxIDs[4].setForeground(Color.CYAN);
-						stringBoxScores[4].setForeground(Color.CYAN);
-						IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
-						return;
-					}
+					stringBoxLanks[4].setForeground(Color.CYAN);
+					stringBoxIDs[4].setForeground(Color.CYAN);
+					stringBoxScores[4].setForeground(Color.CYAN);
+					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
+					return;
 				}
 			}
-			if (IDInputBox.getText().length() == 0) {
-				JOptionPane.showMessageDialog(null, "아이디를 입력하세요.", "Message", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			JOptionPane.showMessageDialog(null, "존재하지 않는 아이디 입니다.", "Message", JOptionPane.ERROR_MESSAGE);
-			IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
+		}
+		if (IDInputBox.getText().length() == 0) {
+			JOptionPane.showMessageDialog(null, "아이디를 입력하세요.", "Message", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		JOptionPane.showMessageDialog(null, "존재하지 않는 아이디 입니다.", "Message", JOptionPane.ERROR_MESSAGE);
+		IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
 	}
-	
+
 	@Override
 	public void initPanel() {
-//		for (int i = 0; i < 10; i++) {
-//			//stringBoxLanks[i] = new JLabel(((i+1) + "\t\t" + UserManager.userList.get(i).getUserName() + "\t\t" + Integer.toString(UserManager.userList.get(i).getBestScore())));
-//			stringBoxLanks[i] = new JLabel(Integer.toString(i + 1), JLabel.CENTER);
-//			stringBoxLanks[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
-//			stringBoxLanks[i].setBounds(250, 130 + 40 * i, 100, 100);
-//			stringBoxIDs[i] = new JLabel(UserManager.userList.get(i).getUserName(), JLabel.CENTER);
-//			stringBoxIDs[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
-//			stringBoxIDs[i].setBounds(405, 130 + 40 * i, 200, 100);
-//			stringBoxScores[i] = new JLabel(Integer.toString(UserManager.userList.get(i).getBestScore()), JLabel.CENTER);
-//			stringBoxScores[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
-//			stringBoxScores[i].setBounds(650, 130 + 40 * i, 100, 100);
-//			add(stringBoxLanks[i]);
-//			add(stringBoxIDs[i]);
-//			add(stringBoxScores[i]);
-//		}
-//		IDInputBox.setText("");
+		//		for (int i = 0; i < 10; i++) {
+		//			//stringBoxLanks[i] = new JLabel(((i+1) + "\t\t" + UserManager.userList.get(i).getUserName() + "\t\t" + Integer.toString(UserManager.userList.get(i).getBestScore())));
+		//			stringBoxLanks[i] = new JLabel(Integer.toString(i + 1), JLabel.CENTER);
+		//			stringBoxLanks[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		//			stringBoxLanks[i].setBounds(250, 130 + 40 * i, 100, 100);
+		//			stringBoxIDs[i] = new JLabel(UserManager.userList.get(i).getUserName(), JLabel.CENTER);
+		//			stringBoxIDs[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		//			stringBoxIDs[i].setBounds(405, 130 + 40 * i, 200, 100);
+		//			stringBoxScores[i] = new JLabel(Integer.toString(UserManager.userList.get(i).getBestScore()), JLabel.CENTER);
+		//			stringBoxScores[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		//			stringBoxScores[i].setBounds(650, 130 + 40 * i, 100, 100);
+		//			add(stringBoxLanks[i]);
+		//			add(stringBoxIDs[i]);
+		//			add(stringBoxScores[i]);
+		//		}
+		//		IDInputBox.setText("");
 	}
 }

@@ -14,7 +14,12 @@ import thread.GameThread;
 import user.UserManager;
 
 public class LevelChoicePanel extends BasePanel {
+
+	public static final int MENU = 0;
+	public static final int LVL_CHOICE = 1;
+
 	private PanelManager panel;
+	private GameThread thrd;
 	// 레이블
 	JLabel stringBoxLevelChoice;
 	// 버튼
@@ -97,22 +102,26 @@ public class LevelChoicePanel extends BasePanel {
 			JButton pressedBtn = (JButton) e.getSource();
 
 			switch (pressedBtn.getText()) {
-			case "back":
-				if (nowPanel == 0) { // 메뉴 -> 게임하기 -> back
+			case "back": // 뒤로가기 버튼 누를 시,
+				if (nowPanel == MENU) { // 메뉴에서 레벨선택
 					panel.setContentPane(PanelManager.MENU);
 				}
-				else { // 게임실행 -> pause -> 레벨선택 -> back
+				else if (nowPanel == LVL_CHOICE) { // pause에서 레벨선택
 					//panel.getGamePanel().add(panel.getLevelChoicePanel());
 					panel.getPausePanel().setVisible(true);
 					setVisible(false);
 				}
 				break;
-			default:
+
+			default: // 그 외에 레벨을 선택 시,
+				setVisible(false);
+				if (nowPanel == LVL_CHOICE) {
+					thrd.initGame(); // pause에서 레벨 선택 시, 게임 재시작을 위해 초기화
+				}
 				String tmp = pressedBtn.getText();
 				int selectedLevel = Integer.parseInt(tmp.substring(tmp.length() - 1));
 				panel.setContentPane(PanelManager.GAME);
 				gameStart(selectedLevel);
-				// 게임에서 다시 메인메뉴로 돌아올때를 위해 setVisivle(false)를 해야하나?
 				break;
 			}
 			InitButton();
@@ -127,10 +136,13 @@ public class LevelChoicePanel extends BasePanel {
 		newGame.setFocus();
 	}
 
+	public void setThread(GameThread thrd) {
+		this.thrd = thrd;
+	}
+
 	@Override
 	public void initPanel() {
 		// TODO Auto-generated method stub
 	}
 
-	
 }

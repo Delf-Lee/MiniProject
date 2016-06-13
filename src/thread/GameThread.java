@@ -31,6 +31,8 @@ public class GameThread extends Thread {
 	private Player player;
 	private PanelManager panel;
 
+	private MyKeyListener listener = new MyKeyListener();
+
 	private boolean pause = false;
 	private boolean terminate = false;
 	private int item[] = { 0, 0, 0, 0, 0 };
@@ -45,6 +47,7 @@ public class GameThread extends Thread {
 		this.screen = panel.getGamePanel();
 		wordList = new WordManager(this);
 		panel.getPausePanel().setThread(this);
+		panel.getLevelChoicePanel().setThread(this);
 	}
 
 	/** 플레이어와 게임레벨을 설정 */
@@ -82,19 +85,19 @@ public class GameThread extends Thread {
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_ENTER: // 엔터
+				System.out.println("엔터");
 				Word findWord = wordList.removeWord(screen.getWordString());
 				if (findWord != null) {
 					removeWord(findWord); // 패널에서 단어객체 제거
 					plusScore(); // 점수 증가
 				}
 				else {
-					lostLife(); // for test
 					combo = 0; // 단어가 입력이 틀리면 콤보 초기화
 				}
 				screen.initTextField();
 				break;
 			case KeyEvent.VK_ESCAPE: // ECS
-				if(pause()) {
+				if (pause()) {
 					popPausePanel();
 				}
 				else {
@@ -118,12 +121,14 @@ public class GameThread extends Thread {
 			}
 		}
 	}
-	
+
 	class TimerThread extends Thread {
 		JLabel la;
+
 		public TimerThread(JLabel la) {
 			this.la = la;
 		}
+
 		public void run() {
 			while (true) {
 				try {
@@ -142,7 +147,7 @@ public class GameThread extends Thread {
 			}
 		}
 	}
-	
+
 	/** 게임중 esc키를 누를 시, 일시 정지한다. */
 	public boolean pause() {
 		if (pause) {
@@ -176,7 +181,7 @@ public class GameThread extends Thread {
 	/** 텍스트필드에 포커스 설정, 리스너 설정 */
 	public void setFocus() {
 		screen.getTextField().requestFocus(true);
-		screen.getTextField().addKeyListener(new MyKeyListener());
+		screen.getTextField().addKeyListener(listener);
 	}
 
 	private void gameOver() {
@@ -211,6 +216,8 @@ public class GameThread extends Thread {
 	/** 게임을 초기화 */
 	public void initGame() {
 		wordList.initwordList(); // 패널에서 모든 단어를 떼어내고, 리스트 초기화
+		screen.initGame();
+		screen.getTextField().removeKeyListener(listener);
 		screen.repaint();
 	}
 
@@ -222,8 +229,6 @@ public class GameThread extends Thread {
 			}
 		}
 	}
-
-	
 
 	/** pause에서 resume을 누를시 게임을 재개한다. */
 	public void continueGame() {
@@ -294,6 +299,7 @@ public class GameThread extends Thread {
 		}
 
 	}
+
 	private void popPausePanel() {
 		panel.getPausePanel().setVisible(true);
 		//panel.setContentPane(PanelManager.PAUSE);

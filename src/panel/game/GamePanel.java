@@ -1,5 +1,6 @@
 package panel.game;
 
+import javax.sound.midi.MidiDevice.Info;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -95,11 +96,11 @@ public class GamePanel extends BasePanel {
 	public void initGame() {
 		initTextField();
 		lifeBar.initLife();
+		scoreBox.initScore();
 
 	}
 
 	public int getLevel() {
 		return gameInfoBox.level;
 	}
-
 }

@@ -25,6 +25,7 @@ public class LifeBarPanel extends JPanel {
 	public void initLife() {
 		maxLife = 5; // юс╫ц
 		nowLife = maxLife;
+		paintHeart();
 	}
 
 	public void fillList() {
