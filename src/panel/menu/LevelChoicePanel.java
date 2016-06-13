@@ -63,19 +63,28 @@ public class LevelChoicePanel extends BasePanel {
 			}
 			add(level[i]);
 		}
-		
+
 		btnBack = new JButton("back");
 		btnBack.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		btnBack.setBounds(150, 380, 115, 40);
 		//btnBack.setBounds(0, 0, 115, 40);
-		
+
 		add(stringBoxLevelChoice);
 		add(btnBack);
 	}
 
+	/** 유저가 플레이할 수 없는 레벨 버튼 비활성화 */
 	public void setButtonEnable() {
+		System.out.println(UserManager.user.getLastStage());
 		for (int i = UserManager.user.getLastStage(); i < level.length; i++) {
 			level[i].setEnabled(false);
+		}
+	}
+
+	/** 비활성화 해제(초기화) */
+	private void InitButton() {
+		for (int i = UserManager.user.getLastStage(); i < level.length; i++) {
+			level[i].setEnabled(true);
 		}
 	}
 
@@ -97,7 +106,7 @@ public class LevelChoicePanel extends BasePanel {
 				// 게임에서 다시 메인메뉴로 돌아올때를 위해 setVisivle(false)를 해야하나?
 				break;
 			}
-
+			InitButton();
 		}
 	}
 
