@@ -123,6 +123,10 @@ public class PanelManager {
 	public LevelChoicePanel getLevelChoicePanel() {
 		return levelChoice;
 	}
+	
+	public RankingPanel getRankingPanel() {
+		return ranking;
+	}
 
 	public GamePanel getGamePanel() {
 		return game;

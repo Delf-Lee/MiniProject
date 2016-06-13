@@ -29,11 +29,11 @@ public class RankingPanel extends BasePanel {
 	private JButton btnSearch;
 	public JButton btnBack;
 	// ¹®ÀÚ¿­
-	private JLabel stringBoxLank;
+	private JLabel stringBoxRank;
 	private JLabel stringBoxID;
 	private JLabel stringBoxScore;
 
-	private JLabel stringBoxLanks[];
+	private JLabel stringBoxRanks[];
 	private JLabel stringBoxIDs[];
 	private JLabel stringBoxScores[];
 
@@ -61,9 +61,9 @@ public class RankingPanel extends BasePanel {
 	/** ÄÄÆ÷³ÍÆ® ¼³Á¤ ¹× ¹èÄ¡ */
 	private void setComponent() {
 
-		stringBoxLank = new JLabel("¼øÀ§", JLabel.CENTER);
-		stringBoxLank.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		stringBoxLank.setBounds(250, 80, 100, 100);
+		stringBoxRank = new JLabel("¼øÀ§", JLabel.CENTER);
+		stringBoxRank.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+		stringBoxRank.setBounds(250, 80, 100, 100);
 
 		stringBoxID = new JLabel("I  D", JLabel.CENTER);
 		stringBoxID.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
@@ -99,7 +99,7 @@ public class RankingPanel extends BasePanel {
 		btnBack.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
 		btnBack.setBounds(900, 680, 100, 55);
 
-		add(stringBoxLank);
+		add(stringBoxRank);
 		add(stringBoxID);
 		add(stringBoxScore);
 
@@ -111,20 +111,31 @@ public class RankingPanel extends BasePanel {
 
 	public void setArrayRanks(int userListSize) {
 		int size = userListSize;
-		stringBoxLanks = new JLabel[size];
+		stringBoxRanks = new JLabel[size];
 		stringBoxIDs = new JLabel[size];
 		stringBoxScores = new JLabel[size];
+		int rank = 1;
 		for (int i = 0; i < size; i++) {
-			stringBoxLanks[i] = new JLabel(Integer.toString(i + 1), JLabel.CENTER);
-			stringBoxLanks[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-			stringBoxLanks[i].setBounds(250, 130 + 40 * i, 100, 100);
+			stringBoxRanks[i] = new JLabel(Integer.toString(i + 1), JLabel.CENTER);
+			stringBoxRanks[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+			stringBoxRanks[i].setBounds(250, 130 + 40 * i, 100, 100);
+			if(i > 0) {
+				if(UserManager.userList.get(i-1).getBestScore() == UserManager.userList.get(i).getBestScore()) {
+					stringBoxRanks[i].setText(Integer.toString(rank));
+					rank = i;
+					rank++;
+				}
+				else {
+					rank++;
+				}
+			}
 			stringBoxIDs[i] = new JLabel(UserManager.userList.get(i).getUserName(), JLabel.CENTER);
 			stringBoxIDs[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
 			stringBoxIDs[i].setBounds(405, 130 + 40 * i, 200, 100);
 			stringBoxScores[i] = new JLabel(Integer.toString(UserManager.userList.get(i).getBestScore()), JLabel.CENTER);
 			stringBoxScores[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
 			stringBoxScores[i].setBounds(650, 130 + 40 * i, 100, 100);
-			add(stringBoxLanks[i]);
+			add(stringBoxRanks[i]);
 			add(stringBoxIDs[i]);
 			add(stringBoxScores[i]);
 		}
@@ -149,6 +160,7 @@ public class RankingPanel extends BasePanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel.setContentPane(PanelManager.MENU);
+			initPanel();
 			repaint();
 		}
 
@@ -158,15 +170,26 @@ public class RankingPanel extends BasePanel {
 		for (int i = 0; i < UserManager.userList.size(); i++) {
 			if (UserManager.userList.get(i).getUserName().equals(IDInputBox.getText())) {
 				if (UserManager.userList.size() < 10) {
+					int rank = 1;
 					for (int j = 0; j < UserManager.userList.size(); j++) {
-						stringBoxLanks[j].setText(Integer.toString(j + 1));
+						stringBoxRanks[j].setText(Integer.toString(j + 1));
+						if(j > 0) {
+							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
+								stringBoxRanks[j].setText(Integer.toString(rank));
+								rank = j;
+								rank++;
+							}
+							else {
+								rank++;
+							}
+						}
 						stringBoxIDs[j].setText(UserManager.userList.get(j).getUserName());
 						stringBoxScores[j].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
-						stringBoxLanks[j].setForeground(Color.BLACK);
+						stringBoxRanks[j].setForeground(Color.BLACK);
 						stringBoxIDs[j].setForeground(Color.BLACK);
 						stringBoxScores[j].setForeground(Color.BLACK);
 					}
-					stringBoxLanks[i].setForeground(Color.CYAN);
+					stringBoxRanks[i].setForeground(Color.CYAN);
 					stringBoxIDs[i].setForeground(Color.CYAN);
 					stringBoxScores[i].setForeground(Color.CYAN);
 
@@ -174,16 +197,27 @@ public class RankingPanel extends BasePanel {
 					return;
 				}
 				else if (i < 4) {
+					int rank = 1;
 					for (int j = 0; j < 10; j++) {
 						System.out.println(i + " " + j);
-						stringBoxLanks[j].setText(Integer.toString(j + 1));
+						stringBoxRanks[j].setText(Integer.toString(j + 1));
+						if(j > 0) {
+							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
+								stringBoxRanks[j].setText(Integer.toString(rank));
+								rank = j;
+								rank++;
+							}
+							else {
+								rank++;
+							}
+						}
 						stringBoxIDs[j].setText(UserManager.userList.get(j).getUserName());
 						stringBoxScores[j].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
-						stringBoxLanks[j].setForeground(Color.BLACK);
+						stringBoxRanks[j].setForeground(Color.BLACK);
 						stringBoxIDs[j].setForeground(Color.BLACK);
 						stringBoxScores[j].setForeground(Color.BLACK);
 					}
-					stringBoxLanks[i].setForeground(Color.CYAN);
+					stringBoxRanks[i].setForeground(Color.CYAN);
 					stringBoxIDs[i].setForeground(Color.CYAN);
 					stringBoxScores[i].setForeground(Color.CYAN);
 
@@ -192,17 +226,28 @@ public class RankingPanel extends BasePanel {
 				}
 				else if (i >= UserManager.userList.size() - 5) {
 					int k = 0;
+					int rank = UserManager.userList.size() - 9;
 					for (int j = UserManager.userList.size() - 10; j < UserManager.userList.size(); j++) {
-						stringBoxLanks[k].setText(Integer.toString(j + 1));
+						stringBoxRanks[k].setText(Integer.toString(j + 1));
+						if(j > UserManager.userList.size() - 10) {
+							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
+								stringBoxRanks[k].setText(Integer.toString(rank));
+								rank = j;
+								rank++;
+							}
+							else {
+								rank++;
+							}
+						}
 						stringBoxIDs[k].setText(UserManager.userList.get(j).getUserName());
 						stringBoxScores[k].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
 
-						stringBoxLanks[k].setForeground(Color.BLACK);
+						stringBoxRanks[k].setForeground(Color.BLACK);
 						stringBoxIDs[k].setForeground(Color.BLACK);
 						stringBoxScores[k].setForeground(Color.BLACK);
 						k++;
 					}
-					stringBoxLanks[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
+					stringBoxRanks[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
 					stringBoxIDs[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
 					stringBoxScores[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
 					IDInputBox.setText(""); // °Ë»öÀ» ´©·ç¸é ¾ÆÀÌµðÀÔ·ÂÇÊµå¸¦ ""·Î ÃÊ±âÈ­
@@ -210,16 +255,27 @@ public class RankingPanel extends BasePanel {
 				}
 				else {
 					int k = 0;
+					int rank = i-3;
 					for (int j = i - 4; j <= i + 5; j++) {
-						stringBoxLanks[k].setText(Integer.toString(j + 1));
+						stringBoxRanks[k].setText(Integer.toString(j + 1));
+						if(j > i-4) {
+							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
+								stringBoxRanks[k].setText(Integer.toString(rank));
+								rank = j;
+								rank++;
+							}
+							else {
+								rank++;
+							}
+						}
 						stringBoxIDs[k].setText(UserManager.userList.get(j).getUserName());
 						stringBoxScores[k].setText(Integer.toString(UserManager.userList.get(j).getBestScore()));
-						stringBoxLanks[k].setForeground(Color.BLACK);
+						stringBoxRanks[k].setForeground(Color.BLACK);
 						stringBoxIDs[k].setForeground(Color.BLACK);
 						stringBoxScores[k].setForeground(Color.BLACK);
 						k++;
 					}
-					stringBoxLanks[4].setForeground(Color.CYAN);
+					stringBoxRanks[4].setForeground(Color.CYAN);
 					stringBoxIDs[4].setForeground(Color.CYAN);
 					stringBoxScores[4].setForeground(Color.CYAN);
 					IDInputBox.setText(""); // °Ë»öÀ» ´©·ç¸é ¾ÆÀÌµðÀÔ·ÂÇÊµå¸¦ ""·Î ÃÊ±âÈ­
@@ -237,21 +293,23 @@ public class RankingPanel extends BasePanel {
 
 	@Override
 	public void initPanel() {
-		//		for (int i = 0; i < 10; i++) {
-		//			//stringBoxLanks[i] = new JLabel(((i+1) + "\t\t" + UserManager.userList.get(i).getUserName() + "\t\t" + Integer.toString(UserManager.userList.get(i).getBestScore())));
-		//			stringBoxLanks[i] = new JLabel(Integer.toString(i + 1), JLabel.CENTER);
-		//			stringBoxLanks[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		//			stringBoxLanks[i].setBounds(250, 130 + 40 * i, 100, 100);
-		//			stringBoxIDs[i] = new JLabel(UserManager.userList.get(i).getUserName(), JLabel.CENTER);
-		//			stringBoxIDs[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		//			stringBoxIDs[i].setBounds(405, 130 + 40 * i, 200, 100);
-		//			stringBoxScores[i] = new JLabel(Integer.toString(UserManager.userList.get(i).getBestScore()), JLabel.CENTER);
-		//			stringBoxScores[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		//			stringBoxScores[i].setBounds(650, 130 + 40 * i, 100, 100);
-		//			add(stringBoxLanks[i]);
-		//			add(stringBoxIDs[i]);
-		//			add(stringBoxScores[i]);
-		//		}
-		//		IDInputBox.setText("");
+		int rank = 1;
+		for (int i = 0; i < 10; i++) {
+			stringBoxRanks[i].setText(Integer.toString(i + 1));
+			if (i > 0) {
+				if (UserManager.userList.get(i - 1).getBestScore() == UserManager.userList.get(i).getBestScore()) {
+					stringBoxRanks[i].setText(Integer.toString(rank));
+					rank = i;
+					rank++;
+				} else {
+					rank++;
+				}
+			}
+			stringBoxIDs[i].setText(UserManager.userList.get(i).getUserName());
+			stringBoxScores[i].setText(Integer.toString(UserManager.userList.get(i).getBestScore()));
+			stringBoxRanks[i].setForeground(Color.BLACK);
+			stringBoxIDs[i].setForeground(Color.BLACK);
+			stringBoxScores[i].setForeground(Color.BLACK);
+		}
 	}
 }
