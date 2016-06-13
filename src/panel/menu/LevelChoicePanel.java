@@ -109,6 +109,7 @@ public class LevelChoicePanel extends BasePanel {
 		newGame.setGame(UserManager.user, level);
 		newGame.start();
 		newGame.setFocus();
+		
 	}
 
 	@Override

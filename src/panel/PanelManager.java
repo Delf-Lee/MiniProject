@@ -55,7 +55,7 @@ public class PanelManager {
 		wordSetting = new PanelWordSetting(this);
 		ranking = new RankingPanel(this);
 		game = new PanelGame();
-		pause = new PausePanel(350, 150, 300, 400, this);
+		pause = new PausePanel(340, 110, 350, 500, this);
 	}
 
 	public static void setContentPane(Container c) {
