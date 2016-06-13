@@ -14,15 +14,20 @@ import word.Word;
 import word.WordManager;
 
 public class GameThread extends Thread {
+	private static final int SLOW = 0;
+	private static final int UNBEATABLE = 1;
+	
 	WordManager wordList;
 	PanelGame screen;
 	Player player;
 	PanelManager panel;
+
 	boolean pause = false;
 	boolean terminate = false;
 	int level;
 	int preTime;
 	int combo;
+	boolean itemFlag[] = { false, false };
 
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
@@ -46,7 +51,6 @@ public class GameThread extends Thread {
 				createWord(); // 단어 객체 생성
 				wordList.flowWord(); // 단어 이동
 
-				
 				checkTime();
 				checkLife();
 				checkPause();
@@ -181,9 +185,9 @@ public class GameThread extends Thread {
 	public void lostLife() {
 		screen.lostLife();
 	}
-	
+
 	private void checkLife() {
-		if(screen.getLife() == 0) {
+		if (screen.getLife() == 0) {
 			// 게임오버
 			interrupt(); // 일단 임시로 종료시킴
 		}

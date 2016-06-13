@@ -11,7 +11,9 @@ import javax.swing.JPanel;
 public class WordObject extends JPanel {
 
 	public static final int RABBIT = 0;
+	public static final int SQUIRREL = 1;
 	public static final String RABBIT_IMG = "images\\토끼어푸.gif";
+	public static final String SQUIRREL_IMG = "images\\다람쥐어푸.gif";
 
 	private WordLabel wordLabel;
 	private JLabel imageLabel;
@@ -49,10 +51,12 @@ public class WordObject extends JPanel {
 		case RABBIT:
 			animalImage = new ImageIcon(RABBIT_IMG);
 			break;
+		case SQUIRREL:
+			animalImage = new ImageIcon(SQUIRREL_IMG);
 		}
 		// 이미지 레이블 세팅
 		imageLabel = new JLabel(animalImage);
-		imageLabel.setSize(64, 74); // 미구현
+		imageLabel.setSize(animalImage.getIconWidth(), animalImage.getIconHeight()); // 미구현
 		add(imageLabel);
 		height += imageLabel.getHeight();
 		if (width < imageLabel.getWidth()) {

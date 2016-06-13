@@ -15,13 +15,14 @@ public class Word {
 	private double slope = 0.0; // ±â¿ï±â
 
 	public Word(String word, int speed, double slope, Point start, int endX) {
-		this.word = word;
+		this.word = word; 
 		this.speed = speed;
 		this.slope = slope;
 		this.start = start;
 		this.endX = endX;
-		wordObject = new WordObject(word, start, type);
 		
+		int type = (int) (Math.random() * 2);
+		wordObject = new WordObject(word, start, type);
 	}
 
 	public boolean equals(String word) {
