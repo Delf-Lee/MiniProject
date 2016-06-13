@@ -3,13 +3,13 @@ package panel.home;
 import panel.BasePanel;
 import panel.PanelManager;
 
-public class PanelHome extends BasePanel {
+public class HomePanel extends BasePanel {
 
 	private PanelManager panel;
-	private PanelLogin login;
-	private PanelSignup signup;
+	private LoginPanel login;
+	private SignupPanel signup;
 
-	public PanelHome(PanelManager panel) {
+	public HomePanel(PanelManager panel) {
 		super(/*¿ÃπÃ¡ˆ*/);
 		setLocation(0, 25);
 		this.panel = panel;

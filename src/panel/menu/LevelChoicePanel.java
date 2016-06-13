@@ -16,7 +16,7 @@ import thread.GameThread;
 import user.User;
 import user.UserManager;
 
-public class PanelLevelChoice extends BasePanel {
+public class LevelChoicePanel extends BasePanel {
 	private PanelManager panel;
 	// 레이블
 	JLabel stringBoxLevelChoice;
@@ -27,7 +27,7 @@ public class PanelLevelChoice extends BasePanel {
 	private static final int X = 70;
 	private static final int Y = 100;
 
-	public PanelLevelChoice(int x, int y, int width, int height, PanelManager panel) {
+	public LevelChoicePanel(int x, int y, int width, int height, PanelManager panel) {
 		super(/*이미지 경로*/);
 		this.panel = panel;
 		setBounds(x, y, width, height);

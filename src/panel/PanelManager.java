@@ -6,12 +6,12 @@ import java.awt.Container;
 import javax.swing.JFrame;
 
 import panel.game.PanelGame;
-import panel.home.PanelHome;
-import panel.home.PanelLogin;
-import panel.home.PanelSignup;
-import panel.menu.PanelLevelChoice;
-import panel.menu.PanelMenu;
-import panel.menu.PanelRanking;
+import panel.home.HomePanel;
+import panel.home.LoginPanel;
+import panel.home.SignupPanel;
+import panel.menu.LevelChoicePanel;
+import panel.menu.MenuPanel;
+import panel.menu.RankingPanel;
 import panel.menu.PanelWordSetting;
 import user.UserManager;
 
@@ -33,24 +33,24 @@ public class PanelManager {
 
 	public UserManager user = new UserManager(); // user∏¶ ∫§≈Õ∑Œ
 	public static JFrame main;
-	private PanelHome home;
-	private PanelLogin login;
-	private PanelSignup signup;
-	private PanelMenu menu;
-	private PanelLevelChoice levelChoice;
+	private HomePanel home;
+	private LoginPanel login;
+	private SignupPanel signup;
+	private MenuPanel menu;
+	private LevelChoicePanel levelChoice;
 	private PanelWordSetting wordSetting;
-	private PanelRanking ranking;
+	private RankingPanel ranking;
 	private PanelGame game;
 
 	public PanelManager(JFrame main) {
 		PanelManager.main = main;
-		home = new PanelHome(this);
-		login = new PanelLogin(262, 350, 500, 300, this);
-		signup = new PanelSignup(262, 350, 500, 300, this);
-		menu = new PanelMenu(this);
-		levelChoice = new PanelLevelChoice(300, 200, 400, 450, this);
+		home = new HomePanel(this);
+		login = new LoginPanel(262, 350, 500, 300, this);
+		signup = new SignupPanel(262, 350, 500, 300, this);
+		menu = new MenuPanel(this);
+		levelChoice = new LevelChoicePanel(300, 200, 400, 450, this);
 		wordSetting = new PanelWordSetting(this);
-		ranking = new PanelRanking(this);
+		ranking = new RankingPanel(this);
 		game = new PanelGame();
 	}
 
@@ -97,23 +97,23 @@ public class PanelManager {
 		panel.add(c);
 	}
 
-	public PanelHome getHomePanel() {
+	public HomePanel getHomePanel() {
 		return home;
 	}
 
-	public PanelLogin getLoninPanel() {
+	public LoginPanel getLoninPanel() {
 		return login;
 	}
 
-	public PanelSignup getSignupPanel() {
+	public SignupPanel getSignupPanel() {
 		return signup;
 	}
 
-	public PanelMenu getMenuPanel() {
+	public MenuPanel getMenuPanel() {
 		return menu;
 	}
 
-	public PanelLevelChoice getLevelChoicePanel() {
+	public LevelChoicePanel getLevelChoicePanel() {
 		return levelChoice;
 	}
 

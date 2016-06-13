@@ -26,7 +26,7 @@ import panel.BasePanel;
 import panel.PanelManager;
 import user.UserManager;
 
-public class PanelRanking extends BasePanel {
+public class RankingPanel extends BasePanel {
    private PanelManager panel;
    // 콤보
    private JComboBox<String> searchCombo;
@@ -44,7 +44,7 @@ public class PanelRanking extends BasePanel {
    private JLabel stringBoxIDs[];
    private JLabel stringBoxScores[];
 
-   public PanelRanking(PanelManager panel) {
+   public RankingPanel(PanelManager panel) {
       // 창 설정
       setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
       setBackground(Color.lightGray); // 삭제 예정 라인

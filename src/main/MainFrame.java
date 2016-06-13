@@ -3,14 +3,14 @@ package main;
 import javax.swing.JFrame;
 
 import panel.PanelManager;
-import panel.home.PanelHome;
+import panel.home.HomePanel;
 import user.UserManager;
 
 public class MainFrame extends JFrame {
 	// 패널
 	PanelManager panel = new PanelManager(this);
 	MenuBar menuBar = new MenuBar(panel);
-	PanelHome home = panel.getHomePanel();
+	HomePanel home = panel.getHomePanel();
 
 	// 스태틱 변수
 	public static int WIDTH = 1024;

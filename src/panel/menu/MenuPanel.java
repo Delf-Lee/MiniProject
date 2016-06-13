@@ -12,12 +12,12 @@ import javax.swing.JButton;
 import main.MainFrame;
 import panel.BasePanel;
 import panel.PanelManager;
-import panel.menu.PanelLevelChoice;
-import panel.home.PanelSignup;
+import panel.menu.LevelChoicePanel;
+import panel.home.SignupPanel;
 import thread.GameThread;
 import user.UserManager;
 
-public class PanelMenu extends BasePanel {
+public class MenuPanel extends BasePanel {
 	private PanelManager panel;
 
 	// 정적변수
@@ -48,7 +48,7 @@ public class PanelMenu extends BasePanel {
 
 	}
 
-	public PanelMenu(PanelManager panel) {
+	public MenuPanel(PanelManager panel) {
 		super("images/menuBG.png");
 		setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
 		setLocation(0, 25);

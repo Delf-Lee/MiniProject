@@ -16,18 +16,23 @@ import word.WordManager;
 public class GameThread extends Thread {
 	private static final int SLOW = 0;
 	private static final int UNBEATABLE = 1;
-	
-	WordManager wordList;
-	PanelGame screen;
-	Player player;
-	PanelManager panel;
+	private static final int NET_MODE = 2;
+	private static final int ADD_LIFE = 3;
+	private static final int ALL_SAVE = 4;
 
-	boolean pause = false;
-	boolean terminate = false;
-	int level;
-	int preTime;
-	int combo;
-	boolean itemFlag[] = { false, false };
+	private static final boolean itemFlag[] = { false, false, false };
+
+	private WordManager wordList;
+	private PanelGame screen;
+	private Player player;
+	private PanelManager panel;
+
+	private boolean pause = false;
+	private boolean terminate = false;
+	private int item[] = { 0, 0, 0, 0, 0 };
+	private int level;
+	private int preTime;
+	private int combo;
 
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
@@ -88,6 +93,9 @@ public class GameThread extends Thread {
 				combo = 0; // 백스페이스 입력 시 콤보 초기화
 				break;
 			default:
+				if (e.getKeyCode() >= SLOW && e.getKeyCode() >= ALL_SAVE) {
+					//useItem();
+				}
 				break;
 			}
 		}
@@ -203,6 +211,23 @@ public class GameThread extends Thread {
 				panel.setContentPane(PanelManager.MENU);
 				interrupt();
 			}
+		}
+	}
+
+	private void useItem(int item) {
+		switch (item) {
+		case SLOW:
+			itemFlag[SLOW] = true;
+			break;
+		case UNBEATABLE:
+			itemFlag[UNBEATABLE] = true;
+			break;
+		case NET_MODE:
+			break;
+		case ADD_LIFE:
+			break;
+		case ALL_SAVE:
+			break;
 		}
 	}
 }

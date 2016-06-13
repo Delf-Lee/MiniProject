@@ -17,7 +17,7 @@ import panel.PanelManager;
 import user.User;
 import user.UserManager;
 
-public class PanelLogin extends BasePanel {
+public class LoginPanel extends BasePanel {
 	private PanelManager panel;
 	// 문자열
 	private JLabel stringBoxID = new JLabel("ID");
@@ -30,7 +30,7 @@ public class PanelLogin extends BasePanel {
 	private JButton signUpButton = new JButton("회원가입");
 
 	/** 생성자 */
-	public PanelLogin(int x, int y, int width, int height, PanelManager panel) {
+	public LoginPanel(int x, int y, int width, int height, PanelManager panel) {
 		super(/*이미지 경로*/);
 		this.panel = panel;
 		setBounds(x, y, width, height);
