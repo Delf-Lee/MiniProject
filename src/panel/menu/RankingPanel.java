@@ -176,10 +176,9 @@ public class RankingPanel extends BasePanel {
 						if(j > 0) {
 							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
 								stringBoxRanks[j].setText(Integer.toString(rank));
-								rank = j;
-								rank++;
 							}
 							else {
+								rank = j;
 								rank++;
 							}
 						}
@@ -204,10 +203,9 @@ public class RankingPanel extends BasePanel {
 						if(j > 0) {
 							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
 								stringBoxRanks[j].setText(Integer.toString(rank));
-								rank = j;
-								rank++;
 							}
 							else {
+								rank = j;
 								rank++;
 							}
 						}
@@ -229,13 +227,12 @@ public class RankingPanel extends BasePanel {
 					int rank = UserManager.userList.size() - 9;
 					for (int j = UserManager.userList.size() - 10; j < UserManager.userList.size(); j++) {
 						stringBoxRanks[k].setText(Integer.toString(j + 1));
-						if(j > UserManager.userList.size() - 10) {
+						if(k > 0) {
 							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
 								stringBoxRanks[k].setText(Integer.toString(rank));
-								rank = j;
-								rank++;
 							}
 							else {
+								rank = j;
 								rank++;
 							}
 						}
@@ -261,10 +258,9 @@ public class RankingPanel extends BasePanel {
 						if(j > i-4) {
 							if(UserManager.userList.get(j-1).getBestScore() == UserManager.userList.get(j).getBestScore()) {
 								stringBoxRanks[k].setText(Integer.toString(rank));
-								rank = j;
-								rank++;
 							}
 							else {
+								rank = j;
 								rank++;
 							}
 						}
@@ -299,9 +295,8 @@ public class RankingPanel extends BasePanel {
 			if (i > 0) {
 				if (UserManager.userList.get(i - 1).getBestScore() == UserManager.userList.get(i).getBestScore()) {
 					stringBoxRanks[i].setText(Integer.toString(rank));
-					rank = i;
-					rank++;
 				} else {
+					rank = i;
 					rank++;
 				}
 			}
