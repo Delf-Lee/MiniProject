@@ -169,13 +169,15 @@ public class GameThread extends Thread {
 		}
 	}
 
-	/** 게임중 exc키를 누를 시, 일시 정지한다. */
+	/** 게임중 esc키를 누를 시, 일시 정지한다. */
 	public void pause() {
 		if (pause) {
 			continueGame();
+			panel.getPausePanel().setVisible(false);
 		}
 		else {
 			pause = true;
+			screen.add(panel.getPausePanel());
 		}
 	}
 

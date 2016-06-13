@@ -6,6 +6,7 @@ import java.awt.Container;
 import javax.swing.JFrame;
 
 import panel.game.PanelGame;
+import panel.game.PausePanel;
 import panel.home.HomePanel;
 import panel.home.LoginPanel;
 import panel.home.SignupPanel;
@@ -25,6 +26,7 @@ public class PanelManager {
 	public static final int WORD_SETTING = 5;
 	public static final int RANKING = 6;
 	public static final int LEVELCHOICE = 7;
+	public static final int PAUSE = 8;
 
 	public static final String HOME_BACKGROUND_IMG = "";
 	public static final String MENU_BACKGROUND_IMG = "";
@@ -41,6 +43,7 @@ public class PanelManager {
 	private PanelWordSetting wordSetting;
 	private RankingPanel ranking;
 	private PanelGame game;
+	private PausePanel pause;
 
 	public PanelManager(JFrame main) {
 		PanelManager.main = main;
@@ -52,6 +55,7 @@ public class PanelManager {
 		wordSetting = new PanelWordSetting(this);
 		ranking = new RankingPanel(this);
 		game = new PanelGame();
+		pause = new PausePanel(300, 200, 300, 400, this);
 	}
 
 	public static void setContentPane(Container c) {
@@ -85,6 +89,9 @@ public class PanelManager {
 			break;
 		case LEVELCHOICE:
 			main.setContentPane(levelChoice);
+			break;
+		case PAUSE:
+			main.setContentPane(pause);
 			break;
 		}
 	}
@@ -123,5 +130,8 @@ public class PanelManager {
 
 	public PanelWordSetting getWordSettingPanel() {
 		return wordSetting;
+	}
+	public PausePanel getPausePanel() {
+		return pause; 
 	}
 }
