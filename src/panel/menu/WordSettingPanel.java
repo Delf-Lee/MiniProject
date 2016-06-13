@@ -54,22 +54,13 @@ public class WordSettingPanel extends BasePanel {
 
 		requestFocus();
 	}
-
-	public void addWordList(DefaultListModel<String> wordListModel) {
-		try {
-			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
-			BufferedReader reader = new BufferedReader(fin);
-
-			String word = null;
-
-			while ((word = reader.readLine()) != null) { // 한 줄 단위로 읽어옴
-				wordListModel.addElement(word);
-			}
-			reader.close();
-		} catch (IOException e) {
-			System.out.println("입출력 오류 addwordList");
-			//System.exit(1);
-		}
+	
+	/** 리스너 설정 */
+	private void setListener() {
+		btnWordAdd.addActionListener(new WordAddActionListnener());
+		textInputBox.addKeyListener(new WordAddKeyListener());
+		btnWordDelete.addActionListener(new WordDeleteActionListnener());
+		btnBack.addActionListener(new BackActionListnener());
 	}
 
 	/** 컴포넌트 설정 및 배치 */
@@ -105,57 +96,27 @@ public class WordSettingPanel extends BasePanel {
 		add(wordScroll);
 		add(btnBack);
 	}
-
-	public void btnWordAddEvent() {
-		// 중복된 단어 체크
+	
+	public void addWordList(DefaultListModel<String> wordListModel) {
 		try {
 			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
-			/* 나중에 이 경로를 고정 */
 			BufferedReader reader = new BufferedReader(fin);
 
 			String word = null;
 
 			while ((word = reader.readLine()) != null) { // 한 줄 단위로 읽어옴
-				if (word.equals(textInputBox.getText())) { // 입력 단어의 " "를 ""로 대체
-					MsgWinow.error("이미 존재하는 단어입니다");
-					return;
-				}
+				wordListModel.addElement(word);
 			}
 			reader.close();
 		} catch (IOException e) {
-			System.out.println("입출력 오류 (중복단어 체크)");
-			System.exit(1);
+			System.out.println("입출력 오류 addwordList");
+			//System.exit(1);
 		}
-		// 단어 추가
-
-		if (textInputBox.getText().length() == 0) { // 아무것도 입력하지 않으면
-			MsgWinow.error("단어를 입력하세.요");
-			return;
-		}
-
-		wordListModel.addElement(textInputBox.getText()/*.replaceAll(" ", "")*/); // 입력 단어의 " "를 ""로 대체
-		textInputBox.setText("");
-
-		// 스크롤 아래로 내리기.. 근데 아래로 내려간 후 위로 안올라감ㅎㅎㅎㅎㅎ
-		txtLog.append(textInputBox.getText() + "\n"); // 로그 내용을 JTextArea 위에 붙여주고
-		txtLog.setCaretPosition(txtLog.getDocument().getLength()); // 맨아래로 스크롤한다.
-
-		//		wordScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-		//			public void adjustmentValueChanged(AdjustmentEvent e) {
-		//				JScrollBar src = (JScrollBar) e.getSource();
-		//				src.setValue(src.getMaximum());
-		//			}
-		//		});
-
 	}
 
-	/** 리스너 설정 */
-	private void setListener() {
-		btnWordAdd.addActionListener(new WordAddActionListnener());
-		textInputBox.addKeyListener(new WordAddKeyListener());
-		btnWordDelete.addActionListener(new WordDeleteActionListnener());
-		btnBack.addActionListener(new BackActionListnener());
-	}
+	
+
+	
 
 	class WordAddActionListnener implements ActionListener {
 		@Override
@@ -205,6 +166,49 @@ public class WordSettingPanel extends BasePanel {
 			panel.setContentPane(PanelManager.MENU);
 			repaint();
 		}
+	}
+	
+	public void btnWordAddEvent() {
+		// 중복된 단어 체크
+		try {
+			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
+			/* 나중에 이 경로를 고정 */
+			BufferedReader reader = new BufferedReader(fin);
+
+			String word = null;
+
+			while ((word = reader.readLine()) != null) { // 한 줄 단위로 읽어옴
+				if (word.equals(textInputBox.getText())) { // 입력 단어의 " "를 ""로 대체
+					MsgWinow.error("이미 존재하는 단어입니다");
+					return;
+				}
+			}
+			reader.close();
+		} catch (IOException e) {
+			System.out.println("입출력 오류 (중복단어 체크)");
+			System.exit(1);
+		}
+		// 단어 추가
+
+		if (textInputBox.getText().length() == 0) { // 아무것도 입력하지 않으면
+			MsgWinow.error("단어를 입력하세.요");
+			return;
+		}
+
+		wordListModel.addElement(textInputBox.getText()/*.replaceAll(" ", "")*/); // 입력 단어의 " "를 ""로 대체
+		textInputBox.setText("");
+
+		// 스크롤 아래로 내리기.. 근데 아래로 내려간 후 위로 안올라감ㅎㅎㅎㅎㅎ
+		txtLog.append(textInputBox.getText() + "\n"); // 로그 내용을 JTextArea 위에 붙여주고
+		txtLog.setCaretPosition(txtLog.getDocument().getLength()); // 맨아래로 스크롤한다.
+
+		//		wordScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+		//			public void adjustmentValueChanged(AdjustmentEvent e) {
+		//				JScrollBar src = (JScrollBar) e.getSource();
+		//				src.setValue(src.getMaximum());
+		//			}
+		//		});
+
 	}
 
 	public void setFocus() {
