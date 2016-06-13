@@ -100,9 +100,14 @@ public class PausePanel extends BasePanel {
 
 			switch (pressedBtn.getText()) {
 			case "게임 재개":
+				setVisible(false);
 				
 				break;
 			case "재시작":
+				boolean confirm = MsgWinow.confirm("재시작 하시겠습니까?");
+				if (confirm) {
+					panel.setContentPane(PanelManager.GAME);
+				}
 				thrd.initGame();
 				break;
 			case "레벨 선택":
@@ -110,11 +115,14 @@ public class PausePanel extends BasePanel {
 				thrd.initGame();
 				break;
 			case "메뉴":
-				panel.setContentPane(PanelManager.MENU);
+				confirm = MsgWinow.confirm("메뉴화면으로 돌아가시겠습니까?");
+				if (confirm) {
+					panel.setContentPane(PanelManager.MENU);
+				}
 				thrd.initGame();
 				break;
 			case "로그아웃":
-				boolean confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
+				confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
 				if (confirm) {
 					panel.setContentPane(PanelManager.HOME);
 				}
@@ -123,7 +131,7 @@ public class PausePanel extends BasePanel {
 			case "종료":
 				confirm = MsgWinow.confirm("종료하시겠습니까?");
 				if (confirm) {
-					UserManager.saveUserData(); // User 벡터 파일에 쓰기
+					UserManager.saveUserData();
 					System.exit(0);
 				}
 				thrd.initGame();
