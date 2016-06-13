@@ -5,7 +5,6 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 
-import main.ControllTower;
 import panel.game.GamePanel;
 import panel.game.PausePanel;
 import panel.home.HomePanel;
@@ -15,6 +14,7 @@ import panel.menu.LevelChoicePanel;
 import panel.menu.MenuPanel;
 import panel.menu.RankingPanel;
 import panel.menu.WordSettingPanel;
+import user.UserManager;
 
 public class PanelManager {
 
@@ -33,6 +33,7 @@ public class PanelManager {
 	public static final String GAME_BACKGROUND_IMG = "";
 	public static final String WORD_SETTING_BACKGROUND_IMG = "";
 
+	public UserManager user = new UserManager(); // user를 벡터로
 	public static JFrame main;
 	private HomePanel home;
 	private LoginPanel login;
@@ -44,7 +45,7 @@ public class PanelManager {
 	private GamePanel game;
 	private PausePanel pause;
 
-	public PanelManager(ControllTower controller, JFrame main) {
+	public PanelManager(JFrame main) {
 		PanelManager.main = main;
 		home = new HomePanel(this);
 		login = new LoginPanel(262, 350, 500, 300, this);
@@ -57,7 +58,7 @@ public class PanelManager {
 		pause = new PausePanel(340, 110, 350, 500, this);
 	}
 
-	public void setContentPane(Container c) {
+	public static void setContentPane(Container c) {
 		main.setContentPane(c);
 		// 코드의 유연성 증가
 	}
