@@ -100,7 +100,6 @@ public class GameThread extends Thread {
 				else {
 					panel.getPausePanel().setVisible(false);
 					JLabel timerLabel = new JLabel("3");
-					timerLabel.setForeground(Color.WHITE);
 					timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 100));
 					timerLabel.setBounds(490, 300, 100, 100);
 					panel.getGamePanel().add(timerLabel);
