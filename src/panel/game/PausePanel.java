@@ -111,7 +111,10 @@ public class PausePanel extends BasePanel {
 				thrd.initGame();
 				break;
 			case "레벨 선택":
+				panel.getLevelChoicePanel().setNowPanel(1);
 				panel.setContentPane(PanelManager.LEVELCHOICE);
+				panel.getLevelChoicePanel().setButtonEnable(); // 버튼 비활성화 설정
+				panel.getGamePanel().repaint();
 				thrd.initGame();
 				thrd.interrupt();
 				break;
@@ -119,24 +122,35 @@ public class PausePanel extends BasePanel {
 				confirm = MsgWinow.confirm("메뉴화면으로 돌아가시겠습니까?");
 				if (confirm) {
 					panel.setContentPane(PanelManager.MENU);
+					thrd.initGame();
+					thrd.interrupt();
 				}
-				thrd.initGame();
-				thrd.interrupt();
+				else {
+					
+				}
+				
 				break;
 			case "로그아웃":
 				confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
 				if (confirm) {
 					panel.setContentPane(PanelManager.HOME);
+					thrd.initGame();
+					thrd.interrupt();
+				} 
+				else {
+
 				}
-				thrd.initGame();
-				thrd.interrupt();
+				
 				
 				break;
 			case "종료":
-				confirm = MsgWinow.confirm("종료하시겠습니까?");
+				confirm = MsgWinow.confirm("종료 하시겠습니까?");
 				if (confirm) {
 					UserManager.saveUserData();
 					System.exit(0);
+				}
+				else {
+					
 				}
 				break;
 			}

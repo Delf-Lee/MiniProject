@@ -26,6 +26,7 @@ public class LevelChoicePanel extends BasePanel {
 	// 위치 정적변수
 	private static final int X = 70;
 	private static final int Y = 100;
+	private int nowPanel;
 
 	public LevelChoicePanel(int x, int y, int width, int height, PanelManager panel) {
 		super(/*이미지 경로*/);
@@ -87,6 +88,10 @@ public class LevelChoicePanel extends BasePanel {
 			level[i].setEnabled(true);
 		}
 	}
+	
+	public void setNowPanel(int flag) {
+		this.nowPanel = flag;
+	}
 
 	/** 패널 내 버튼에 대한 리스너 */
 	class LevelChoiceListener implements ActionListener {
@@ -96,7 +101,12 @@ public class LevelChoicePanel extends BasePanel {
 
 			switch (pressedBtn.getText()) {
 			case "back":
-				panel.setContentPane(PanelManager.MENU);
+				if(nowPanel == 0) { // 메뉴 -> 게임하기 -> back
+					panel.setContentPane(PanelManager.MENU);
+				}
+				else { // 게임실행 -> pause -> 레벨선택 -> back
+					panel.getLevelChoicePanel().setVisible(false);
+				}
 				break;
 			default:
 				String tmp = pressedBtn.getText();
