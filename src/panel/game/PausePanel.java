@@ -113,6 +113,7 @@ public class PausePanel extends BasePanel {
 			case "레벨 선택":
 				panel.setContentPane(PanelManager.LEVELCHOICE);
 				thrd.initGame();
+				thrd.interrupt();
 				break;
 			case "메뉴":
 				confirm = MsgWinow.confirm("메뉴화면으로 돌아가시겠습니까?");
@@ -120,6 +121,7 @@ public class PausePanel extends BasePanel {
 					panel.setContentPane(PanelManager.MENU);
 				}
 				thrd.initGame();
+				thrd.interrupt();
 				break;
 			case "로그아웃":
 				confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
@@ -136,8 +138,6 @@ public class PausePanel extends BasePanel {
 					UserManager.saveUserData();
 					System.exit(0);
 				}
-				
-				//panel.getLevelChoicePanel().gameStart(thrd.getLevel());
 				break;
 			}
 			setVisible(false);

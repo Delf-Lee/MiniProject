@@ -90,7 +90,6 @@ public class LoginPanel extends BasePanel {
 			switch (pressedBtn.getText()) {
 			case "로그인": // 메인 -> 메뉴
 				if (acceptUser()) { // 입력 체크
-					initPanel();
 					panel.setContentPane(PanelManager.MENU);
 					panel.getSignupPanel().setFocus();
 					repaint();
@@ -102,6 +101,7 @@ public class LoginPanel extends BasePanel {
 				panel.getSignupPanel().setFocus();
 				break;
 			}
+			initPanel();
 		}
 	}
 

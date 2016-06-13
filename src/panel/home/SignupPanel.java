@@ -109,7 +109,7 @@ public class SignupPanel extends BasePanel {
 			case "확인":
 				if (checkInput()) { // 입력 체크
 					writeUserInfo(); // 유저 정보 저장
-					initPanel(); // 패널 초기화
+					UserManager.saveUserData();
 					backToLogin();
 				}
 				break;
@@ -117,6 +117,7 @@ public class SignupPanel extends BasePanel {
 				backToLogin();
 				break;
 			}
+			initPanel();
 		}
 
 		public void backToLogin() {
