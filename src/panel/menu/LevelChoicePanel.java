@@ -4,16 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.file.attribute.UserPrincipalLookupService;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import main.MainFrame;
 import panel.BasePanel;
 import panel.PanelManager;
 import thread.GameThread;
-import user.User;
 import user.UserManager;
 
 public class LevelChoicePanel extends BasePanel {
@@ -88,7 +85,7 @@ public class LevelChoicePanel extends BasePanel {
 			level[i].setEnabled(true);
 		}
 	}
-	
+
 	public void setNowPanel(int flag) {
 		this.nowPanel = flag;
 	}
@@ -101,11 +98,11 @@ public class LevelChoicePanel extends BasePanel {
 
 			switch (pressedBtn.getText()) {
 			case "back":
-				if(nowPanel == 0) { // 메뉴 -> 게임하기 -> back
+				if (nowPanel == 0) { // 메뉴 -> 게임하기 -> back
 					panel.setContentPane(PanelManager.MENU);
 				}
 				else { // 게임실행 -> pause -> 레벨선택 -> back
-					panel.getLevelChoicePanel().setVisible(false);
+					panel.setContentPane(PanelManager.GAME);
 				}
 				break;
 			default:

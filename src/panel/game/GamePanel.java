@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 import main.MainFrame;
 import panel.BasePanel;
 
-public class PanelGame extends BasePanel {
+public class GamePanel extends BasePanel {
 	// 메인프레임
 	private MainFrame main;
 	private InfoPanel gameInfoBox; // 게임에 대한 정보를 출력(점수, 라이프, 아이템, 레벨 등)
@@ -15,7 +15,7 @@ public class PanelGame extends BasePanel {
 	private InputPanel textInputBox; // 단어 입력창
 	private ScorePanel scoreBox;
 
-	public PanelGame(/*Player player*/) { // 수정 필요
+	public GamePanel(/*Player player*/) { // 수정 필요
 		super("images/gameBG.png"); // 배경 삽입
 		setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
 		setLocation(0, 25);
