@@ -8,9 +8,10 @@ import user.UserManager;
 
 public class MainFrame extends JFrame {
 	// 패널
-	PanelManager panel = new PanelManager(this);
-	MenuBar menuBar = new MenuBar(panel);
-	HomePanel home = panel.getHomePanel();
+	public ControllTower controller = new ControllTower(this);
+	private PanelManager panel = controller.getPanelManager();
+	private MenuBar menuBar = new MenuBar(panel);
+	private HomePanel home = panel.getHomePanel();
 
 	// 스태틱 변수
 	public static int WIDTH = 1024;
