@@ -148,6 +148,7 @@ public class WordManager {
 		Iterator<Word> it = list.iterator();
 		while (it.hasNext()) {
 			thr.removeWord(it.next()); // 모든 단어레이블을 패널로 부터 떼어냄 
+			System.out.println("땜");
 		}
 		list.removeAll(list); // 리스트에서 모든 단어들을 삭제
 	}

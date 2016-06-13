@@ -18,14 +18,14 @@ public class PausePanel extends BasePanel {
 	private PanelManager panel;
 	private GameThread thrd;
 	// 레이블
-	JLabel stringBoxPause;
+	private JLabel stringBoxPause;
 	// 버튼
-	JButton btnStart;
-	JButton btnRestart;
-	JButton btnLevelChoice;
-	JButton btnMenu;
-	JButton btnLogout;
-	JButton btnExit;
+	private JButton btnStart;
+	private JButton btnRestart;
+	private JButton btnLevelChoice;
+	private JButton btnMenu;
+	private JButton btnLogout;
+	private JButton btnExit;
 	
 	
 	// 위치 정적변수
@@ -119,6 +119,8 @@ public class PausePanel extends BasePanel {
 					panel.setContentPane(PanelManager.HOME);
 				}
 				thrd.initGame();
+				thrd.interrupt();
+				
 				break;
 			case "종료":
 				confirm = MsgWinow.confirm("종료하시겠습니까?");
@@ -126,7 +128,8 @@ public class PausePanel extends BasePanel {
 					UserManager.saveUserData(); // User 벡터 파일에 쓰기
 					System.exit(0);
 				}
-				thrd.initGame();
+				
+				//panel.getLevelChoicePanel().gameStart(thrd.getLevel());
 				break;
 			}
 			setVisible(false);

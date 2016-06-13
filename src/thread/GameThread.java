@@ -32,21 +32,23 @@ public class GameThread extends Thread {
 	private int level;
 	private int preTime;
 	private int combo;
+	private int itemTime;
 
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
 		this.panel = panel;
 		this.screen = panel.getGamePanel();
 		wordList = new WordManager(this);
+		panel.getPausePanel().setThread(this);
 	}
 
 	/** 플레이어와 게임레벨을 설정 */
 	public void setGame(User user, int level) {
 		player = new Player(user); // 게임할 플레이어 설정
 		this.level = level; // 플레이어가 플레이 가능한 게임 레벨
+		new ReadyAnimation(screen, level, this); // 준비 애니메이션
 		preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
 		screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
-		new ReadyAnimation(screen, level, this); // 준비 애니메이션
 	}
 
 	public void run() {
@@ -58,6 +60,7 @@ public class GameThread extends Thread {
 				checkTime();
 				checkLife();
 				checkPause();
+				checkItem();
 
 				screen.repaint();
 				sleep(100);
@@ -86,10 +89,9 @@ public class GameThread extends Thread {
 				screen.initTextField();
 				break;
 			case KeyEvent.VK_ESCAPE: // ECS
-				panel.getPausePanel().setVisible(true);
-				screen.add(panel.getPausePanel());
-				screen.repaint();
-				pause();
+				if(pause()) {
+					popPausePanel();
+				}
 				break;
 			case KeyEvent.VK_BACK_SPACE: // 백스페이스
 				combo = 0; // 백스페이스 입력 시 콤보 초기화
@@ -100,6 +102,18 @@ public class GameThread extends Thread {
 				}
 				break;
 			}
+		}
+	}
+	
+	/** 게임중 esc키를 누를 시, 일시 정지한다. */
+	public boolean pause() {
+		if (pause) {
+			continueGame();
+			return false;
+		}
+		else {
+			pause = true;
+			return true;
 		}
 	}
 
@@ -171,18 +185,7 @@ public class GameThread extends Thread {
 		}
 	}
 
-	/** 게임중 esc키를 누를 시, 일시 정지한다. */
-	public void pause() {
-		if (pause) {
-			continueGame();
-			panel.getPausePanel().setVisible(false);
-		}
-		else {
-			System.out.println("호출");
-			pause = true;
-			
-		}
-	}
+	
 
 	/** pause에서 resume을 누를시 게임을 재개한다. */
 	public void continueGame() {
@@ -220,6 +223,8 @@ public class GameThread extends Thread {
 	}
 
 	private void useItem(int item) {
+		itemTime = (int) System.currentTimeMillis();
+
 		switch (item) {
 		case SLOW:
 			itemFlag[SLOW] = true;
@@ -228,11 +233,36 @@ public class GameThread extends Thread {
 			itemFlag[UNBEATABLE] = true;
 			break;
 		case NET_MODE:
+			itemFlag[NET_MODE] = true;
 			break;
 		case ADD_LIFE:
 			break;
 		case ALL_SAVE:
 			break;
 		}
+	}
+
+	private void checkItem() {
+		int tmpTime = ((int) System.currentTimeMillis() - itemTime) / 1000;
+
+		if (itemFlag[SLOW] == true && tmpTime > 5) {
+			itemFlag[SLOW] = false;
+		}
+		if (itemFlag[UNBEATABLE] = true) {
+
+		}
+		if (itemFlag[NET_MODE] = true) {
+
+		}
+
+	}
+	private void popPausePanel() {
+		panel.getPausePanel().setVisible(true);
+		screen.add(panel.getPausePanel());
+		screen.repaint();
+	}
+
+	public int getLevel() {
+		return level;
 	}
 }
