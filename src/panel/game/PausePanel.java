@@ -38,7 +38,6 @@ public class PausePanel extends BasePanel {
 		this.screen = panel.getGamePanel();
 		setBounds(x, y, width, height);
 		setBackground(Color.CYAN); // 삭제 예정 라인
-
 		setComponent(); // 버튼 세팅
 		setListener();
 	}
@@ -108,6 +107,7 @@ public class PausePanel extends BasePanel {
 				TimerThread th = new TimerThread(timerLabel);
 				th.start();
 				break;
+				
 			case "재시작":
 				boolean confirm = MsgWinow.confirm("재시작 하시겠습니까?");
 				if (confirm) {

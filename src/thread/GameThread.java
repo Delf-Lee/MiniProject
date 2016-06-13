@@ -1,6 +1,5 @@
 package thread;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -11,7 +10,7 @@ import Animation.ReadyAnimation;
 import panel.MsgWinow;
 import panel.PanelManager;
 import panel.game.GamePanel;
-import panel.game.GamePanel;
+import panel.game.PausePanel;
 import user.Player;
 import user.User;
 import word.Word;
@@ -27,9 +26,10 @@ public class GameThread extends Thread {
 	private static final boolean itemFlag[] = { false, false, false };
 
 	private WordManager wordList;
-	private GamePanel screen;
 	private Player player;
 	private PanelManager panel;
+	private GamePanel screen;
+	private PausePanel stop;
 
 	private MyKeyListener listener = new MyKeyListener();
 
@@ -44,16 +44,20 @@ public class GameThread extends Thread {
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
 		this.panel = panel;
-		this.screen = panel.getGamePanel();
+		screen = panel.getGamePanel();
+		stop = panel.getPausePanel();
 		wordList = new WordManager(this);
 		panel.getPausePanel().setThread(this);
 		panel.getLevelChoicePanel().setThread(this);
+		screen.add(stop);
+		stop.setVisible(false);
 	}
 
 	/** 플레이어와 게임레벨을 설정 */
 	public void setGame(User user, int level) {
 		player = new Player(user); // 게임할 플레이어 설정
 		this.level = level; // 플레이어가 플레이 가능한 게임 레벨
+
 		new ReadyAnimation(screen, level, this); // 준비 애니메이션
 		preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
 		screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
@@ -272,14 +276,18 @@ public class GameThread extends Thread {
 		case SLOW:
 			itemFlag[SLOW] = true;
 			break;
+
 		case UNBEATABLE:
 			itemFlag[UNBEATABLE] = true;
 			break;
+
 		case NET_MODE:
 			itemFlag[NET_MODE] = true;
 			break;
+
 		case ADD_LIFE:
 			break;
+
 		case ALL_SAVE:
 			break;
 		}
@@ -302,8 +310,6 @@ public class GameThread extends Thread {
 
 	private void popPausePanel() {
 		panel.getPausePanel().setVisible(true);
-		//panel.setContentPane(PanelManager.PAUSE);
-		screen.add(panel.getPausePanel());
 		screen.repaint();
 	}
 

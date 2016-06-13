@@ -144,5 +144,4 @@ public class LevelChoicePanel extends BasePanel {
 	public void initPanel() {
 		// TODO Auto-generated method stub
 	}
-
 }

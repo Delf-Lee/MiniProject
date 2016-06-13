@@ -1,6 +1,5 @@
 package panel.menu;
 
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,10 +11,6 @@ import javax.swing.JButton;
 import main.MainFrame;
 import panel.BasePanel;
 import panel.PanelManager;
-import panel.menu.LevelChoicePanel;
-import panel.home.SignupPanel;
-import thread.GameThread;
-import user.UserManager;
 
 public class MenuPanel extends BasePanel {
 	private PanelManager panel;
