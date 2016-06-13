@@ -48,7 +48,7 @@ public class PanelManager {
 		login = new PanelLogin(262, 350, 500, 300, this);
 		signup = new PanelSignup(262, 350, 500, 300, this);
 		menu = new PanelMenu(this);
-		levelChoice = new PanelLevelChoice(300, 200, 400, 400, this);
+		levelChoice = new PanelLevelChoice(300, 200, 400, 450, this);
 		wordSetting = new PanelWordSetting(this);
 		ranking = new PanelRanking(this);
 		game = new PanelGame();

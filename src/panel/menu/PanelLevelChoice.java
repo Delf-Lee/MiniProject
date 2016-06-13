@@ -22,6 +22,7 @@ public class PanelLevelChoice extends BasePanel {
 	JLabel stringBoxLevelChoice;
 	// 버튼
 	JButton[] level;
+	JButton btnBack;
 	// 위치 정적변수
 	private static final int X = 70;
 	private static final int Y = 100;
@@ -41,10 +42,10 @@ public class PanelLevelChoice extends BasePanel {
 		for (int i = 0; i < level.length; i++) {
 			level[i].addActionListener(new LevelChoiceListener());
 		}
+		btnBack.addActionListener(new LevelChoiceListener());
 	}
 
 	/** 컴포넌트 설정 및 배치 */
-	@SuppressWarnings("deprecation")
 	private void setComponent() {
 		stringBoxLevelChoice = new JLabel("Level 선택", JLabel.CENTER);
 		stringBoxLevelChoice.setFont(new Font("맑은 고딕", Font.BOLD, 30));
@@ -62,7 +63,14 @@ public class PanelLevelChoice extends BasePanel {
 			}
 			add(level[i]);
 		}
+		
+		btnBack = new JButton("back");
+		btnBack.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		btnBack.setBounds(150, 380, 115, 40);
+		//btnBack.setBounds(0, 0, 115, 40);
+		
 		add(stringBoxLevelChoice);
+		add(btnBack);
 	}
 
 	public void setButtonEnable() {
@@ -79,7 +87,7 @@ public class PanelLevelChoice extends BasePanel {
 
 			switch (pressedBtn.getText()) {
 			case "back":
-				// 뒤로가기 처리
+				panel.setContentPane(PanelManager.MENU);
 				break;
 			default:
 				String tmp = pressedBtn.getText();
@@ -92,6 +100,7 @@ public class PanelLevelChoice extends BasePanel {
 
 		}
 	}
+	
 
 	/** 게임 구동 스레드를 생성하고 게임을 실행 */
 	public void gameStart(int level) {
