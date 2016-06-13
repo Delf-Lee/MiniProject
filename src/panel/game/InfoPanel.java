@@ -56,7 +56,6 @@ public class InfoPanel extends JPanel {
 	public void setInfo(int lvl, int time) {
 		this.preTime = time;
 		this.level = lvl;
-		System.out.println("this is " + level);
 		levelLabel.setText("level " + Integer.toString(level));
 		timeLabel.setText(Integer.toString(time));
 	}

@@ -23,7 +23,7 @@ import panel.BasePanel;
 import panel.MsgWinow;
 import panel.PanelManager;
 
-public class PanelWordSetting extends BasePanel {
+public class WordSettingPanel extends BasePanel {
 	private PanelManager panel;
 	// 리스트
 	private DefaultListModel<String> wordListModel;
@@ -41,7 +41,7 @@ public class PanelWordSetting extends BasePanel {
 	private FileWriter fout = null;
 	private FileReader fin = null;
 
-	public PanelWordSetting(PanelManager panel) {
+	public WordSettingPanel(PanelManager panel) {
 		// 창 설정
 		super(/*이미지 경로*/);
 		this.panel = panel;

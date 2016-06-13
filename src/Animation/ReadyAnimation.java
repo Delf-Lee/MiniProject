@@ -26,7 +26,6 @@ public class ReadyAnimation extends Thread {
 
 	private void readyAndStart() {
 		thrd.pause();
-		System.out.println("진입");
 		levelLabel.setText("Level " + level);
 		levelLabel.setForeground(Color.WHITE);
 		levelLabel.setFont(new Font("Silkscreen", Font.BOLD, 40));
@@ -40,10 +39,8 @@ public class ReadyAnimation extends Thread {
 
 		try {
 			sleep(1000);
-			System.out.println("for");
 			for (int i = 0; i < 255; i++) { // 투명도를 서서히 줄임
 				levelLabel.setForeground(new Color(255, 255, 255, 255 - i));
-				System.out.println(i);
 				sleep(5);
 
 			}
@@ -52,6 +49,7 @@ public class ReadyAnimation extends Thread {
 		}
 		panel.remove(levelLabel);
 		thrd.continueGame();
+		System.out.println("땡");
 	}
 
 	public void run() {

@@ -13,7 +13,7 @@ import panel.home.SignupPanel;
 import panel.menu.LevelChoicePanel;
 import panel.menu.MenuPanel;
 import panel.menu.RankingPanel;
-import panel.menu.PanelWordSetting;
+import panel.menu.WordSettingPanel;
 import user.UserManager;
 
 public class PanelManager {
@@ -40,7 +40,7 @@ public class PanelManager {
 	private SignupPanel signup;
 	private MenuPanel menu;
 	private LevelChoicePanel levelChoice;
-	private PanelWordSetting wordSetting;
+	private WordSettingPanel wordSetting;
 	private RankingPanel ranking;
 	private PanelGame game;
 	private PausePanel pause;
@@ -52,7 +52,7 @@ public class PanelManager {
 		signup = new SignupPanel(262, 350, 500, 300, this);
 		menu = new MenuPanel(this);
 		levelChoice = new LevelChoicePanel(300, 200, 400, 450, this);
-		wordSetting = new PanelWordSetting(this);
+		wordSetting = new WordSettingPanel(this);
 		ranking = new RankingPanel(this);
 		game = new PanelGame();
 		pause = new PausePanel(340, 110, 350, 500, this);
@@ -128,7 +128,7 @@ public class PanelManager {
 		return game;
 	}
 
-	public PanelWordSetting getWordSettingPanel() {
+	public WordSettingPanel getWordSettingPanel() {
 		return wordSetting;
 	}
 	public PausePanel getPausePanel() {
