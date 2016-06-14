@@ -50,7 +50,7 @@ public class PanelManager {
 		home = new HomePanel(this);
 		login = new LoginPanel(262, 350, 500, 300, this);
 		signup = new SignupPanel(262, 350, 500, 300, this);
-		levelChoice = new LevelChoicePanel(310, 100, 400, 490, this);
+		levelChoice = new LevelChoicePanel(310, 115, 400, 490, this);
 		menu = new MenuPanel(this);
 		wordSetting = new WordSettingPanel(this);
 		ranking = new RankingPanel(this);
