@@ -184,9 +184,11 @@ public class PausePanel extends BasePanel {
 			case LOGOUT:
 				confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
 				if (confirm) {
+					panel.getLoninPanel().initPanel();
 					panel.setContentPane(PanelManager.HOME);
 					thrd.initGame();
 					thrd.interrupt();
+					thrd.setKeyAccpet(false);
 					setVisible(false);
 				}
 				break;

@@ -3,7 +3,9 @@ package main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -67,6 +69,7 @@ public class MenuBar extends JMenuBar {
 				if (panel.getNowPanel() != panel.getHomePanel()) {
 					boolean confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
 					if (confirm) {
+						panel.getLevelChoicePanel().initPanel();
 						panel.setContentPane(PanelManager.HOME);
 					}
 				}
@@ -88,11 +91,22 @@ public class MenuBar extends JMenuBar {
 				bp.setBackGroundImage(selectedFile); // 배경이미지 변경
 				break;
 			// Show
-			case "Show Ranking":
+			case "Ranking":
+				rankingDialog rd = new rankingDialog();
+				rd.setVisible(true);
 				break;
 			case "Help":
 				break;
 			}
+		}
+	}
+	
+	class rankingDialog extends JDialog {
+		public rankingDialog() {
+			this.setContentPane(panel.getRankingPanel());
+			setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
+			setTitle("Ranking");
+			setResizable(false);
 		}
 	}
 }
