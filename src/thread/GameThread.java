@@ -6,9 +6,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 
-import GameObject.ObjectManager;
-import GameObject.Item.Item;
-import GameObject.Word.Word;
+import gameObject.ObjectManager;
+import gameObject.item.Item;
+import gameObject.word.Word;
 import panel.MsgWinow;
 import panel.PanelManager;
 import panel.game.GamePanel;
