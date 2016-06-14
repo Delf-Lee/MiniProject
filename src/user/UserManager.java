@@ -16,7 +16,7 @@ public class UserManager {
 	// user 벡터
 	public static Vector<User> userList = new Vector<User>();
 	public static User user = new User();
-
+	private PanelManager panel;
 	// 파일 읽기
 	private static FileWriter fout = null;
 	private FileReader fin = null;
@@ -122,6 +122,10 @@ public class UserManager {
 					return false;
 				}
 			}
+		}
+		if (password.length() == 0) {
+			MsgWinow.error("비밀번호를 입력하세요.");
+			return false; // 패스워드 공백
 		}
 		MsgWinow.error("존재하지 않는 아이디입니다.");
 		return false;
