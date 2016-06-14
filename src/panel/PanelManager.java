@@ -38,8 +38,8 @@ public class PanelManager {
 	private HomePanel home;
 	private LoginPanel login;
 	private SignupPanel signup;
-	private MenuPanel menu;
 	private LevelChoicePanel levelChoice;
+	private MenuPanel menu;
 	private WordSettingPanel wordSetting;
 	private RankingPanel ranking;
 	private GamePanel game;

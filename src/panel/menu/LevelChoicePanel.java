@@ -25,7 +25,6 @@ public class LevelChoicePanel extends BasePanel {
 	JLabel stringBoxLevelChoice;
 	
 	private ImageIcon backIcon = new ImageIcon("images/back.png");
-	
 //	private ImageIcon level1Icon = new ImageIcon("images/1.png");
 //	private ImageIcon level2Icon = new ImageIcon("images/2.png");
 	// 버튼
@@ -67,14 +66,11 @@ public class LevelChoicePanel extends BasePanel {
 		for (int i = 0; i < btnImages.length; i++) {
 			btnImages[i] = new ImageIcon("images/" + btnImageName[i] + ".png");
 		}
-
 		
 		level = new JButton[10];
-		
 		for (int i = 0; i < level.length; i++) {
 			level[i] = new JButton(Integer.toString(i+1), btnImages[i]);
-			//level[i].setName(Integer.toString(i+1));
-			if(i<5) {
+			if (i < 5) {
 				level[i].setBounds(X, Y + (65 * i), 185, 80);
 			}
 			else {
@@ -83,21 +79,8 @@ public class LevelChoicePanel extends BasePanel {
 			level[i].setBorderPainted(false);
 			level[i].setFocusPainted(false);
 			level[i].setContentAreaFilled(false);
-
 			add(level[i]);
 		}
-		
-//		for (int i = 2; i < level.length; i++) {
-//			level[i] = new JButton("Level." + Integer.toString(i + 1));
-//			level[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
-//			if (i < 5) {
-//				level[i].setBounds(X, Y + (50 * i), 115, 40);
-//			}
-//			else {
-//				level[i].setBounds(X + 150, Y + (50 * (i - 5)), 115, 40);
-//			}
-//			add(level[i]);
-//		}
 		
 //		level[0] = new JButton("1", level1Icon);
 //		level[0].setBorderPainted(false);
@@ -167,7 +150,7 @@ public class LevelChoicePanel extends BasePanel {
 					thrd.initGame(); // pause에서 레벨 선택 시, 게임 재시작을 위해 초기화
 				}
 				String tmp = pressedBtn.getText();
-				int selectedLevel = Integer.parseInt(tmp);
+				int selectedLevel = Integer.parseInt(tmp.substring(tmp.length() - 1));
 				panel.setContentPane(PanelManager.GAME);
 				gameStart(selectedLevel);
 				break;
