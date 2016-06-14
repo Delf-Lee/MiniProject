@@ -33,8 +33,11 @@ public class LevelChoicePanel extends BasePanel {
 	JButton btnBack;
 	// 위치 정적변수
 	private static final int X = 20;
-	private static final int Y = 60;
+	private static final int Y = 65;
 	private int nowPanel;
+	
+	private ImageIcon btnImages[] = new ImageIcon[10];
+	private String[] btnImageName = {"1","2","3","4","5","6","7","8","9","10"};
 
 	public LevelChoicePanel(int x, int y, int width, int height, PanelManager panel) {
 		super("images/levelchoiceBG.png");
@@ -60,30 +63,37 @@ public class LevelChoicePanel extends BasePanel {
 //		stringBoxLevelChoice.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 //		stringBoxLevelChoice.setBounds(100, 10, 200, 100);
 
+		// 버튼 이미지 가져오기 받아라 이상훈
+		for (int i = 0; i < btnImages.length; i++) {
+			btnImages[i] = new ImageIcon("images/" + btnImageName[i] + ".png");
+		}
+		
 		level = new JButton[10];
-		for (int i = 2; i < level.length; i++) {
-			level[i] = new JButton("Level." + Integer.toString(i + 1));
-			level[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		for (int i = 0; i < level.length; i++) {
+			level[i] = new JButton(Integer.toString(i+1), btnImages[i]);
 			if (i < 5) {
-				level[i].setBounds(X, Y + (50 * i), 115, 40);
+				level[i].setBounds(X, Y + (65 * i), 185, 80);
 			}
 			else {
-				level[i].setBounds(X + 150, Y + (50 * (i - 5)), 115, 40);
+				level[i].setBounds(X + 180, Y + (65 * (i - 5)), 185, 80);
 			}
+			level[i].setBorderPainted(false);
+			level[i].setFocusPainted(false);
+			level[i].setContentAreaFilled(false);
 			add(level[i]);
 		}
 		
-		level[0] = new JButton("1", level1Icon);
-		level[0].setBorderPainted(false);
-		level[0].setFocusPainted(false);
-		level[0].setContentAreaFilled(false);
-		level[0].setBounds(X, Y, 185, 80);
-		
-		level[1] = new JButton("2", level2Icon);
-		level[1].setBorderPainted(false);
-		level[1].setFocusPainted(false);
-		level[1].setContentAreaFilled(false);
-		level[1].setBounds(X, Y + 70, 185, 80);
+//		level[0] = new JButton("1", level1Icon);
+//		level[0].setBorderPainted(false);
+//		level[0].setFocusPainted(false);
+//		level[0].setContentAreaFilled(false);
+//		level[0].setBounds(X, Y, 185, 80);
+//		
+//		level[1] = new JButton("2", level2Icon);
+//		level[1].setBorderPainted(false);
+//		level[1].setFocusPainted(false);
+//		level[1].setContentAreaFilled(false);
+//		level[1].setBounds(X, Y + 70, 185, 80);
 		
 		btnBack = new JButton("back", backIcon);
 		btnBack.setBorderPainted(false);
@@ -91,8 +101,8 @@ public class LevelChoicePanel extends BasePanel {
 		btnBack.setContentAreaFilled(false);
 		btnBack.setBounds(170, 370, 80, 70);
 
-		add(level[0]);
-		add(level[1]);
+//		add(level[0]);
+//		add(level[1]);
 		//add(stringBoxLevelChoice);
 		add(btnBack);
 	}
