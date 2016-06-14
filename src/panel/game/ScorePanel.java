@@ -24,7 +24,7 @@ public class ScorePanel extends JPanel {
 
 	/** 점수 증가 및 표시 */
 	public void updateScore(int score) {
-		this.score += score;
+		this.score = score;
 		display.setText(Integer.toString(this.score));
 	}
 
