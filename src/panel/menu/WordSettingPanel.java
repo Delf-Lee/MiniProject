@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
@@ -36,6 +37,10 @@ public class WordSettingPanel extends BasePanel {
 	private JScrollPane wordScroll = new JScrollPane(txtLog);
 	// 텍스트 필드
 	private JTextField textInputBox; // 단어 입력창
+	// 이미지아이콘
+	private ImageIcon wordAddIcon = new ImageIcon("images/plus.png");
+	private ImageIcon wordDeleteIcon = new ImageIcon("images/minus.png");
+	private ImageIcon backIcon = new ImageIcon("images/back.png");
 	// 버튼
 	private JButton btnWordAdd;
 	private JButton btnWordDelete;
@@ -89,16 +94,25 @@ public class WordSettingPanel extends BasePanel {
 
 		textInputBox = new JTextField();
 		textInputBox.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		textInputBox.setBounds(500, 260, 300, 55);
+		textInputBox.setBounds(670, 200, 300, 55);
 
-		btnWordAdd = new JButton("단어 추가");
-		btnWordAdd.setBounds(500, 320, 150, 55);
+		btnWordAdd = new JButton("+", wordAddIcon);
+		btnWordAdd.setBorderPainted(false);
+		btnWordAdd.setFocusPainted(false);
+		btnWordAdd.setContentAreaFilled(false);
+		btnWordAdd.setBounds(830, 260, 70, 70);
 
-		btnWordDelete = new JButton("단어 삭제");
-		btnWordDelete.setBounds(550, 320, 150, 55);
+		btnWordDelete = new JButton("-", wordDeleteIcon);
+		btnWordDelete.setBorderPainted(false);
+		btnWordDelete.setFocusPainted(false);
+		btnWordDelete.setContentAreaFilled(false);
+		btnWordDelete.setBounds(910, 260, 70, 70);
 
-		btnBack = new JButton("뒤로");
-		btnBack.setBounds(800, 580, 100, 55);
+		btnBack = new JButton("뒤", backIcon);
+		btnBack.setBorderPainted(false);
+		btnBack.setFocusPainted(false);
+		btnBack.setContentAreaFilled(false);
+		btnBack.setBounds(910, 600, 80, 70);
 
 		add(textInputBox);
 		add(btnWordAdd);
@@ -136,16 +150,16 @@ public class WordSettingPanel extends BasePanel {
 			JButton pressedBtn = (JButton) e.getSource();
 			System.out.println(pressedBtn.getText());
 			switch (pressedBtn.getText()) {
-			case "단어 추가":
+			case "+":
 				addWordEvent();
 
 				break;
 
-			case "단어 삭제":
+			case "-":
 				deleteWordEvent();
 				break;
 
-			case "뒤로":
+			case "뒤":
 				writeWordDate();
 				break;
 			}

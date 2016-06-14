@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -25,6 +26,8 @@ public class RankingPanel extends BasePanel {
 	private JComboBox<String> searchCombo;
 	// 텍스트 필드
 	private JTextField IDInputBox; // 아이디 입력창
+	// 이미지아이콘
+	private ImageIcon backIcon = new ImageIcon("images/back.png");
 	// 버튼
 	private JButton btnSearch;
 	public JButton btnBack;
@@ -95,9 +98,11 @@ public class RankingPanel extends BasePanel {
 		btnSearch.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnSearch.setBounds(650, 570, 100, 40);
 
-		btnBack = new JButton("뒤로");
-		btnBack.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		btnBack.setBounds(900, 680, 100, 55);
+		btnBack = new JButton(backIcon);
+		btnBack.setBorderPainted(false);
+		btnBack.setFocusPainted(false);
+		btnBack.setContentAreaFilled(false);
+		btnBack.setBounds(910, 600, 80, 70);
 
 		add(stringBoxRank);
 		add(stringBoxID);
