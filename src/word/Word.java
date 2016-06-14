@@ -15,6 +15,7 @@ public class Word {
 	private double slope = 0.0; // ±â¿ï±â
 
 	public Word(String word, int speed, double slope, Point start, int endX) {
+		
 		this.word = word; 
 		this.speed = speed;
 		this.slope = slope;
@@ -22,6 +23,7 @@ public class Word {
 		this.endX = endX;
 		
 		int type = (int) (Math.random() * 3);
+		
 		wordObject = new WordObject(word, start, type);
 	}
 

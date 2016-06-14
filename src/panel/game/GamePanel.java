@@ -1,6 +1,5 @@
 package panel.game;
 
-import javax.sound.midi.MidiDevice.Info;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;

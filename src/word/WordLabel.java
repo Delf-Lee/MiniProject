@@ -14,7 +14,6 @@ public class WordLabel extends JLabel {
 		setHorizontalTextPosition(CENTER);
 		setVerticalTextPosition(CENTER);
 		//setIcon(new ImageIcon("images//textLabel.png"));
-
 	}
 
 	@Override

@@ -14,16 +14,13 @@ import panel.game.PausePanel;
 import user.Player;
 import user.User;
 import user.UserManager;
+import word.ItemObject;
 import word.Word;
 import word.WordManager;
 
 public class GameThread extends Thread {
 	// 아이템 관련 상수 및 변수
-	private static final int SLOW = 0;
-	private static final int UNBEATABLE = 1;
-	private static final int NET_MODE = 2;
-	private static final int ADD_LIFE = 3;
-	private static final int ALL_SAVE = 4;
+
 	private static boolean itemFlag[] = { false, false, false };
 
 	private WordManager wordList;
@@ -83,12 +80,12 @@ public class GameThread extends Thread {
 				checkLife();
 				checkPause();
 				checkItem();
-
+System.out.println("돌고있음");
 				screen.repaint();
 				sleep(100);
 			}
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			return;
 		}
 	}
@@ -131,7 +128,7 @@ public class GameThread extends Thread {
 				combo = 0; // 백스페이스 입력 시 콤보 초기화
 				break;
 			default: // 
-				if (e.getKeyChar() >= SLOW && e.getKeyChar() >= ALL_SAVE) {
+				if (e.getKeyChar() >= 0 && e.getKeyChar() >= 4) {
 					useItem(e.getKeyCode()); // 아이템 사용
 				}
 				break;
@@ -307,22 +304,22 @@ public class GameThread extends Thread {
 		itemTime = (int) System.currentTimeMillis();
 
 		switch (item) {
-		case SLOW:
-			itemFlag[SLOW] = true;
+		case ItemObject.SLOW:
+			itemFlag[ItemObject.SLOW] = true;
 			break;
 
-		case UNBEATABLE:
-			itemFlag[UNBEATABLE] = true;
+		case ItemObject.UNBEATABLE:
+			itemFlag[ItemObject.UNBEATABLE] = true;
 			break;
 
-		case NET_MODE:
-			itemFlag[NET_MODE] = true;
+		case ItemObject.NET_MODE:
+			itemFlag[ItemObject.NET_MODE] = true;
 			break;
 
-		case ADD_LIFE:
+		case ItemObject.ADD_LIFE:
 			break;
 
-		case ALL_SAVE:
+		case ItemObject.ALL_SAVE:
 			break;
 		}
 	}
@@ -330,13 +327,13 @@ public class GameThread extends Thread {
 	private void checkItem() {
 		int tmpTime = ((int) System.currentTimeMillis() - itemTime) / 1000;
 
-		if (itemFlag[SLOW] == true && tmpTime > 5) {
-			itemFlag[SLOW] = false;
+		if (itemFlag[ItemObject.SLOW] == true && tmpTime > 5) {
+			itemFlag[ItemObject.SLOW] = false;
 		}
-		if (itemFlag[UNBEATABLE] = true) {
+		if (itemFlag[ItemObject.UNBEATABLE] = true) {
 
 		}
-		if (itemFlag[NET_MODE] = true) {
+		if (itemFlag[ItemObject.NET_MODE] = true) {
 
 		}
 
@@ -345,7 +342,7 @@ public class GameThread extends Thread {
 	private void popPausePanel() {
 		pauseMenu.setVisible(true); // 가시화
 	}
-	
+
 	public void setKeyAccpet(boolean i) {
 		keyAccept = i;
 	}

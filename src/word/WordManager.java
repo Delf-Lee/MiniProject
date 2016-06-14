@@ -84,6 +84,8 @@ public class WordManager {
 		list.add(newWord); // list에 단어 추가
 		return newWord;
 	}
+	
+	Public
 
 	/** 단어 객체를 리스트 내에서 삭제 */
 	public Word removeWord(String word) {
