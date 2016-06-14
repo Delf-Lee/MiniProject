@@ -63,7 +63,7 @@ public class LevelChoicePanel extends BasePanel {
 //		stringBoxLevelChoice.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 //		stringBoxLevelChoice.setBounds(100, 10, 200, 100);
 
-		// 버튼 이미지 가져오기
+		// 버튼 이미지 가져오기 받아라 이상훈
 		for (int i = 0; i < btnImages.length; i++) {
 			btnImages[i] = new ImageIcon("images/" + btnImageName[i] + ".png");
 		}
