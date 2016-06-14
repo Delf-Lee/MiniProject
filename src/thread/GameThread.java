@@ -119,11 +119,7 @@ public class GameThread extends Thread {
 				}
 				else {
 					panel.getPausePanel().setVisible(false);
-					JLabel timerLabel = new JLabel("3");
-					timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 100));
-					timerLabel.setBounds(490, 300, 100, 100);
-					panel.getGamePanel().add(timerLabel);
-					TimerThread th = new TimerThread(timerLabel);
+					TimerThread th = new TimerThread();
 					th.start();
 				}
 				break;
@@ -140,29 +136,31 @@ public class GameThread extends Thread {
 	}
 
 	class TimerThread extends Thread {
-		JLabel la;
+		JLabel timerLabel = new JLabel("3");
 
-		public TimerThread(JLabel la) {
-			this.la = la;
+		public TimerThread() {
+			timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 150));
+			timerLabel.setBounds(490, 300, 150, 150);
+			screen.add(timerLabel);
+			
 		}
 
 		public void run() {
-			setKeyAccpet(false);
 			while (true) {
 				try {
+					//repaint();
 					sleep(1000);
 				} catch (InterruptedException e) {
 					return;
 				}
-				int n = Integer.parseInt(la.getText());
+				int n = Integer.parseInt(timerLabel.getText());
 				n--;
 				if (n == 0) {
+					screen.remove(timerLabel);
 					continueGame();
-					la.setVisible(false);
-					setKeyAccpet(true);
 					return;
 				}
-				la.setText(Integer.toString(n));
+				timerLabel.setText(Integer.toString(n));
 			}
 		}
 	}

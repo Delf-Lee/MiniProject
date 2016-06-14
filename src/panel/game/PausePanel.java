@@ -210,7 +210,7 @@ public class PausePanel extends BasePanel {
 
 		public TimerThread() {
 			timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 150));
-			timerLabel.setBounds(490, 300, 100, 100);
+			timerLabel.setBounds(490, 300, 150, 150);
 			screen.add(timerLabel);
 			
 		}
@@ -218,14 +218,14 @@ public class PausePanel extends BasePanel {
 		public void run() {
 			while (true) {
 				try {
-					repaint();
+					//repaint();
 					sleep(1000);
 				} catch (InterruptedException e) {
 					return;
 				}
 				int n = Integer.parseInt(timerLabel.getText());
-				;
-				if ((n--) == 0) {
+				n--;
+				if (n == 0) {
 					screen.remove(timerLabel);
 					thrd.continueGame();
 					return;
