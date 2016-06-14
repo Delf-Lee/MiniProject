@@ -33,8 +33,8 @@ public class LevelChoicePanel extends BasePanel {
 	// 리스너
 	private LevelMouseEvent mouseEvent = new LevelMouseEvent();
 	// 위치 정적변수
-	private static final int X = 20;
-	private static final int Y = 65;
+	private static final int X = 22;
+	private static final int Y = 75;
 	private int nowPanel;
 	
 	private static final int EXITED = 0;
@@ -92,7 +92,7 @@ public class LevelChoicePanel extends BasePanel {
 		btnBack.setBorderPainted(false);
 		btnBack.setFocusPainted(false);
 		btnBack.setContentAreaFilled(false);
-		btnBack.setBounds(170, 370, 80, 70);
+		btnBack.setBounds(170, 410, 80, 70);
 
 		add(btnBack);
 	}
@@ -173,14 +173,14 @@ public class LevelChoicePanel extends BasePanel {
 		GameThread newGame = new GameThread(panel);
 		newGame.setGame(UserManager.user, level);
 		newGame.start();
-		newGame.setFocus();
+		newGame.setFocus(); 
 	}
 
 	public void setThread(GameThread thrd) {
 		this.thrd = thrd;
 	}
 
-	@Override
+	@Override 
 	public void initPanel() {
 		// TODO Auto-generated method stub
 	}
