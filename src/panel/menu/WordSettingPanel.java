@@ -2,6 +2,8 @@ package panel.menu;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
@@ -16,11 +18,13 @@ import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import main.MainFrame;
 import panel.BasePanel;
@@ -41,18 +45,22 @@ public class WordSettingPanel extends BasePanel {
 	private ImageIcon wordAddIcon = new ImageIcon("images/plus.png");
 	private ImageIcon wordDeleteIcon = new ImageIcon("images/minus.png");
 	private ImageIcon backIcon = new ImageIcon("images/back.png");
+	private ImageIcon FileOpneIcon = new ImageIcon("images/파일열기.png");
 	// 버튼
 	private JButton btnWordAdd;
 	private JButton btnWordDelete;
 	public JButton btnBack;
+	public JButton btnFileOpen;
 	// 파일 입출력
 	private FileWriter fout = null;
 	private FileReader fin = null;
 	//리스너
 	private ButtonListener buttonListener = new ButtonListener();
 	private WordSettingKeyListener wordKeyListener = new WordSettingKeyListener();
+	private OpenAtionListener openActionListener = new OpenAtionListener();
 
 	private int cnt = 0; // 파일 내 단어 수
+	public static String openFilePath = MainFrame.FILEROOT + "\\word.txt"; // 현재 열려있는 파일의 경로명
 
 	public WordSettingPanel(PanelManager panel) {
 		// 창 설정
@@ -77,11 +85,13 @@ public class WordSettingPanel extends BasePanel {
 		btnWordAdd.addMouseListener(buttonListener); // 추가 버튼
 		btnWordDelete.addMouseListener(buttonListener); // 삭제 버튼
 		btnBack.addMouseListener(buttonListener); // 뒤로가기
+		
+		btnFileOpen.addActionListener(openActionListener);
 	}
 
 	/** 컴포넌트 설정 및 배치 */
 	private void setComponent() {
-		wordScroll.setBounds(100, 50, 300, 600);
+		wordScroll.setBounds(100, 100, 300, 550);
 
 		// list에 파일안의 단어 목록 추가
 		wordListModel = new DefaultListModel<String>();
@@ -113,17 +123,27 @@ public class WordSettingPanel extends BasePanel {
 		btnBack.setFocusPainted(false);
 		btnBack.setContentAreaFilled(false);
 		btnBack.setBounds(910, 600, 80, 70);
+		
+		btnFileOpen = new JButton("파일열기", FileOpneIcon);
+		btnFileOpen.setBorderPainted(false);
+		btnFileOpen.setFocusPainted(false);
+		btnFileOpen.setContentAreaFilled(false);
+		btnFileOpen.setBounds(360, 45, 50, 50);
+		
+//		chooser.setFileFilter(filter);
 
 		add(textInputBox);
 		add(btnWordAdd);
 		add(btnWordDelete);
 		add(wordScroll);
 		add(btnBack);
+		add(btnFileOpen);
 	}
 
 	public void addWordList(DefaultListModel<String> wordListModel) {
 		try {
-			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
+			//fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
+			fin = new FileReader(openFilePath);
 			BufferedReader reader = new BufferedReader(fin);
 
 			String word = null;
@@ -200,6 +220,37 @@ public class WordSettingPanel extends BasePanel {
 			}
 		}
 	}
+	
+	class OpenAtionListener implements ActionListener {
+		JFileChooser chooser;
+		
+		OpenAtionListener() {
+			chooser = new JFileChooser();
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			writeWordDate();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("txt","txt");
+			chooser.setFileFilter(filter);
+			int ret = chooser.showOpenDialog(null);
+			if(ret != chooser.APPROVE_OPTION) {
+				MsgWinow.error("파일을 선택하지 않았습니다.");
+				return;
+			}
+			
+			String filePath = chooser.getSelectedFile().getPath();
+			
+			wordListModel = new DefaultListModel<String>();
+			openFilePath = filePath;
+			addWordList(wordListModel);
+
+			wordList = new JList<String>();
+			wordList.setModel(wordListModel);
+			wordList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+			wordScroll.setViewportView(wordList);
+		}
+		
+	}
 
 	private void deleteWordEvent() {
 		int index = wordList.getSelectedIndex(); //선택된 항목의 인덱스를 가져온다.
@@ -223,7 +274,7 @@ public class WordSettingPanel extends BasePanel {
 	private void addWordEvent() {
 		// 중복된 단어 체크
 		try {
-			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
+			fin = new FileReader(openFilePath); // 경로 수정!
 			/* 나중에 이 경로를 고정 */
 			BufferedReader reader = new BufferedReader(fin);
 
@@ -248,7 +299,7 @@ public class WordSettingPanel extends BasePanel {
 			return;
 		}
 
-		wordListModel.addElement(textInputBox.getText()/*.replaceAll(" ", "")*/); // 입력 단어의 " "를 ""로 대체
+		wordListModel.addElement(textInputBox.getText().trim()/*.replaceAll(" ", "")*/); // 입력 단어의 " "를 ""로 대체
 		initPanel();
 
 		/* 임시코드 ↓*/
@@ -279,7 +330,7 @@ public class WordSettingPanel extends BasePanel {
 
 	private void writeWordDate() {
 		try {
-			fout = new FileWriter(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
+			fout = new FileWriter(openFilePath); // 경로 수정!
 			for (int i = 0; i < wordListModel.getSize(); i++) {
 				fout.write(wordListModel.getElementAt(i)/*.replaceAll(" ", "")*/ + "\n"); // 입력 단어의 " "를 ""로 대체
 			}
@@ -293,6 +344,10 @@ public class WordSettingPanel extends BasePanel {
 	public void setFocus() {
 		textInputBox.requestFocus();
 	}
+	
+//	public String getOpenFilePath() {
+//		return openFilePath;
+//	}
 
 	@Override
 	public void initPanel() {

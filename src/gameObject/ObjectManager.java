@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import gameObject.word.Word;
 import main.MainFrame;
+import panel.menu.WordSettingPanel;
 import thread.GameThread;
 
 public class ObjectManager {
@@ -34,7 +35,7 @@ public class ObjectManager {
 	public ObjectManager(GameThread thr) {
 		this.thr = thr;
 		try {
-			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
+			fin = new FileReader(WordSettingPanel.openFilePath); // 경로 수정!
 			BufferedReader reader = new BufferedReader(fin);
 			String word = null;
 			while ((word = reader.readLine()) != null) {

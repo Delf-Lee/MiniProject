@@ -118,9 +118,10 @@ public class LoginPanel extends BasePanel {
 				setVisible(false);
 				panel.getSignupPanel().setVisible(true);
 				panel.getSignupPanel().setFocus();
+				initPanel();
 				break;
 			}
-			initPanel();
+			
 		}
 	}
 	

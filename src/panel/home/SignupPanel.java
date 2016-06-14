@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileReader;
@@ -17,6 +19,7 @@ import javax.swing.JTextField;
 
 import panel.BasePanel;
 import panel.PanelManager;
+import panel.home.LoginPanel.LoginKeyListener;
 import user.User;
 import user.UserManager;
 
@@ -95,6 +98,7 @@ public class SignupPanel extends BasePanel {
 		btnCancel.addActionListener(new SignupListener());
 		btnOK.addMouseListener(new SignupMouseEvent());
 		btnCancel.addMouseListener(new SignupMouseEvent());
+		checkPasswordFeild.addKeyListener(new SignupKeyListener());
 	}
 
 	/** 가입 정보를 입력받아 파일에 write */
@@ -133,9 +137,10 @@ public class SignupPanel extends BasePanel {
 				break;
 			case "취소":
 				backToLogin();
+				initPanel();
 				break;
 			}
-			initPanel();
+			
 		}
 
 		public void backToLogin() {
@@ -171,6 +176,25 @@ public class SignupPanel extends BasePanel {
 				btnCancel.setIcon(CnacelIcon_);
 				break;
 			}
+		}
+	}
+	
+	class SignupKeyListener extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (checkInput()) { // 입력 체크
+					writeUserInfo(); // 유저 정보 저장
+					UserManager.saveUserData();
+					backToLogin();
+				}
+			}
+		}
+		
+		public void backToLogin() {
+			setVisible(false);
+			panel.getLoninPanel().setVisible(true);
+			panel.getLoninPanel().setFocus();
 		}
 	}
 
