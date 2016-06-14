@@ -133,13 +133,8 @@ public class LoginPanel extends BasePanel {
 			}
 		}
 	}
-<<<<<<< HEAD
 
-	/** 회원가입패널에 대한 버튼들의 마우스리스너 */
-=======
-	
 	/** 로그인패널에 대한 버튼들의 마우스리스너 */
->>>>>>> branch 'master' of https://github.com/Delfie/MiniProject
 	class LoginMouseEvent extends MouseAdapter {
 		// 아무것도 안할 때,
 		public void mouseExited(MouseEvent e) {

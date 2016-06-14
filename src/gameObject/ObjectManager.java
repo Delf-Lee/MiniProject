@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.text.Position;
+
 import gameObject.item.Item;
 import gameObject.word.Word;
-import main.MainFrame;
 import panel.menu.WordSettingPanel;
 import thread.GameThread;
 
@@ -119,6 +120,48 @@ public class ObjectManager {
 		return null;
 	}
 
+	public void removeManyWord(String word) {
+		GameObject targetWord = searchWord(word); // 타겟을 찾아내서
+		if (targetWord == null) { // 없음 말구...
+			return;
+		}
+		else { // 타겟이 존재한다면,
+			Point targetLocation = targetWord.getLocation(); // 좌표를 얻은 다음
+			// (아이템인 아닌) 단어 이면서
+			Iterator<GameObject> it = list.iterator();
+			while (it.hasNext()) { // 리스트를 돌면서
+				if (targetWord.getObjecType() == GameObject.WORD) { // 단어들 중에
+					GameObject tmpWord = it.next();
+					if (wordInArea(targetLocation, tmpWord)) { // 좌표 범위엔에 들면
+						list.remove(tmpWord);
+					}
+				}
+			}
+		}
+	}
+
+	private boolean wordInArea(Point target, GameObject word) {
+		Point p = word.getLocation();
+		if (p.x > target.x - 70 && p.x < target.x + 70) {
+			if (p.y < target.y - 70 && p.y > target.y + 70) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public GameObject searchWord(String word) {
+		Iterator<GameObject> it = list.iterator();
+		while (it.hasNext()) {
+			GameObject tmpWord = it.next();
+			if (tmpWord.equals(word)) {
+				list.remove(tmpWord);
+				return tmpWord;
+			}
+		}
+		return null;
+	}
+
 	public int setSpeed(int stage) {
 		int speed = (int) (Math.random() * 2 + stage);
 		return speed;
@@ -217,6 +260,6 @@ public class ObjectManager {
 
 	/** 느려졌던 단어 객체의 속도를 원래대로 되돌려 놓는다. */
 	public void setOriginalSpeed() {
-		adjustSpeed = 1;	
+		adjustSpeed = 1;
 	}
 }

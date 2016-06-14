@@ -102,4 +102,8 @@ public class GameObject {
 	public void setOriginalSpeed() {
 		speed = tmpSpeed;
 	}
+	
+	public Point getLocation() {
+		return baseObject.getLocation();
+	}
 }

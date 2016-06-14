@@ -108,17 +108,12 @@ public class GameThread extends Thread {
 			}
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_ENTER: // 엔터
-				GameObject findWord = objectList.removeWord(screen.getWordString());
-				if (findWord != null) { // 패널 내에 입력한 단어가 존재함
-					int objectType = findWord.getObjecType();
-					if (objectType == GameObject.ITEM) {
-						storeItem((Item) findWord);
-					}
-					removeWord(findWord); // 패널에서 단어객체 제거
-					plusScore(); // 점수 증가
+				String inputWord = screen.getWordString();
+				if (itemFlag[Item.NET_MODE] == false) {
+					removeOneWord(inputWord);
 				}
-				else {
-					combo = 0; // 단어가 입력이 틀리면 콤보 초기화
+				else if (itemFlag[Item.NET_MODE] == true) {
+					removeManyWord(inputWord);
 				}
 				screen.initTextField();
 				break;
@@ -452,4 +447,32 @@ public class GameThread extends Thread {
 			screen.addItem(newItem);
 		}
 	}
+
+	/** 입력된 하나의 단어를 지운다. */
+	private void removeOneWord(String inputWord) {
+		GameObject findWord = objectList.removeWord(inputWord);
+		if (findWord != null) { // 패널 내에 입력한 단어가 존재함
+			int objectType = findWord.getObjecType();
+			if (objectType == GameObject.ITEM) {
+				storeItem((Item) findWord);
+			}
+			removeWord(findWord); // 패널에서 단어객체 제거
+			plusScore(); // 점수 증가
+		}
+		else {
+			combo = 0; // 단어가 입력이 틀리면 콤보 초기화
+		}
+	}
+
+	/** 그물모드 아이템 사용 시, 입력된 단어의 주위 단어까지 함께 지운다. */
+	private void removeManyWord(String inputWord) {
+		GameObject targetWord = objectList.searchWord(inputWord);
+		if (targetWord == null) {
+			return;
+		}
+		else {
+
+		}
+	}
+
 }
