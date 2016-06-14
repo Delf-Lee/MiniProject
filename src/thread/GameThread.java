@@ -25,28 +25,27 @@ public class GameThread extends Thread {
 	private static final int ADD_LIFE = 3;
 	private static final int ALL_SAVE = 4;
 	private static boolean itemFlag[] = { false, false, false };
-	
+
 	private WordManager wordList;
-	private Player player;
+	private Player player; // 필요없겠네
 
 	private PanelManager panel;
 	private GamePanel screen;
 	private PausePanel pauseMenu;
 
 	private MyKeyListener listener = new MyKeyListener();
-	
 
 	// 인게임 정보
 	private int preTime; // 현재 시간
 	private int limitTime; // 게임 제한 시간
 	private int level; // 현재 플레이 하고있는 레벨
-	private int score; // 점수
+	private int score = 0; // 점수
 	private int combo; // 콤보 수
-	
+
 	private boolean pause = false; // puase 여부
+	private boolean keyAccept = true;
 
 	// 아이템
-	
 	private int itemTime; // 아이템 제한 시간
 	private int item[] = { 0, 0, 0, 0, 0 }; // 소유 아이템 개수
 
@@ -57,12 +56,6 @@ public class GameThread extends Thread {
 		pauseMenu = panel.getPausePanel();
 
 		wordList = new WordManager(this);
-		//panel.getPausePanel().setThread(this);
-		panel.getLevelChoicePanel().setThread(this);
-		//screen.add(stop);
-		//stop.setVisible(false);
-		//score = 0;
-		
 		panel.getPausePanel().setThread(this); // 선언 순서 때문에 여기서 스레드 레퍼런스 전달
 
 		screen.add(pauseMenu); // puase 패널을 미리 붙여놓음 (배치 문제때문에)
@@ -72,7 +65,7 @@ public class GameThread extends Thread {
 	/** 플레이어와 게임레벨을 설정 */
 	public void setGame(User user, int level) {
 		player = new Player(user); // 게임할 플레이어 설정
-		this.level = level; // 플레이어가 플레이 가능한 게임 레벨
+		this.level = level; // 플레이어가 플레이 할 레벨
 
 		//new ReadyAnimation(screen, level, this); // 준비 애니메이션
 		preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
@@ -104,6 +97,9 @@ public class GameThread extends Thread {
 	class MyKeyListener extends KeyAdapter {
 
 		public void keyPressed(KeyEvent e) {
+			if (!keyAccept) {
+				return;
+			}
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_ENTER: // 엔터
 				System.out.println("엔터");
@@ -151,6 +147,7 @@ public class GameThread extends Thread {
 		}
 
 		public void run() {
+			setKeyAccpet(false);
 			while (true) {
 				try {
 					sleep(1000);
@@ -162,6 +159,7 @@ public class GameThread extends Thread {
 				if (n == 0) {
 					continueGame();
 					la.setVisible(false);
+					setKeyAccpet(true);
 					return;
 				}
 				la.setText(Integer.toString(n));
@@ -205,18 +203,17 @@ public class GameThread extends Thread {
 		screen.getTextField().addKeyListener(listener);
 	}
 
+	/** 게임을 끝내고 점술 갱신한다. */
 	private void gameOver() {
-		/*게임 데이터 저장*/
 		UserManager.user.setBestScore(score);
-		for(int i = 0; i < UserManager.userList.size(); i++) {
-			if(UserManager.user.getUserName().equals(UserManager.userList.get(i).getUserName())) {
+		for (int i = 0; i < UserManager.userList.size(); i++) {
+			if (UserManager.user.getUserName().equals(UserManager.userList.get(i).getUserName())) {
 				UserManager.userList.get(i).setBestScore(score);
 				break;
 			}
 		}
 		UserManager.sortUserList();
 		UserManager.saveUserData();
-		
 	}
 
 	/** 단어 객체를 패널로부터 삭제 */
@@ -228,7 +225,7 @@ public class GameThread extends Thread {
 	private void plusScore() {
 		int getScore = 10 + combo * 7;// 콤보 달성 시, 추가점수
 		score += getScore;
-		screen.updateScore(getScore);
+		screen.updateScore(score);
 		if (combo < 10) { // 콤보는 10콤보까지
 			combo++;
 		}
@@ -348,6 +345,10 @@ public class GameThread extends Thread {
 	private void popPausePanel() {
 		pauseMenu.setVisible(true); // 가시화
 		screen.repaint();
+	}
+	
+	public void setKeyAccpet(boolean i) {
+		keyAccept = i;
 	}
 
 	public int getLevel() {
