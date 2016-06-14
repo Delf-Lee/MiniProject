@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import panel.BasePanel;
 import panel.MsgWinow;
 import panel.PanelManager;
+import panel.menu.LevelChoicePanel;
 import thread.GameThread;
 import user.UserManager;
 
@@ -18,6 +19,7 @@ public class PausePanel extends BasePanel {
 	private PanelManager panel;
 	private GameThread thrd;
 	private GamePanel screen;
+	private LevelChoicePanel levelChoice;
 	// 레이블
 	private JLabel stringBoxPause;
 	// 버튼
@@ -36,6 +38,7 @@ public class PausePanel extends BasePanel {
 		super(/*이미지 경로*/);
 		this.panel = panel;
 		this.screen = panel.getGamePanel();
+		this.levelChoice = panel.getLevelChoicePanel();
 		setBounds(x, y, width, height);
 		setBackground(Color.CYAN); // 삭제 예정 라인
 		setComponent(); // 버튼 세팅
@@ -69,7 +72,7 @@ public class PausePanel extends BasePanel {
 		btnLevelChoice = new JButton("레벨 선택");
 		btnLevelChoice.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnLevelChoice.setBounds(X, Y + (60 * 2), 200, 50);
-
+		
 		btnMenu = new JButton("메뉴");
 		btnMenu.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnMenu.setBounds(X, Y + (60 * 3), 200, 50);
@@ -107,15 +110,14 @@ public class PausePanel extends BasePanel {
 				TimerThread th = new TimerThread(timerLabel);
 				th.start();
 				break;
-				
 			case "재시작":
 				boolean confirm = MsgWinow.confirm("재시작 하시겠습니까?");
 				if (confirm) {
-					thrd.initGame();
-					thrd.interrupt();
-					panel.setContentPane(PanelManager.GAME);
-					panel.getLevelChoicePanel().gameStart(screen.getLevel());
-					setVisible(false);
+					thrd.initGame(); // 게임 초기화
+					thrd.interrupt(); // 스레드 종료
+					panel.setContentPane(PanelManager.GAME); // 화면 준비
+					levelChoice.gameStart(screen.getLevel()); // 게임 재시작
+					setVisible(false); // 퍼즈 패널 비가시화
 				}
 				break;
 			case "레벨 선택":
@@ -125,8 +127,7 @@ public class PausePanel extends BasePanel {
 				panel.getLevelChoicePanel().setButtonEnable(); // 버튼 비활성화 설정
 				setVisible(false);
 				break;
-
-			case "메뉴":
+			case "메 뉴":
 				confirm = MsgWinow.confirm("메뉴화면으로 돌아가시겠습니까?");
 				if (confirm) {
 					panel.setContentPane(PanelManager.MENU);
@@ -135,7 +136,6 @@ public class PausePanel extends BasePanel {
 					setVisible(false);
 				}
 				break;
-
 			case "로그아웃":
 				confirm = MsgWinow.confirm("로그아웃 하시겠습니까?");
 				if (confirm) {
@@ -145,8 +145,7 @@ public class PausePanel extends BasePanel {
 					setVisible(false);
 				}
 				break;
-
-			case "종료":
+			case "종 료":
 				confirm = MsgWinow.confirm("종료 하시겠습니까?");
 				if (confirm) {
 					UserManager.saveUserData();
@@ -156,12 +155,15 @@ public class PausePanel extends BasePanel {
 			}
 		}
 	}
-	
+
+	/** 일시정시에서 게임 재시작 시, 3초 카운트 다운 시행 */
 	class TimerThread extends Thread {
 		JLabel la;
+
 		public TimerThread(JLabel la) {
 			this.la = la;
 		}
+
 		public void run() {
 			while (true) {
 				try {
@@ -183,11 +185,11 @@ public class PausePanel extends BasePanel {
 
 	public void setThread(GameThread thrd) {
 		this.thrd = thrd;
+		levelChoice.setThread(thrd);
 	}
 
 	@Override
 	public void initPanel() {
-		// TODO Auto-generated method stub
 
 	}
 
