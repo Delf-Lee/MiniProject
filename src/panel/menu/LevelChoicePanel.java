@@ -25,12 +25,15 @@ public class LevelChoicePanel extends BasePanel {
 	JLabel stringBoxLevelChoice;
 	
 	private ImageIcon backIcon = new ImageIcon("images/back.png");
+	
+	private ImageIcon level1Icon = new ImageIcon("images/1.png");
+	private ImageIcon level2Icon = new ImageIcon("images/2.png");
 	// ¹öÆ°
 	JButton[] level;
 	JButton btnBack;
 	// À§Ä¡ Á¤Àûº¯¼ö
-	private static final int X = 70;
-	private static final int Y = 100;
+	private static final int X = 20;
+	private static final int Y = 60;
 	private int nowPanel;
 
 	public LevelChoicePanel(int x, int y, int width, int height, PanelManager panel) {
@@ -53,12 +56,12 @@ public class LevelChoicePanel extends BasePanel {
 
 	/** ÄÄÆ÷³ÍÆ® ¼³Á¤ ¹× ¹èÄ¡ */
 	private void setComponent() {
-		stringBoxLevelChoice = new JLabel("Level ¼±ÅÃ", JLabel.CENTER);
-		stringBoxLevelChoice.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-		stringBoxLevelChoice.setBounds(100, 10, 200, 100);
+//		stringBoxLevelChoice = new JLabel("Level ¼±ÅÃ", JLabel.CENTER);
+//		stringBoxLevelChoice.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+//		stringBoxLevelChoice.setBounds(100, 10, 200, 100);
 
 		level = new JButton[10];
-		for (int i = 0; i < level.length; i++) {
+		for (int i = 2; i < level.length; i++) {
 			level[i] = new JButton("Level." + Integer.toString(i + 1));
 			level[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 			if (i < 5) {
@@ -70,13 +73,27 @@ public class LevelChoicePanel extends BasePanel {
 			add(level[i]);
 		}
 		
+		level[0] = new JButton("1", level1Icon);
+		level[0].setBorderPainted(false);
+		level[0].setFocusPainted(false);
+		level[0].setContentAreaFilled(false);
+		level[0].setBounds(X, Y, 185, 80);
+		
+		level[1] = new JButton("2", level2Icon);
+		level[1].setBorderPainted(false);
+		level[1].setFocusPainted(false);
+		level[1].setContentAreaFilled(false);
+		level[1].setBounds(X, Y + 70, 185, 80);
+		
 		btnBack = new JButton("back", backIcon);
 		btnBack.setBorderPainted(false);
 		btnBack.setFocusPainted(false);
 		btnBack.setContentAreaFilled(false);
-		btnBack.setBounds(170, 360, 80, 70);
+		btnBack.setBounds(170, 370, 80, 70);
 
-		add(stringBoxLevelChoice);
+		add(level[0]);
+		add(level[1]);
+		//add(stringBoxLevelChoice);
 		add(btnBack);
 	}
 
