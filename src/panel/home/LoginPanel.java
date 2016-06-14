@@ -6,8 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileReader;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,20 +19,27 @@ import javax.swing.JTextField;
 
 import panel.BasePanel;
 import panel.PanelManager;
+import panel.home.SignupPanel.SignupMouseEvent;
 import user.User;
 import user.UserManager;
 
 public class LoginPanel extends BasePanel {
 	private PanelManager panel;
 	// 문자열
-	private JLabel stringBoxID = new JLabel("ID");
-	private JLabel stringBoxPassWord = new JLabel("PW");
+	private ImageIcon IDIcon = new ImageIcon("images/ID.png");
+	private JLabel stringBoxID = new JLabel(IDIcon);
+	private ImageIcon PWIcon = new ImageIcon("images/PW.png");
+	private JLabel stringBoxPassWord = new JLabel(PWIcon);
 	// 텍스트 필드
 	private JTextField IDFeild = new JTextField();
 	private JPasswordField passwordField = new JPasswordField();
 	// 버튼
-	private JButton loginButton = new JButton("로그인");
-	private JButton signUpButton = new JButton("회원가입");
+	private ImageIcon loginIcon = new ImageIcon("images/로그인.png");
+	private ImageIcon loginIcon_ = new ImageIcon("images/로그인2.png");
+	private JButton loginButton = new JButton("로그인", loginIcon);
+	private ImageIcon signupIcon = new ImageIcon("images/회원가입.png");
+	private ImageIcon signupIcon_ = new ImageIcon("images/회원가입2.png");
+	private JButton signUpButton = new JButton("회원가입", signupIcon);
 
 	/** 생성자 */
 	public LoginPanel(int x, int y, int width, int height, PanelManager panel) {
@@ -48,27 +58,33 @@ public class LoginPanel extends BasePanel {
 		loginButton.addActionListener(new LoginListener());
 		signUpButton.addActionListener(new LoginListener());
 		passwordField.addKeyListener(new LoginKeyListener());
+		loginButton.addMouseListener(new LoginMouseEvent());
+		signUpButton.addMouseListener(new LoginMouseEvent());
 	}
 
 	/** 컴포넌트 설정 및 배치 */
 	private void setComponent() {
-		stringBoxID.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		stringBoxID.setBounds(60, 40, 100, 100);
+		//stringBoxID.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		stringBoxID.setBounds(25, 50, 100, 100);
 
 		IDFeild.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		IDFeild.setBounds(130, 75, 270, 40);
 
-		stringBoxPassWord.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		stringBoxPassWord.setBounds(50, 90, 100, 100);
+		//stringBoxPassWord.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		stringBoxPassWord.setBounds(25, 100, 100, 100);
 
 		passwordField.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		passwordField.setBounds(130, 125, 270, 40);
 
-		loginButton.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		loginButton.setBounds(130, 190, 130, 40);
+		loginButton.setBorderPainted(false);
+		loginButton.setFocusPainted(false);
+		loginButton.setContentAreaFilled(false);
+		loginButton.setBounds(130, 190, 140, 40);
 
-		signUpButton.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		signUpButton.setBounds(270, 190, 130, 40);
+		signUpButton.setBorderPainted(false);
+		signUpButton.setFocusPainted(false);
+		signUpButton.setContentAreaFilled(false);
+		signUpButton.setBounds(270, 190, 140, 40);
 
 		addTwo(stringBoxID, IDFeild);
 		addTwo(stringBoxPassWord, passwordField);
@@ -117,6 +133,35 @@ public class LoginPanel extends BasePanel {
 					panel.getSignupPanel().setFocus();
 					repaint();
 				}
+			}
+		}
+	}
+	
+	/** 회원가입패널에 대한 버튼들의 마우스리스너 */
+	class LoginMouseEvent extends MouseAdapter {
+		// 아무것도 안할 때,
+		public void mouseExited(MouseEvent e) {
+			JButton eventBtn = (JButton) e.getSource();
+			switch (eventBtn.getText()) {
+			case "로그인":
+				loginButton.setIcon(loginIcon);
+				break;
+			case "회원가입":
+				signUpButton.setIcon(signupIcon);
+				break;
+			}
+		}
+
+		// 버튼 위에 마우스를 올릴 때,
+		public void mouseEntered(MouseEvent e) {
+			JButton eventBtn = (JButton) e.getSource();
+			switch (eventBtn.getText()) {
+			case "로그인":
+				loginButton.setIcon(loginIcon_);
+				break;
+			case "회원가입":
+				signUpButton.setIcon(signupIcon_);
+				break;
 			}
 		}
 	}
