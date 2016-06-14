@@ -4,13 +4,20 @@ public class Timer extends Thread {
 
 	private int limitTime;
 	private int passTime;
-	private int preTime;
 	private int standatdTime;
 	private int stopTime;
-	private int resumeTime;
+	private int idealTime;
 
 	public Timer() {
-		standatdTime = (int) System.currentTimeMillis();
+	}
+
+	public Timer(int limitTime) {
+		this.limitTime = limitTime * 1000;
+		start();
+	}
+
+	public void setLimitTime(int limitTime) {
+		this.limitTime = limitTime * 1000;
 	}
 
 	public void stopTimer() {
@@ -18,18 +25,33 @@ public class Timer extends Thread {
 	}
 
 	public void resumeTimer() {
-		resumeTime = (int) System.currentTimeMillis();
+		int resumeTime = (int) System.currentTimeMillis();
+		idealTime += resumeTime - stopTime;
 	}
 
-	public int preTime() {
-		return (passTime / 1000);
+	public int getPassTime() {
+		return passTime;
+	}
+
+	public int getRemainTime() {
+		return (limitTime - passTime);
+	}
+
+	public boolean isTerminate() {
+		if (getRemainTime() < 0) {
+			return true;
+		}
+		return false;
 	}
 
 	public void run() {
 		try {
-			passTime = (int) System.currentTimeMillis() - standatdTime;
+			standatdTime = (int) System.currentTimeMillis();
+			while (true) {
+				passTime = (int) System.currentTimeMillis() - standatdTime - idealTime;
+				sleep(100);
+			}
 		} catch (Exception e) {
 		}
 	}
-
 }

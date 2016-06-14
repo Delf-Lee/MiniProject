@@ -13,6 +13,7 @@ public class GameObject {
 	protected int type = 0;
 	protected int endX; // 도착할 때의 x좌표
 	protected int speed; // 속도
+	protected int tmpSpeed;
 	protected double slope = 0.0; // 기울기
 
 	protected int objectType;
@@ -25,7 +26,6 @@ public class GameObject {
 		this.start = start;
 		this.endX = endX;
 
-
 		//baseObject = new WordObject(word, start, type);
 	}
 
@@ -37,8 +37,8 @@ public class GameObject {
 	}
 
 	/** 단어의 좌표가 다음 정해진 경로의 좌표로 변경 */
-	public void setLocation() {
-		int x = baseObject.getX() - speed;
+	public void setLocation(int n) {
+		int x = baseObject.getX() - (speed / n);
 		int y = getY(x);
 		baseObject.setLocation(x, y);
 		//wordObject.repaint();
@@ -77,8 +77,29 @@ public class GameObject {
 	public BaseObject getWordObject() {
 		return baseObject;
 	}
-	
+
+	/**
+	 * 객체가 Word객체인지 Item객체인지 알려준다.
+	 * 
+	 * @return 객체에 해당하는 정수 값
+	 */
 	public int getObjecType() {
 		return objectType;
+	}
+
+	/** @return 현재 객체의 speed 값을 반환 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public void slowDownSpeed() {
+		tmpSpeed = speed;
+		if (speed < 1) {
+			speed /= 2;
+		}
+	}
+
+	public void setOriginalSpeed() {
+		speed = tmpSpeed;
 	}
 }

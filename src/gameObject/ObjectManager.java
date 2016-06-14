@@ -19,6 +19,7 @@ public class ObjectManager {
 	private GameThread thr;
 
 	public boolean isCreate = true; // 단어를 생성할 수 있는지 확인하는 변수
+	private int adjustSpeed = 1;
 
 	// 단어들 하강에 필요한 좌표와 기울기 정보
 	private static final int BOUND_X = 1017;
@@ -99,7 +100,7 @@ public class ObjectManager {
 		int speed = ITEM_SPEED;
 		int endX = getEndX(appearanceCoordinate.x);
 		double slope = getSlope(appearanceCoordinate.x, endX); // 출현 위치에 따른 하강 기울기 결정
-		
+
 		Item newItem = new Item(nextWord, speed, slope, appearanceCoordinate, endX - 100);
 		list.add(newItem); // list에 단어 추가
 		return newItem;
@@ -131,12 +132,13 @@ public class ObjectManager {
 				break;
 			}
 			GameObject cursor = it.next();
-			cursor.setLocation(); // 단어 위치 변경
+			cursor.setLocation(adjustSpeed); // 단어 위치 변경
+
 			if (cursor.isEnd()) { // 끝에 도달하면 리스트에서 제거
 				//list.remove(cursor); // ConcurrentModificationException 발생...ㅠㅠ
 				it.remove();
 				thr.removeWord(cursor); // 패널에서 객체 삭제
-				thr.lostLife();
+				//thr.lostLife();
 				it = list.iterator(); // Vector에서도 fail-fast 발생? 일단 한번 더 초기화... 
 			}
 		}
@@ -199,5 +201,22 @@ public class ObjectManager {
 
 	public boolean isListEmpty() {
 		return list.isEmpty();
+	}
+
+	/** 아이템 사용효과로써, 단어 객체의 이동 속도가 느려진다. */
+	public void slowDownObject() {
+		adjustSpeed = 2;
+		//		Iterator<GameObject> it = list.iterator();
+		//		while (it.hasNext()) {
+		//			GameObject tmpWord = it.next();
+		//			if (tmpWord.objectType == GameObject.WORD) {
+		//				tmpWord.slowDownSpeed();
+		//			}
+		//		}
+	}
+
+	/** 느려졌던 단어 객체의 속도를 원래대로 되돌려 놓는다. */
+	public void setOriginalSpeed() {
+		adjustSpeed = 1;	
 	}
 }

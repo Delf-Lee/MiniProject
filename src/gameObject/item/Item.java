@@ -20,6 +20,7 @@ public class Item extends GameObject {
 	private static ImageIcon UNBEATABLE_IMAGE = new ImageIcon("images/무적.png");
 	private static ImageIcon NET_MODE_IMAGE = new ImageIcon("images/그물.png");
 	private static ImageIcon ALL_SAVE_IMAGE = new ImageIcon("images/구조.png");
+	private static ImageIcon ADD_LIFE_IMAGE = new ImageIcon("images/회복.png");
 
 	public Item(String word, int speed, double slope, Point start, int endX) {
 		super(word, speed, slope, start, endX);
@@ -42,6 +43,8 @@ public class Item extends GameObject {
 			return NET_MODE_IMAGE;
 		case ALL_SAVE:
 			return ALL_SAVE_IMAGE;
+		case ADD_LIFE:
+			return ADD_LIFE_IMAGE;
 		}
 		return null;
 	}

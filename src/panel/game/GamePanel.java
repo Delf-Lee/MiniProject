@@ -71,20 +71,16 @@ public class GamePanel extends BasePanel {
 
 	}
 
-	public boolean updateTime() {
-
-		if (gameInfoBox.updateTime()) {
-			return true;
-		}
-		return false;
+	public void printTime(int time) {
+		gameInfoBox.printTime(time);
 	}
 
 	public void setInfo(int lvl, int time) {
 		gameInfoBox.setInfo(lvl, time);
 	}
 
-	public void lostLife() {
-		lifeBar.lostLife();
+	public void updateLife(int life) {
+		lifeBar.updateLife(life);
 	}
 
 	public int getLife() {
@@ -98,11 +94,12 @@ public class GamePanel extends BasePanel {
 
 	}
 
-	public int getLevel() {
-		return gameInfoBox.level;
-	}
-
 	public void addItem(int type) {
 		gameInfoBox.addItem(type);
+	}
+
+	public void useItem(int index) {
+		System.out.println("userItem»£√‚µ 1");
+		gameInfoBox.useItem(index);
 	}
 }

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class LifeBarPanel extends JPanel {
 	ImageIcon filledHeart = new ImageIcon("images/filled_heart.png");
 	ImageIcon emptyHeart = new ImageIcon("images/empty_heart.png");
-	int maxLife;
+	public static int maxLife;
 	int nowLife;
 
 	public LifeBarPanel() {
@@ -27,16 +27,8 @@ public class LifeBarPanel extends JPanel {
 		paintHeart();
 	}
 
-	public void fillList() {
-		if (nowLife < maxLife) {
-			nowLife++;
-		}
-	}
-
-	public void lostLife() {
-		if (nowLife > 0) {
-			nowLife--;
-		}
+	public void updateLife(int life) {
+		nowLife = life;
 		paintHeart();
 	}
 

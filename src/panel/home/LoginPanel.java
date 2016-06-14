@@ -8,19 +8,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import panel.BasePanel;
 import panel.PanelManager;
-import panel.home.SignupPanel.SignupMouseEvent;
-import user.User;
 import user.UserManager;
 
 public class LoginPanel extends BasePanel {
@@ -50,7 +46,7 @@ public class LoginPanel extends BasePanel {
 
 		setComponent(); // 각 컴포넌트 배치
 		setListener();
-		
+
 	}
 
 	/** 리스너 설정 */
@@ -121,14 +117,14 @@ public class LoginPanel extends BasePanel {
 				initPanel();
 				break;
 			}
-			
+
 		}
 	}
-	
+
 	class LoginKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (acceptUser()) { // 입력 체크
 					panel.setContentPane(PanelManager.MENU);
 					panel.getSignupPanel().setFocus();
@@ -137,7 +133,7 @@ public class LoginPanel extends BasePanel {
 			}
 		}
 	}
-	
+
 	/** 회원가입패널에 대한 버튼들의 마우스리스너 */
 	class LoginMouseEvent extends MouseAdapter {
 		// 아무것도 안할 때,
