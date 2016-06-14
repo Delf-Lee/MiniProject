@@ -57,7 +57,6 @@ public class MenuPanel extends BasePanel {
 		setLocation(0, 25);
 		this.panel = panel;
 		levelChoice = panel.getLevelChoicePanel();
-
 		
 		
 		setMenu(); // 버튼 세팅
@@ -86,8 +85,6 @@ public class MenuPanel extends BasePanel {
 //				btnImages[i][j] = new ImageIcon("images/" + btnImageName[i][j] + ".png");
 //			}
 //		}
-		
-		
 
 		btnGameStart.setBorderPainted(false);
 		btnGameStart.setFocusPainted(false);

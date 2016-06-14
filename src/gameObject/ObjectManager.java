@@ -7,12 +7,13 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
+import gameObject.item.Item;
 import gameObject.word.Word;
 import main.MainFrame;
 import thread.GameThread;
 
 public class ObjectManager {
-	private Vector<Word> list = new Vector<Word>(); // 출현된 단어들을 관리하는 배열
+	private Vector<GameObject> list = new Vector<GameObject>(); // 출현된 단어들을 관리하는 배열
 	private Vector<String> entry = new Vector<String>(); // 텍스트 파일에 있는 단어 복사
 	private GameThread thr;
 
@@ -20,7 +21,6 @@ public class ObjectManager {
 
 	// 단어들 하강에 필요한 좌표와 기울기 정보
 	private static final int BOUND_X = 1017;
-	//private static final int BOUND_Y = 740;
 	private static final int APPEARANCE_X1 = 737;
 	private static final int APPEARANCE_X2 = 1117;
 	private static final int LIMIT_X1 = 110;
@@ -28,6 +28,8 @@ public class ObjectManager {
 	private static final int START_Y = 224;
 	private static final int END_Y = 721;
 	private static final double BOUND_SLOPE = 182.0 / 418.0;
+
+	private static final int ITEM_SPEED = 10;
 	// 파일 읽기
 	private FileReader fin = null;
 
@@ -78,18 +80,35 @@ public class ObjectManager {
 		int speed = setSpeed(stage);
 		int endX = getEndX(appearanceCoordinate.x);
 		double slope = getSlope(appearanceCoordinate.x, endX); // 출현 위치에 따른 하강 기울기 결정
-		System.out.println(slope);
 
 		Word newWord = new Word(nextWord, speed, slope, appearanceCoordinate, endX - 100);
 		list.add(newWord); // list에 단어 추가
 		return newWord;
 	}
-	
+
+	public Item createItem() {
+		String nextWord;
+		while (true) {
+			nextWord = getWordInEntry();
+			if (!isContain(nextWord)) { // list내에 랜덤선택된 단어가 없으면
+				break;
+			}
+		}
+		Point appearanceCoordinate = createRandomCoordinate(); // 랜덤 좌표 생성
+		int speed = ITEM_SPEED;
+		int endX = getEndX(appearanceCoordinate.x);
+		double slope = getSlope(appearanceCoordinate.x, endX); // 출현 위치에 따른 하강 기울기 결정
+		
+		Item newItem = new Item(nextWord, speed, slope, appearanceCoordinate, endX - 100);
+		list.add(newItem); // list에 단어 추가
+		return newItem;
+	}
+
 	/** 단어 객체를 리스트 내에서 삭제 */
-	public Word removeWord(String word) {
-		Iterator<Word> it = list.iterator();
+	public GameObject removeWord(String word) {
+		Iterator<GameObject> it = list.iterator();
 		while (it.hasNext()) {
-			Word tmpWord = it.next();
+			GameObject tmpWord = it.next();
 			if (tmpWord.equals(word)) {
 				list.remove(tmpWord);
 				return tmpWord;
@@ -105,12 +124,12 @@ public class ObjectManager {
 
 	/** list를 순환하며 그 안의 모든 단어객체의 좌표를 변경한다. */
 	public void flowWord() {
-		Iterator<Word> it = list.iterator();
+		Iterator<GameObject> it = list.iterator();
 		while (it.hasNext()) { // 리스트 내 단어 전체 순환
 			if (list.size() == 0) {
 				break;
 			}
-			Word cursor = it.next();
+			GameObject cursor = it.next();
 			cursor.setLocation(); // 단어 위치 변경
 			if (cursor.isEnd()) { // 끝에 도달하면 리스트에서 제거
 				//list.remove(cursor); // ConcurrentModificationException 발생...ㅠㅠ
@@ -124,7 +143,7 @@ public class ObjectManager {
 
 	/** @return entry에서 선별한 단어가 list에 존재 시 true, 그렇지 않으면 false */
 	public boolean isContain(String word) {
-		Iterator<Word> it = list.iterator();
+		Iterator<GameObject> it = list.iterator();
 		while (it.hasNext()) {
 			if (it.next().equals(word)) {
 				return true; // 단어 들어있음
@@ -146,7 +165,7 @@ public class ObjectManager {
 	}
 
 	public void initwordList() {
-		Iterator<Word> it = list.iterator();
+		Iterator<GameObject> it = list.iterator();
 		while (it.hasNext()) {
 			thr.removeWord(it.next()); // 모든 단어레이블을 패널로 부터 떼어냄 
 			System.out.println("땜");

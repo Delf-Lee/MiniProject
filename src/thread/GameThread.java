@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 
+import gameObject.GameObject;
 import gameObject.ObjectManager;
 import gameObject.item.Item;
 import gameObject.word.Word;
@@ -22,7 +23,7 @@ public class GameThread extends Thread {
 
 	private static boolean itemFlag[] = { false, false, false };
 
-	private ObjectManager wordList;
+	private ObjectManager objectList;
 	private Player player; // 필요없겠네
 
 	private PanelManager panel;
@@ -43,7 +44,8 @@ public class GameThread extends Thread {
 
 	// 아이템
 	private int itemTime; // 아이템 제한 시간
-	private int item[] = { 0, 0, 0, 0, 0 }; // 소유 아이템 개수
+	private int items[] = { 0, 0, 0, 0 }; // 소유 아이템 개수
+	private int totalItem = 0;
 
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
@@ -51,7 +53,7 @@ public class GameThread extends Thread {
 		screen = panel.getGamePanel();
 		pauseMenu = panel.getPausePanel();
 
-		wordList = new ObjectManager(this);
+		objectList = new ObjectManager(this);
 		panel.getPausePanel().setThread(this); // 선언 순서 때문에 여기서 스레드 레퍼런스 전달
 
 		screen.add(pauseMenu); // puase 패널을 미리 붙여놓음 (배치 문제때문에)
@@ -73,7 +75,8 @@ public class GameThread extends Thread {
 		try {
 			while (true) {
 				createWord(); // 단어 객체 생성
-				wordList.flowWord(); // 단어 이동
+				createItem();
+				objectList.flowWord(); // 단어 이동
 
 				checkTime();
 				checkLife();
@@ -97,8 +100,12 @@ public class GameThread extends Thread {
 			}
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_ENTER: // 엔터
-				Word findWord = wordList.removeWord(screen.getWordString());
-				if (findWord != null) {
+				GameObject findWord = objectList.removeWord(screen.getWordString());
+				if (findWord != null) { // 패널 내에 입력한 단어가 존재함
+					int objectType = findWord.getObjecType();
+					if (objectType == GameObject.ITEM) {
+						confirmItem((Item) findWord);
+					}
 					removeWord(findWord); // 패널에서 단어객체 제거
 					plusScore(); // 점수 증가
 				}
@@ -174,19 +181,31 @@ public class GameThread extends Thread {
 
 	/** 랜덤한 확률로 단어 생성 */
 	private void createWord() {
-		if (wordList.isCreate) {
+		if (objectList.isCreate) {
 			int appearRatio = (int) (Math.random() * 200 - (level * 1)); // 출현 확률
 
 			if (appearRatio < 10) {
-				Word newWord = wordList.createWord(level); // 생성
+				Word newWord = objectList.createWord(level); // 생성
 				addWordToPanel(newWord); // 패널에 부착
 			}
 		}
-		wordList.isCreate();
+		objectList.isCreate();
+	}
+
+	private void createItem() {
+		if (objectList.isCreate) {
+			int appearRatio = (int) (Math.random() * 200 - (level * 1)); // 출현 확률
+
+			if (appearRatio < 10) {
+				Item newItem = objectList.createItem(); // 생성
+				addWordToPanel(newItem); // 패널에 부착
+			}
+		}
+		objectList.isCreate();
 	}
 
 	/** 단어 객체를 패널에 부착 */
-	private void addWordToPanel(Word word) {
+	private void addWordToPanel(GameObject word) {
 		screen.add(word.getWordObject());
 	}
 
@@ -210,7 +229,7 @@ public class GameThread extends Thread {
 	}
 
 	/** 단어 객체를 패널로부터 삭제 */
-	public void removeWord(Word word) {
+	public void removeWord(GameObject word) {
 		screen.remove(word.getWordObject());
 	}
 
@@ -229,7 +248,7 @@ public class GameThread extends Thread {
 		if (level < 10) {
 			level++;
 			//initGame();
-			wordList.initwordList();
+			objectList.initwordList();
 			screen.initTextField();
 			screen.repaint();
 			preTime = (int) System.currentTimeMillis();
@@ -242,7 +261,7 @@ public class GameThread extends Thread {
 
 	/** 게임을 초기화 */
 	public void initGame() {
-		wordList.initwordList(); // 패널에서 모든 단어를 떼어내고, 리스트 초기화
+		objectList.initwordList(); // 패널에서 모든 단어를 떼어내고, 리스트 초기화
 		screen.initGame();
 		//screen.getTextField().removeKeyListener(listener);
 		screen.repaint();
@@ -277,7 +296,7 @@ public class GameThread extends Thread {
 			// 게임오버
 			gameOver();
 			//단어 떼줘
-			wordList.initwordList();
+			objectList.initwordList();
 			panel.setContentPane(PanelManager.MENU);
 			interrupt(); // 일단 임시로 종료시킴
 		}
@@ -345,5 +364,18 @@ public class GameThread extends Thread {
 
 	public int getLevel() {
 		return level;
+	}
+
+	private void confirmItem(Item item) {
+		int newItem = item.getItemType();
+		if (newItem == Item.ADD_LIFE) {
+
+		}
+		else {
+			if (this.totalItem++ < 5) { // 아이템은 5개가 최대
+				this.items[newItem]++;
+			}
+			screen.addItem(newItem);
+		}
 	}
 }

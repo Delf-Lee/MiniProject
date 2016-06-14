@@ -73,7 +73,6 @@ public class GamePanel extends BasePanel {
 
 	public boolean updateTime() {
 
-
 		if (gameInfoBox.updateTime()) {
 			return true;
 		}
@@ -101,5 +100,9 @@ public class GamePanel extends BasePanel {
 
 	public int getLevel() {
 		return gameInfoBox.level;
+	}
+
+	public void addItem(int type) {
+		gameInfoBox.addItem(type);
 	}
 }

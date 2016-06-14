@@ -77,4 +77,8 @@ public class GameObject {
 	public BaseObject getWordObject() {
 		return baseObject;
 	}
+	
+	public int getObjecType() {
+		return objectType;
+	}
 }

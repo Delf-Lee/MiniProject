@@ -26,7 +26,6 @@ public class WordObject extends BaseObject {
 	/** 이미지 레이블 세팅 */
 	private void setImageLabel(int type) {
 		// 동물의 이미지 결정
-		System.out.println("setimage..");
 		switch (type) {
 		case RABBIT:
 			objectImage = new ImageIcon(RABBIT_IMG);
