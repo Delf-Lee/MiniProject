@@ -24,11 +24,11 @@ public class MenuPanel extends BasePanel {
 	private ImageIcon[][] btnImages = new ImageIcon[4][2];
 
 	private ImageIcon gameIcon = new ImageIcon("images/게임하기.png");
-	private ImageIcon wordIcon = new ImageIcon("images/단어입력.png");
+	private ImageIcon wordIcon = new ImageIcon("images/단어설정.png");
 	private ImageIcon rankingIcon = new ImageIcon("images/랭킹보기.png");
 	private ImageIcon logoutIcon = new ImageIcon("images/로그아웃.png");
 	private ImageIcon gameIcon_ = new ImageIcon("images/게임하기2.png");
-	private ImageIcon wordIcon_ = new ImageIcon("images/단어입력2.png");
+	private ImageIcon wordIcon_ = new ImageIcon("images/단어설정2.png");
 	private ImageIcon rankingIcon_ = new ImageIcon("images/랭킹보기2.png");
 	private ImageIcon logoutIcon_ = new ImageIcon("images/로그아웃2.png");
 
