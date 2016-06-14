@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,19 +27,22 @@ public class LevelChoicePanel extends BasePanel {
 	JLabel stringBoxLevelChoice;
 	
 	private ImageIcon backIcon = new ImageIcon("images/back.png");
-	private ImageIcon level1Icon = new ImageIcon("images/1.png");
-	private ImageIcon level2Icon = new ImageIcon("images/2.png");
-	
 	// 버튼
 	JButton[] level;
 	JButton btnBack;
+	// 리스너
+	private LevelMouseEvent mouseEvent = new LevelMouseEvent();
 	// 위치 정적변수
 	private static final int X = 20;
 	private static final int Y = 65;
 	private int nowPanel;
 	
-	private ImageIcon btnImages[] = new ImageIcon[10];
-	private String[] btnImageName = {"1","2","3","4","5","6","7","8","9","10"};
+	private static final int EXITED = 0;
+	private static final int ENTERD = 1;
+	private static final int PRESSED = 2;
+	
+	private ImageIcon btnImages[][] = new ImageIcon[10][2];
+	private String[][] btnImageName = {{"1","1_2"}, {"2","2_2"}, {"3","3_2"} ,{"4","4_2"}, {"5","5_2"}, {"6","6_2"}, {"7","7_2"}, {"8","8_2"}, {"9","9_2"}, {"10","10_2"}};
 
 	public LevelChoicePanel(int x, int y, int width, int height, PanelManager panel) {
 		super("images/levelchoiceBG.png");
@@ -53,24 +58,24 @@ public class LevelChoicePanel extends BasePanel {
 	private void setListener() {
 		for (int i = 0; i < level.length; i++) {
 			level[i].addActionListener(new LevelChoiceListener());
+			level[i].addMouseListener(mouseEvent);
 		}
 		btnBack.addActionListener(new LevelChoiceListener());
 	}
 
 	/** 컴포넌트 설정 및 배치 */
 	private void setComponent() {
-//		stringBoxLevelChoice = new JLabel("Level 선택", JLabel.CENTER);
-//		stringBoxLevelChoice.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-//		stringBoxLevelChoice.setBounds(100, 10, 200, 100);
-
-		// 버튼 이미지 가져오기 받아라 이상훈
+		// 버튼 이미지 가져오기
 		for (int i = 0; i < btnImages.length; i++) {
-			btnImages[i] = new ImageIcon("images/" + btnImageName[i] + ".png");
+			for (int j = 0; j < btnImages[i].length; j++) {
+			btnImages[i][j] = new ImageIcon("images/" + btnImageName[i][j] + ".png");
+			}
 		}
 		
 		level = new JButton[10];
 		for (int i = 0; i < level.length; i++) {
-			level[i] = new JButton(Integer.toString(i+1), btnImages[i]);
+			level[i] = new JButton(Integer.toString(i+1), btnImages[i][0]);
+			level[i].setName(Integer.toString(i));
 			if (i < 5) {
 				level[i].setBounds(X, Y + (65 * i), 185, 80);
 			}
@@ -82,29 +87,31 @@ public class LevelChoicePanel extends BasePanel {
 			level[i].setContentAreaFilled(false);
 			add(level[i]);
 		}
-		
-//		level[0] = new JButton("1", level1Icon);
-//		level[0].setBorderPainted(false);
-//		level[0].setFocusPainted(false);
-//		level[0].setContentAreaFilled(false);
-//		level[0].setBounds(X, Y, 185, 80);
-//		
-//		level[1] = new JButton("2", level2Icon);
-//		level[1].setBorderPainted(false);
-//		level[1].setFocusPainted(false);
-//		level[1].setContentAreaFilled(false);
-//		level[1].setBounds(X, Y + 70, 185, 80);
-		
+
 		btnBack = new JButton("back", backIcon);
 		btnBack.setBorderPainted(false);
 		btnBack.setFocusPainted(false);
 		btnBack.setContentAreaFilled(false);
 		btnBack.setBounds(170, 370, 80, 70);
 
-//		add(level[0]);
-//		add(level[1]);
-		//add(stringBoxLevelChoice);
 		add(btnBack);
+	}
+	
+	/** 메뉴패널에 대한 버튼들의 마우스리스너 */
+	class LevelMouseEvent extends MouseAdapter {
+		// 마우스 땜
+		public void mouseExited(MouseEvent e) {
+			JButton eventBtn = (JButton) e.getSource();
+			int btnName = Integer.parseInt(eventBtn.getName());
+			level[btnName].setIcon(btnImages[btnName][EXITED]);
+		}
+
+		// 마우스 얹음
+		public void mouseEntered(MouseEvent e) {
+			JButton eventBtn = (JButton) e.getSource();
+			int btnName = Integer.parseInt(eventBtn.getName());
+			level[btnName].setIcon(btnImages[btnName][ENTERD]);
+		}
 	}
 
 	/** 유저가 플레이할 수 없는 레벨 버튼 비활성화 */
@@ -137,6 +144,7 @@ public class LevelChoicePanel extends BasePanel {
 				// 뒤로가기 버튼 누를 시,
 				if (nowPanel == MENU) { // 메뉴에서 레벨선택
 					panel.setContentPane(PanelManager.MENU);
+					setVisible(false);
 				}
 				else if (nowPanel == PAUSE) { // pause에서 레벨선택
 					//panel.getGamePanel().add(panel.getLevelChoicePanel());
