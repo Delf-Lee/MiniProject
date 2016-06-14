@@ -27,6 +27,7 @@ public class LevelChoicePanel extends BasePanel {
 	private ImageIcon backIcon = new ImageIcon("images/back.png");
 	private ImageIcon level1Icon = new ImageIcon("images/1.png");
 	private ImageIcon level2Icon = new ImageIcon("images/2.png");
+	
 	// ¹öÆ°
 	JButton[] level;
 	JButton btnBack;
