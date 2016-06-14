@@ -96,19 +96,19 @@ public class WordSettingPanel extends BasePanel {
 		textInputBox.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		textInputBox.setBounds(670, 200, 300, 55);
 
-		btnWordAdd = new JButton("단어 추가", wordAddIcon);
+		btnWordAdd = new JButton("+", wordAddIcon);
 		btnWordAdd.setBorderPainted(false);
 		btnWordAdd.setFocusPainted(false);
 		btnWordAdd.setContentAreaFilled(false);
 		btnWordAdd.setBounds(830, 260, 70, 70);
 
-		btnWordDelete = new JButton("단어 삭제", wordDeleteIcon);
+		btnWordDelete = new JButton("-", wordDeleteIcon);
 		btnWordDelete.setBorderPainted(false);
 		btnWordDelete.setFocusPainted(false);
 		btnWordDelete.setContentAreaFilled(false);
 		btnWordDelete.setBounds(910, 260, 70, 70);
 
-		btnBack = new JButton("뒤로", backIcon);
+		btnBack = new JButton("뒤", backIcon);
 		btnBack.setBorderPainted(false);
 		btnBack.setFocusPainted(false);
 		btnBack.setContentAreaFilled(false);
@@ -150,16 +150,16 @@ public class WordSettingPanel extends BasePanel {
 			JButton pressedBtn = (JButton) e.getSource();
 			System.out.println(pressedBtn.getText());
 			switch (pressedBtn.getText()) {
-			case "단어 추가":
+			case "+":
 				addWordEvent();
 
 				break;
 
-			case "단어 삭제":
+			case "-":
 				deleteWordEvent();
 				break;
 
-			case "뒤로":
+			case "뒤":
 				writeWordDate();
 				break;
 			}
