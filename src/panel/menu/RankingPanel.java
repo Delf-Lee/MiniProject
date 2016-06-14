@@ -48,7 +48,7 @@ public class RankingPanel extends BasePanel {
 		setComponent(); // 버튼 세팅
 		setListener();
 
-		requestFocus();
+		IDInputBox.requestFocus(true);
 	}
 
 	/** 리스너 설정 */

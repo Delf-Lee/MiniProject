@@ -16,7 +16,8 @@ public class User {
 	}
 
 	public void setBestScore(int score) {
-		bestScore = score;
+		if(bestScore < score)
+			bestScore = score;
 	}
 
 	public void setLastStage(int stage) {

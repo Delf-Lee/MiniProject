@@ -13,6 +13,7 @@ import panel.game.GamePanel;
 import panel.game.PausePanel;
 import user.Player;
 import user.User;
+import user.UserManager;
 import word.Word;
 import word.WordManager;
 
@@ -40,6 +41,7 @@ public class GameThread extends Thread {
 	private int preTime;
 	private int combo;
 	private int itemTime;
+	private int score;
 
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
@@ -51,6 +53,7 @@ public class GameThread extends Thread {
 		panel.getLevelChoicePanel().setThread(this);
 		screen.add(stop);
 		stop.setVisible(false);
+		score = 0;
 	}
 
 	/** 플레이어와 게임레벨을 설정 */
@@ -64,6 +67,7 @@ public class GameThread extends Thread {
 	}
 
 	public void run() {
+		initGame();
 		try {
 			while (true) {
 				createWord(); // 단어 객체 생성
@@ -78,7 +82,7 @@ public class GameThread extends Thread {
 				sleep(100);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return;
 		}
 	}
@@ -190,6 +194,16 @@ public class GameThread extends Thread {
 
 	private void gameOver() {
 		/*게임 데이터 저장*/
+		UserManager.user.setBestScore(score);
+		for(int i = 0; i < UserManager.userList.size(); i++) {
+			if(UserManager.user.getUserName().equals(UserManager.userList.get(i).getUserName())) {
+				UserManager.userList.get(i).setBestScore(score);
+				break;
+			}
+		}
+		UserManager.sortUserList();
+		UserManager.saveUserData();
+		
 	}
 
 	/** 단어 객체를 패널로부터 삭제 */
@@ -199,8 +213,9 @@ public class GameThread extends Thread {
 
 	/** 단어 맞출 시, 점수 증가처리 */
 	private void plusScore() {
-		int score = 10 + combo * 7; // 콤보 달성 시, 추가점수
-		screen.updateScore(score);
+		int getScore = 10 + combo * 7;// 콤보 달성 시, 추가점수
+		score += getScore;
+		screen.updateScore(getScore);
 		if (combo < 10) { // 콤보는 10콤보까지
 			combo++;
 		}
@@ -210,7 +225,12 @@ public class GameThread extends Thread {
 	public void nextLevel() {
 		if (level < 10) {
 			level++;
-			initGame();
+			//initGame();
+			wordList.initwordList();
+			screen.initTextField();
+			screen.repaint();
+			preTime = (int) System.currentTimeMillis();
+			screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
 		}
 		else {
 			// 무한모드
@@ -221,7 +241,7 @@ public class GameThread extends Thread {
 	public void initGame() {
 		wordList.initwordList(); // 패널에서 모든 단어를 떼어내고, 리스트 초기화
 		screen.initGame();
-		screen.getTextField().removeKeyListener(listener);
+		//screen.getTextField().removeKeyListener(listener);
 		screen.repaint();
 	}
 
@@ -252,6 +272,10 @@ public class GameThread extends Thread {
 	private void checkLife() {
 		if (screen.getLife() == 0) {
 			// 게임오버
+			gameOver();
+			//단어 떼줘
+			wordList.initwordList();
+			panel.setContentPane(PanelManager.MENU);
 			interrupt(); // 일단 임시로 종료시킴
 		}
 	}
