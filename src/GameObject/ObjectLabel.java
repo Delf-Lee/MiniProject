@@ -1,4 +1,4 @@
-package word;
+package GameObject;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,10 +6,10 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class WordLabel extends JLabel {
+public class ObjectLabel extends JLabel {
 	static ImageIcon label = new ImageIcon("images//textLabel.png");
 
-	public WordLabel(String word) {
+	public ObjectLabel(String word) {
 		super(word, CENTER);
 		setHorizontalTextPosition(CENTER);
 		setVerticalTextPosition(CENTER);

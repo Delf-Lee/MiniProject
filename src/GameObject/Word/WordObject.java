@@ -1,4 +1,4 @@
-package word;
+package GameObject.Word;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -7,6 +7,8 @@ import java.awt.Point;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import GameObject.BaseObject;
 
 public class WordObject extends BaseObject {
 

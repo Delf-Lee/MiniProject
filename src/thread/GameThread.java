@@ -6,7 +6,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 
-import Animation.ReadyAnimation;
+import GameObject.ObjectManager;
+import GameObject.Item.Item;
+import GameObject.Word.Word;
 import panel.MsgWinow;
 import panel.PanelManager;
 import panel.game.GamePanel;
@@ -14,16 +16,13 @@ import panel.game.PausePanel;
 import user.Player;
 import user.User;
 import user.UserManager;
-import word.ItemObject;
-import word.Word;
-import word.WordManager;
 
 public class GameThread extends Thread {
 	// 아이템 관련 상수 및 변수
 
 	private static boolean itemFlag[] = { false, false, false };
 
-	private WordManager wordList;
+	private ObjectManager wordList;
 	private Player player; // 필요없겠네
 
 	private PanelManager panel;
@@ -52,7 +51,7 @@ public class GameThread extends Thread {
 		screen = panel.getGamePanel();
 		pauseMenu = panel.getPausePanel();
 
-		wordList = new WordManager(this);
+		wordList = new ObjectManager(this);
 		panel.getPausePanel().setThread(this); // 선언 순서 때문에 여기서 스레드 레퍼런스 전달
 
 		screen.add(pauseMenu); // puase 패널을 미리 붙여놓음 (배치 문제때문에)
@@ -80,7 +79,6 @@ public class GameThread extends Thread {
 				checkLife();
 				checkPause();
 				checkItem();
-System.out.println("돌고있음");
 				screen.repaint();
 				sleep(100);
 			}
@@ -99,7 +97,6 @@ System.out.println("돌고있음");
 			}
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_ENTER: // 엔터
-				System.out.println("엔터");
 				Word findWord = wordList.removeWord(screen.getWordString());
 				if (findWord != null) {
 					removeWord(findWord); // 패널에서 단어객체 제거
@@ -140,7 +137,7 @@ System.out.println("돌고있음");
 			timerLabel.setBounds(490, 300, 150, 150);
 			screen.add(timerLabel);
 			screen.setComponentZOrder(timerLabel, 0);
-			
+
 		}
 
 		public void run() {
@@ -303,22 +300,22 @@ System.out.println("돌고있음");
 		itemTime = (int) System.currentTimeMillis();
 
 		switch (item) {
-		case ItemObject.SLOW:
-			itemFlag[ItemObject.SLOW] = true;
+		case Item.SLOW:
+			itemFlag[Item.SLOW] = true;
 			break;
 
-		case ItemObject.UNBEATABLE:
-			itemFlag[ItemObject.UNBEATABLE] = true;
+		case Item.UNBEATABLE:
+			itemFlag[Item.UNBEATABLE] = true;
 			break;
 
-		case ItemObject.NET_MODE:
-			itemFlag[ItemObject.NET_MODE] = true;
+		case Item.NET_MODE:
+			itemFlag[Item.NET_MODE] = true;
 			break;
 
-		case ItemObject.ADD_LIFE:
+		case Item.ADD_LIFE:
 			break;
 
-		case ItemObject.ALL_SAVE:
+		case Item.ALL_SAVE:
 			break;
 		}
 	}
@@ -326,13 +323,13 @@ System.out.println("돌고있음");
 	private void checkItem() {
 		int tmpTime = ((int) System.currentTimeMillis() - itemTime) / 1000;
 
-		if (itemFlag[ItemObject.SLOW] == true && tmpTime > 5) {
-			itemFlag[ItemObject.SLOW] = false;
+		if (itemFlag[Item.SLOW] == true && tmpTime > 5) {
+			itemFlag[Item.SLOW] = false;
 		}
-		if (itemFlag[ItemObject.UNBEATABLE] = true) {
+		if (itemFlag[Item.UNBEATABLE] = true) {
 
 		}
-		if (itemFlag[ItemObject.NET_MODE] = true) {
+		if (itemFlag[Item.NET_MODE] = true) {
 
 		}
 

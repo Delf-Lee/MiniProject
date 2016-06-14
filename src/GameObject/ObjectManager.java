@@ -1,17 +1,17 @@
-package word;
+package GameObject;
 
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
+import GameObject.Word.Word;
 import main.MainFrame;
 import thread.GameThread;
 
-public class WordManager {
+public class ObjectManager {
 	private Vector<Word> list = new Vector<Word>(); // 출현된 단어들을 관리하는 배열
 	private Vector<String> entry = new Vector<String>(); // 텍스트 파일에 있는 단어 복사
 	private GameThread thr;
@@ -31,7 +31,7 @@ public class WordManager {
 	// 파일 읽기
 	private FileReader fin = null;
 
-	public WordManager(GameThread thr) {
+	public ObjectManager(GameThread thr) {
 		this.thr = thr;
 		try {
 			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!

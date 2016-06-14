@@ -1,4 +1,4 @@
-package word;
+package GameObject;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class BaseObject extends JPanel {
-	protected WordLabel wordLabel;
+	protected ObjectLabel wordLabel;
 	protected JLabel imageLabel;
 	protected ImageIcon objectImage;
 	protected int width = 0;
@@ -28,7 +28,7 @@ public class BaseObject extends JPanel {
 
 	/** 단어 레이블 세팅 */
 	protected void setTextLabel(String word) {
-		wordLabel = new WordLabel(word);
+		wordLabel = new ObjectLabel(word);
 		setTextLabelSize();
 		add(wordLabel);
 		height += wordLabel.getHeight();
