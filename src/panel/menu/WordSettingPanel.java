@@ -56,7 +56,7 @@ public class WordSettingPanel extends BasePanel {
 
 	public WordSettingPanel(PanelManager panel) {
 		// 창 설정
-		super("images/단어설정.png");
+		super("images/단어설정BG.png");
 		this.panel = panel;
 		setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
 		setLocation(0, 25);
