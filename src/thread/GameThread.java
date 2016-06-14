@@ -139,6 +139,7 @@ System.out.println("돌고있음");
 			timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 150));
 			timerLabel.setBounds(490, 300, 150, 150);
 			screen.add(timerLabel);
+			screen.setComponentZOrder(timerLabel, 0);
 			
 		}
 
