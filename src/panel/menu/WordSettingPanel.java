@@ -152,15 +152,16 @@ public class WordSettingPanel extends BasePanel {
 			switch (pressedBtn.getText()) {
 			case "+":
 				addWordEvent();
-
 				break;
-
+				
 			case "-":
 				deleteWordEvent();
 				break;
-
+				
 			case "뒤":
 				writeWordDate();
+				panel.setContentPane(PanelManager.MENU);
+				repaint();
 				break;
 			}
 		}
@@ -193,6 +194,8 @@ public class WordSettingPanel extends BasePanel {
 
 			case KeyEvent.VK_ESCAPE: // 뒤로가기
 				writeWordDate();
+				panel.setContentPane(PanelManager.MENU);
+				repaint();
 				break;
 			}
 		}
@@ -201,6 +204,10 @@ public class WordSettingPanel extends BasePanel {
 	private void deleteWordEvent() {
 		int index = wordList.getSelectedIndex(); //선택된 항목의 인덱스를 가져온다.
 
+		if(index == -1) {
+			MsgWinow.error("삭제할 단어를 선택하세요.");
+			return;
+		}
 		wordListModel.remove(index); //리스트모델에서 선택된 항목을 지운다.
 		if (wordListModel.getSize() == 0) { //리스트모델의 사이즈가 0이되면 삭제버튼을 누를 수 없게 한다.
 			btnWordDelete.setEnabled(false);
@@ -210,6 +217,7 @@ public class WordSettingPanel extends BasePanel {
 		}
 		wordList.setSelectedIndex(index);
 		wordList.ensureIndexIsVisible(index);
+		writeWordDate();
 	}
 
 	private void addWordEvent() {
@@ -224,6 +232,7 @@ public class WordSettingPanel extends BasePanel {
 			while ((word = reader.readLine()) != null) { // 한 줄 단위로 읽어옴
 				if (word.equals(textInputBox.getText())) { // 입력 단어의 " "를 ""로 대체
 					MsgWinow.error("이미 존재하는 단어입니다");
+					initPanel();
 					return;
 				}
 			}
@@ -240,7 +249,7 @@ public class WordSettingPanel extends BasePanel {
 		}
 
 		wordListModel.addElement(textInputBox.getText()/*.replaceAll(" ", "")*/); // 입력 단어의 " "를 ""로 대체
-		textInputBox.setText("");
+		initPanel();
 
 		/* 임시코드 ↓*/
 		txtLog.append(textInputBox.getText() + "\n"); // 로그 내용을 JTextArea 위에 붙여주고
@@ -279,8 +288,6 @@ public class WordSettingPanel extends BasePanel {
 			System.out.println("입출력 오류 (단어 추가)");
 			System.exit(1);
 		}
-		panel.setContentPane(PanelManager.MENU);
-		repaint();
 	}
 
 	public void setFocus() {

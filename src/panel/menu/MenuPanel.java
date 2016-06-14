@@ -111,6 +111,7 @@ public class MenuPanel extends BasePanel {
 				panel.getLevelChoicePanel().setButtonEnable(); // 버튼 비활성화 설정
 				break;
 			case WORD_SETTING:
+				panel.getWordSettingPanel().initPanel();
 				panel.setContentPane(PanelManager.WORD_SETTING);
 				panel.getWordSettingPanel().setFocus(); // 포커스
 				break;

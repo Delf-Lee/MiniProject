@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -22,6 +23,8 @@ public class LevelChoicePanel extends BasePanel {
 	private GameThread thrd;
 	// 레이블
 	JLabel stringBoxLevelChoice;
+	
+	private ImageIcon backIcon = new ImageIcon("images/back.png");
 	// 버튼
 	JButton[] level;
 	JButton btnBack;
@@ -31,7 +34,7 @@ public class LevelChoicePanel extends BasePanel {
 	private int nowPanel;
 
 	public LevelChoicePanel(int x, int y, int width, int height, PanelManager panel) {
-		super(/*이미지 경로*/);
+		super("images/levelchoiceBG.png");
 		this.panel = panel;
 		setBounds(x, y, width, height);
 		setBackground(Color.CYAN); // 삭제 예정 라인
@@ -66,11 +69,12 @@ public class LevelChoicePanel extends BasePanel {
 			}
 			add(level[i]);
 		}
-
-		btnBack = new JButton("back");
-		btnBack.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		btnBack.setBounds(150, 380, 115, 40);
-		//btnBack.setBounds(0, 0, 115, 40);
+		
+		btnBack = new JButton("back", backIcon);
+		btnBack.setBorderPainted(false);
+		btnBack.setFocusPainted(false);
+		btnBack.setContentAreaFilled(false);
+		btnBack.setBounds(170, 360, 80, 70);
 
 		add(stringBoxLevelChoice);
 		add(btnBack);
@@ -102,7 +106,8 @@ public class LevelChoicePanel extends BasePanel {
 			JButton pressedBtn = (JButton) e.getSource();
 
 			switch (pressedBtn.getText()) {
-			case "back": // 뒤로가기 버튼 누를 시,
+			case "back":
+				// 뒤로가기 버튼 누를 시,
 				if (nowPanel == MENU) { // 메뉴에서 레벨선택
 					panel.setContentPane(PanelManager.MENU);
 				}

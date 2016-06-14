@@ -61,15 +61,15 @@ public class PausePanel extends BasePanel {
 		stringBoxPause.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		stringBoxPause.setBounds(X, 10, 200, 100);
 
-		btnStart = new JButton("게임 재개");
+		btnStart = new JButton("계속하기");
 		btnStart.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnStart.setBounds(X, Y, 200, 50);
 
-		btnRestart = new JButton("재시작");
+		btnRestart = new JButton("새로하기");
 		btnRestart.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnRestart.setBounds(X, Y + 60, 200, 50);
 
-		btnLevelChoice = new JButton("레벨 선택");
+		btnLevelChoice = new JButton("레벨선택");
 		btnLevelChoice.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		btnLevelChoice.setBounds(X, Y + (60 * 2), 200, 50);
 
@@ -101,7 +101,7 @@ public class PausePanel extends BasePanel {
 			JButton pressedBtn = (JButton) e.getSource();
 
 			switch (pressedBtn.getText()) {
-			case "게임 재개":
+			case "계속하기":
 				setVisible(false);
 				JLabel timerLabel = new JLabel("3");
 				timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 100));
@@ -110,7 +110,7 @@ public class PausePanel extends BasePanel {
 				TimerThread th = new TimerThread(timerLabel);
 				th.start();
 				break;
-			case "재시작":
+			case "새로하기":
 				boolean confirm = MsgWinow.confirm("재시작 하시겠습니까?");
 				if (confirm) {
 					thrd.initGame(); // 게임 초기화
@@ -120,7 +120,7 @@ public class PausePanel extends BasePanel {
 					setVisible(false); // 퍼즈 패널 비가시화
 				}
 				break;
-			case "레벨 선택":
+			case "레벨선택":
 				levelChoice.setNowPanel(LevelChoicePanel.PAUSE); // 현재 패널은 pause
 				screen.add(levelChoice); // 레벨 선택 패널 부착
 				screen.setComponentZOrder(levelChoice, 0); // 레벨 선택 패널 맨 앞으로
