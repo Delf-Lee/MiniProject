@@ -115,9 +115,11 @@ public class MenuPanel extends BasePanel {
 				panel.getWordSettingPanel().setFocus(); // Æ÷Ä¿½º
 				break;
 			case RANKING:
+				panel.getRankingPanel().initPanel();
 				panel.setContentPane(PanelManager.RANKING);
 				break;
 			case LOGOUT:
+				panel.getLoninPanel().initPanel();
 				panel.setContentPane(PanelManager.HOME);
 				break;
 			default:

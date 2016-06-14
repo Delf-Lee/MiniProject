@@ -48,7 +48,7 @@ public class RankingPanel extends BasePanel {
 		setComponent(); // 버튼 세팅
 		setListener();
 
-		requestFocus();
+		IDInputBox.requestFocus(true);
 	}
 
 	/** 리스너 설정 */
@@ -289,6 +289,7 @@ public class RankingPanel extends BasePanel {
 
 	@Override
 	public void initPanel() {
+		UserManager.sortUserList(); // vector score 내림차순
 		int rank = 1;
 		for (int i = 0; i < 10; i++) {
 			stringBoxRanks[i].setText(Integer.toString(i + 1));

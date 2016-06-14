@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.FileReader;
 
 import javax.swing.JButton;
@@ -38,12 +40,14 @@ public class LoginPanel extends BasePanel {
 
 		setComponent(); // 각 컴포넌트 배치
 		setListener();
+		
 	}
 
 	/** 리스너 설정 */
 	private void setListener() {
 		loginButton.addActionListener(new LoginListener());
 		signUpButton.addActionListener(new LoginListener());
+		passwordField.addKeyListener(new LoginKeyListener());
 	}
 
 	/** 컴포넌트 설정 및 배치 */
@@ -101,6 +105,19 @@ public class LoginPanel extends BasePanel {
 				break;
 			}
 			initPanel();
+		}
+	}
+	
+	class LoginKeyListener extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (acceptUser()) { // 입력 체크
+					panel.setContentPane(PanelManager.MENU);
+					panel.getSignupPanel().setFocus();
+					repaint();
+				}
+			}
 		}
 	}
 
