@@ -106,6 +106,7 @@ public class MenuBar extends JMenuBar {
 			this.setContentPane(panel.getRankingPanel());
 			setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
 			setTitle("Ranking");
+			panel.getRankingPanel().initPanel();
 			setResizable(false);
 		}
 	}

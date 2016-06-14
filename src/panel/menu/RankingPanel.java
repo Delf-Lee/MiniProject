@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,14 +24,22 @@ import user.UserManager;
 public class RankingPanel extends BasePanel {
 	private PanelManager panel;
 	// 콤보
-	private JComboBox<String> searchCombo;
+	//private JComboBox<String> searchCombo;
+	private JLabel searchStringBoxID;
 	// 텍스트 필드
 	private JTextField IDInputBox; // 아이디 입력창
 	// 이미지아이콘
+	private ImageIcon rankIcon = new ImageIcon("images/순위.png");
+	private ImageIcon IDIcon = new ImageIcon("images/ID.png");
+	private ImageIcon scoreIcon = new ImageIcon("images/score.png");
 	private ImageIcon backIcon = new ImageIcon("images/back.png");
+	private ImageIcon searchIcon = new ImageIcon("images/검색.png");
+	private ImageIcon searchIcon_ = new ImageIcon("images/검색2.png");
 	// 버튼
 	private JButton btnSearch;
 	public JButton btnBack;
+	
+	
 	// 문자열
 	private JLabel stringBoxRank;
 	private JLabel stringBoxID;
@@ -39,9 +49,14 @@ public class RankingPanel extends BasePanel {
 	private JLabel stringBoxIDs[];
 	private JLabel stringBoxScores[];
 
+	// 위치 정적변수
+	private static final int X = 50;
+	private static final int Y = 90;
+	
+
 	public RankingPanel(PanelManager panel) {
 		// 창 설정
-		super(/*이미지 경로*/);
+		super("images/랭킹BG.png");
 		this.panel = panel;
 		setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
 		setLocation(0, 25);
@@ -58,22 +73,20 @@ public class RankingPanel extends BasePanel {
 		btnSearch.addActionListener(new SearchActionListnener());
 		IDInputBox.addKeyListener(new SearchKeyListnener());
 		btnBack.addActionListener(new BackActionListnener());
+		btnSearch.addMouseListener(new SearchMouseListener());
 	}
 
 	/** 컴포넌트 설정 및 배치 */
 	private void setComponent() {
 
-		stringBoxRank = new JLabel("순위", JLabel.CENTER);
-		stringBoxRank.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		stringBoxRank.setBounds(250, 80, 100, 100);
+		stringBoxRank = new JLabel(rankIcon);
+		stringBoxRank.setBounds(X, Y, 100, 100);
 
-		stringBoxID = new JLabel("I  D", JLabel.CENTER);
-		stringBoxID.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		stringBoxID.setBounds(450, 80, 100, 100);
+		stringBoxID = new JLabel(IDIcon);
+		stringBoxID.setBounds(X + 200, Y, 100, 100);
 
-		stringBoxScore = new JLabel("SCORE", JLabel.CENTER);
-		stringBoxScore.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		stringBoxScore.setBounds(650, 80, 100, 100);
+		stringBoxScore = new JLabel(scoreIcon);
+		stringBoxScore.setBounds(X + 370, Y, 170, 100);
 
 		UserManager.sortUserList(); // vector score 내림차순
 
@@ -83,19 +96,19 @@ public class RankingPanel extends BasePanel {
 		else {
 			setArrayRanks(10);
 		}
-
-		searchCombo = new JComboBox<String>();
-		searchCombo.addItem("ID");
-		searchCombo.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		searchCombo.setBounds(250, 570, 115, 40);
+		
+		searchStringBoxID = new JLabel(IDIcon);
+		searchStringBoxID.setBounds(X + 10, Y + 500, 100, 100);
 
 		IDInputBox = new JTextField();
 		IDInputBox.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		IDInputBox.setBounds(365, 570, 285, 40);
+		IDInputBox.setBounds(X + 105, Y + 530, 285, 40);
 
-		btnSearch = new JButton("검색");
-		btnSearch.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		btnSearch.setBounds(650, 570, 100, 40);
+		btnSearch = new JButton("검색", searchIcon);
+		btnSearch.setBorderPainted(false);
+		btnSearch.setFocusPainted(false);
+		btnSearch.setContentAreaFilled(false);
+		btnSearch.setBounds(X + 400, Y + 530, 110, 40);
 
 		btnBack = new JButton(backIcon);
 		btnBack.setBorderPainted(false);
@@ -107,7 +120,8 @@ public class RankingPanel extends BasePanel {
 		add(stringBoxID);
 		add(stringBoxScore);
 
-		add(searchCombo);
+//		add(searchCombo);
+		add(searchStringBoxID);
 		add(IDInputBox);
 		add(btnSearch);
 		add(btnBack);
@@ -122,7 +136,7 @@ public class RankingPanel extends BasePanel {
 		for (int i = 0; i < size; i++) {
 			stringBoxRanks[i] = new JLabel(Integer.toString(i + 1), JLabel.CENTER);
 			stringBoxRanks[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
-			stringBoxRanks[i].setBounds(250, 130 + 40 * i, 100, 100);
+			stringBoxRanks[i].setBounds(X, Y + 60 + 40 * i, 100, 100);
 			if(i > 0) {
 				if(UserManager.userList.get(i-1).getBestScore() == UserManager.userList.get(i).getBestScore()) {
 					stringBoxRanks[i].setText(Integer.toString(rank));
@@ -135,10 +149,10 @@ public class RankingPanel extends BasePanel {
 			}
 			stringBoxIDs[i] = new JLabel(UserManager.userList.get(i).getUserName(), JLabel.CENTER);
 			stringBoxIDs[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
-			stringBoxIDs[i].setBounds(405, 130 + 40 * i, 200, 100);
+			stringBoxIDs[i].setBounds(X + 155, Y + 60 + 40 * i, 200, 100);
 			stringBoxScores[i] = new JLabel(Integer.toString(UserManager.userList.get(i).getBestScore()), JLabel.CENTER);
 			stringBoxScores[i].setFont(new Font("맑은 고딕", Font.BOLD, 30));
-			stringBoxScores[i].setBounds(650, 130 + 40 * i, 100, 100);
+			stringBoxScores[i].setBounds(X + 400, Y + 60 + 40 * i, 100, 100);
 			add(stringBoxRanks[i]);
 			add(stringBoxIDs[i]);
 			add(stringBoxScores[i]);
@@ -169,6 +183,30 @@ public class RankingPanel extends BasePanel {
 		}
 
 	}
+	
+	class SearchMouseListener extends MouseAdapter {
+		// 아무것도 안할 때,
+		public void mouseExited(MouseEvent e) {
+			JButton eventBtn = (JButton) e.getSource();
+			switch (eventBtn.getText()) {
+			case "검색":
+				btnSearch.setIcon(searchIcon);
+				break;
+
+			}
+		}
+
+		// 버튼 위에 마우스를 올릴 때,
+		public void mouseEntered(MouseEvent e) {
+			JButton eventBtn = (JButton) e.getSource();
+			switch (eventBtn.getText()) {
+			case "검색":
+				btnSearch.setIcon(searchIcon_);
+				break;
+
+			}
+		}
+	}
 
 	public void search() {
 		for (int i = 0; i < UserManager.userList.size(); i++) {
@@ -192,9 +230,9 @@ public class RankingPanel extends BasePanel {
 						stringBoxIDs[j].setForeground(Color.BLACK);
 						stringBoxScores[j].setForeground(Color.BLACK);
 					}
-					stringBoxRanks[i].setForeground(Color.CYAN);
-					stringBoxIDs[i].setForeground(Color.CYAN);
-					stringBoxScores[i].setForeground(Color.CYAN);
+					stringBoxRanks[i].setForeground(Color.RED);
+					stringBoxIDs[i].setForeground(Color.RED);
+					stringBoxScores[i].setForeground(Color.RED);
 
 					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
 					return;
@@ -219,9 +257,9 @@ public class RankingPanel extends BasePanel {
 						stringBoxIDs[j].setForeground(Color.BLACK);
 						stringBoxScores[j].setForeground(Color.BLACK);
 					}
-					stringBoxRanks[i].setForeground(Color.CYAN);
-					stringBoxIDs[i].setForeground(Color.CYAN);
-					stringBoxScores[i].setForeground(Color.CYAN);
+					stringBoxRanks[i].setForeground(Color.RED);
+					stringBoxIDs[i].setForeground(Color.RED);
+					stringBoxScores[i].setForeground(Color.RED);
 
 					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
 					return;
@@ -248,9 +286,9 @@ public class RankingPanel extends BasePanel {
 						stringBoxScores[k].setForeground(Color.BLACK);
 						k++;
 					}
-					stringBoxRanks[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
-					stringBoxIDs[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
-					stringBoxScores[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.CYAN);
+					stringBoxRanks[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.RED);
+					stringBoxIDs[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.RED);
+					stringBoxScores[9 - (UserManager.userList.size() - (i + 1))].setForeground(Color.RED);
 					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
 					return;
 				}
@@ -275,9 +313,9 @@ public class RankingPanel extends BasePanel {
 						stringBoxScores[k].setForeground(Color.BLACK);
 						k++;
 					}
-					stringBoxRanks[4].setForeground(Color.CYAN);
-					stringBoxIDs[4].setForeground(Color.CYAN);
-					stringBoxScores[4].setForeground(Color.CYAN);
+					stringBoxRanks[4].setForeground(Color.RED);
+					stringBoxIDs[4].setForeground(Color.RED);
+					stringBoxScores[4].setForeground(Color.RED);
 					IDInputBox.setText(""); // 검색을 누루면 아이디입력필드를 ""로 초기화
 					return;
 				}

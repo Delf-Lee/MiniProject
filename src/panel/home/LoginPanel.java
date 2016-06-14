@@ -138,7 +138,7 @@ public class LoginPanel extends BasePanel {
 		}
 	}
 	
-	/** 회원가입패널에 대한 버튼들의 마우스리스너 */
+	/** 로그인패널에 대한 버튼들의 마우스리스너 */
 	class LoginMouseEvent extends MouseAdapter {
 		// 아무것도 안할 때,
 		public void mouseExited(MouseEvent e) {
