@@ -3,6 +3,7 @@ package thread;
 public class Timer extends Thread {
 
 	private int limitTime;
+	private int passTime;
 	private int preTime;
 	private int standatdTime;
 	private int stopTime;
@@ -18,11 +19,17 @@ public class Timer extends Thread {
 
 	public void resumeTimer() {
 		resumeTime = (int) System.currentTimeMillis();
-		//preTime = 
 	}
 
 	public int preTime() {
-		return (preTime / 1000);
+		return (passTime / 1000);
+	}
+
+	public void run() {
+		try {
+			passTime = (int) System.currentTimeMillis() - standatdTime;
+		} catch (Exception e) {
+		}
 	}
 
 }

@@ -21,7 +21,7 @@ public class Word {
 		this.start = start;
 		this.endX = endX;
 		
-		int type = (int) (Math.random() * 2);
+		int type = (int) (Math.random() * 3);
 		wordObject = new WordObject(word, start, type);
 	}
 

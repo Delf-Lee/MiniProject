@@ -17,40 +17,48 @@ import word.Word;
 import word.WordManager;
 
 public class GameThread extends Thread {
+	// 아이템 관련 상수 및 변수
 	private static final int SLOW = 0;
 	private static final int UNBEATABLE = 1;
 	private static final int NET_MODE = 2;
 	private static final int ADD_LIFE = 3;
 	private static final int ALL_SAVE = 4;
-
-	private static final boolean itemFlag[] = { false, false, false };
-
+	private static boolean itemFlag[] = { false, false, false };
+	
 	private WordManager wordList;
 	private Player player;
+
 	private PanelManager panel;
 	private GamePanel screen;
 	private PausePanel pauseMenu;
 
 	private MyKeyListener listener = new MyKeyListener();
+	
 
-	private boolean pause = false;
-	private boolean terminate = false;
-	private int item[] = { 0, 0, 0, 0, 0 };
-	private int level;
-	private int preTime;
-	private int combo;
-	private int itemTime;
+	// 인게임 정보
+	private int preTime; // 현재 시간
+	private int limitTime; // 게임 제한 시간
+	private int level; // 현재 플레이 하고있는 레벨
+	private int score; // 점수
+	private int combo; // 콤보 수
+	
+	private boolean pause = false; // puase 여부
+
+	// 아이템
+	
+	private int itemTime; // 아이템 제한 시간
+	private int item[] = { 0, 0, 0, 0, 0 }; // 소유 아이템 개수
 
 	/** 생성자 */
 	public GameThread(PanelManager panel) {
 		this.panel = panel; // 패널에 대한 레퍼런스 설정
 		screen = panel.getGamePanel();
 		pauseMenu = panel.getPausePanel();
-		
+
 		wordList = new WordManager(this);
-		
+
 		panel.getPausePanel().setThread(this); // 선언 순서 때문에 여기서 스레드 레퍼런스 전달
-		
+
 		screen.add(pauseMenu); // puase 패널을 미리 붙여놓음 (배치 문제때문에)
 		pauseMenu.setVisible(false);
 	}
@@ -60,7 +68,7 @@ public class GameThread extends Thread {
 		player = new Player(user); // 게임할 플레이어 설정
 		this.level = level; // 플레이어가 플레이 가능한 게임 레벨
 
-		new ReadyAnimation(screen, level, this); // 준비 애니메이션
+		//new ReadyAnimation(screen, level, this); // 준비 애니메이션
 		preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
 		screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
 	}
@@ -119,9 +127,9 @@ public class GameThread extends Thread {
 			case KeyEvent.VK_BACK_SPACE: // 백스페이스
 				combo = 0; // 백스페이스 입력 시 콤보 초기화
 				break;
-			default:
+			default: // 
 				if (e.getKeyChar() >= SLOW && e.getKeyChar() >= ALL_SAVE) {
-					useItem(e.getKeyCode());
+					useItem(e.getKeyCode()); // 아이템 사용
 				}
 				break;
 			}
@@ -248,7 +256,7 @@ public class GameThread extends Thread {
 
 	/** 라이프 하나 소멸 */
 	public void lostLife() {
-		screen.lostLife();
+		//screen.lostLife();
 	}
 
 	private void checkLife() {

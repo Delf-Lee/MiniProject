@@ -2,10 +2,12 @@ package panel.menu;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -40,10 +43,15 @@ public class WordSettingPanel extends BasePanel {
 	// 파일 입출력
 	private FileWriter fout = null;
 	private FileReader fin = null;
+	//리스너
+	private ButtonListener buttonListener = new ButtonListener();
+	private WordSettingKeyListener wordKeyListener = new WordSettingKeyListener();
+
+	private int cnt = 0; // 파일 내 단어 수
 
 	public WordSettingPanel(PanelManager panel) {
 		// 창 설정
-		super(/*이미지 경로*/);
+		super("images/단어설정.png");
 		this.panel = panel;
 		setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
 		setLocation(0, 25);
@@ -53,19 +61,22 @@ public class WordSettingPanel extends BasePanel {
 		setListener();
 
 		requestFocus();
+		//wordList.requestFocus();// JList로 포커스
 	}
-	
+
 	/** 리스너 설정 */
 	private void setListener() {
-		btnWordAdd.addActionListener(new WordAddActionListnener());
-		textInputBox.addKeyListener(new WordAddKeyListener());
-		btnWordDelete.addActionListener(new WordDeleteActionListnener());
-		btnBack.addActionListener(new BackActionListnener());
+		textInputBox.addKeyListener(wordKeyListener); // 입력
+		wordList.addKeyListener(wordKeyListener);
+
+		btnWordAdd.addMouseListener(buttonListener); // 추가 버튼
+		btnWordDelete.addMouseListener(buttonListener); // 삭제 버튼
+		btnBack.addMouseListener(buttonListener); // 뒤로가기
 	}
 
 	/** 컴포넌트 설정 및 배치 */
 	private void setComponent() {
-		wordScroll.setBounds(400, 257, 300, 300);
+		wordScroll.setBounds(100, 50, 300, 600);
 
 		// list에 파일안의 단어 목록 추가
 		wordListModel = new DefaultListModel<String>();
@@ -74,21 +85,20 @@ public class WordSettingPanel extends BasePanel {
 		wordList = new JList<String>();
 		wordList.setModel(wordListModel);
 		wordList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-
 		wordScroll.setViewportView(wordList);
 
 		textInputBox = new JTextField();
 		textInputBox.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		textInputBox.setBounds(400, 560, 300, 55);
+		textInputBox.setBounds(500, 260, 300, 55);
 
 		btnWordAdd = new JButton("단어 추가");
-		btnWordAdd.setBounds(400, 620, 150, 55);
+		btnWordAdd.setBounds(500, 320, 150, 55);
 
 		btnWordDelete = new JButton("단어 삭제");
-		btnWordDelete.setBounds(550, 620, 150, 55);
+		btnWordDelete.setBounds(550, 320, 150, 55);
 
 		btnBack = new JButton("뒤로");
-		btnBack.setBounds(900, 680, 100, 55);
+		btnBack.setBounds(800, 580, 100, 55);
 
 		add(textInputBox);
 		add(btnWordAdd);
@@ -96,16 +106,16 @@ public class WordSettingPanel extends BasePanel {
 		add(wordScroll);
 		add(btnBack);
 	}
-	
+
 	public void addWordList(DefaultListModel<String> wordListModel) {
 		try {
 			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
 			BufferedReader reader = new BufferedReader(fin);
 
 			String word = null;
-
 			while ((word = reader.readLine()) != null) { // 한 줄 단위로 읽어옴
 				wordListModel.addElement(word);
+				cnt++;
 			}
 			reader.close();
 		} catch (IOException e) {
@@ -114,61 +124,81 @@ public class WordSettingPanel extends BasePanel {
 		}
 	}
 
-	
+	//	class WordAddActionListnener implements ActionListener {
+	//		@Override
+	//		public void actionPerformed(ActionEvent arg) {
+	//			btnWordAddEvent();
+	//		}
+	//	}
 
-	
+	class ButtonListener extends MouseAdapter {
+		public void mousePressed(MouseEvent e) {
+			JButton pressedBtn = (JButton) e.getSource();
+			System.out.println(pressedBtn.getText());
+			switch (pressedBtn.getText()) {
+			case "단어 추가":
+				addWordEvent();
 
-	class WordAddActionListnener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent arg) {
-			btnWordAddEvent();
+				break;
+
+			case "단어 삭제":
+				deleteWordEvent();
+				break;
+
+			case "뒤로":
+				writeWordDate();
+				break;
+			}
 		}
 	}
 
-	class WordAddKeyListener extends KeyAdapter {
+	class WordSettingKeyListener extends KeyAdapter {
+		private boolean focusTextField = true;
+
 		public void keyPressed(KeyEvent arg) {
-			if (arg.getKeyCode() == KeyEvent.VK_ENTER) {
-				btnWordAddEvent();
+			switch (arg.getKeyCode()) {
+			case KeyEvent.VK_ENTER: // 추가 단축키
+				if (focusTextField)
+					addWordEvent();
+				break;
+
+			case KeyEvent.VK_D: // 삭제 단축키
+				if (!focusTextField)
+					deleteWordEvent();
+				break;
+
+			case KeyEvent.VK_LEFT:
+				wordList.requestFocus();// JList로 포커스
+				focusTextField = false;
+				break;
+
+			case KeyEvent.VK_RIGHT:
+				textInputBox.requestFocus(); // 텍스트필드로 포커스
+				focusTextField = true;
+				break;
+
+			case KeyEvent.VK_ESCAPE: // 뒤로가기
+				writeWordDate();
+				break;
 			}
 		}
 	}
 
-	class WordDeleteActionListnener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent arg) {
-			int index = wordList.getSelectedIndex(); //선택된 항목의 인덱스를 가져온다.
+	private void deleteWordEvent() {
+		int index = wordList.getSelectedIndex(); //선택된 항목의 인덱스를 가져온다.
 
-			wordListModel.remove(index); //리스트모델에서 선택된 항목을 지운다.
-			if (wordListModel.getSize() == 0) { //리스트모델의 사이즈가 0이되면 삭제버튼을 누를 수 없게 한다.
-				btnWordDelete.setEnabled(false);
-			}
-			if (index == wordListModel.getSize()) { //인덱스와 리스트모델의 마지막항목이 같으면
-				index--; //즉,선택된 인덱스가 리스트의 마지막 항목이었으면 인덱스를 -1해서 인덱스를 옮겨준다.
-			}
-			wordList.setSelectedIndex(index);
-			wordList.ensureIndexIsVisible(index);
+		wordListModel.remove(index); //리스트모델에서 선택된 항목을 지운다.
+		if (wordListModel.getSize() == 0) { //리스트모델의 사이즈가 0이되면 삭제버튼을 누를 수 없게 한다.
+			btnWordDelete.setEnabled(false);
 		}
+		if (index == wordListModel.getSize()) { //인덱스와 리스트모델의 마지막항목이 같으면
+			index--; //즉,선택된 인덱스가 리스트의 마지막 항목이었으면 인덱스를 -1해서 인덱스를 옮겨준다.
+		}
+		wordList.setSelectedIndex(index);
+		wordList.ensureIndexIsVisible(index);
 	}
 
-	class BackActionListnener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent arg) {
-			try {
-				fout = new FileWriter(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
-				for (int i = 0; i < wordListModel.getSize(); i++) {
-					fout.write(wordListModel.getElementAt(i)/*.replaceAll(" ", "")*/ + "\n"); // 입력 단어의 " "를 ""로 대체
-				}
-				fout.close();
-			} catch (IOException e) {
-				System.out.println("입출력 오류 (단어 추가)");
-				System.exit(1);
-			}
-			panel.setContentPane(PanelManager.MENU);
-			repaint();
-		}
-	}
-	
-	public void btnWordAddEvent() {
+	private void addWordEvent() {
 		// 중복된 단어 체크
 		try {
 			fin = new FileReader(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
@@ -191,16 +221,28 @@ public class WordSettingPanel extends BasePanel {
 		// 단어 추가
 
 		if (textInputBox.getText().length() == 0) { // 아무것도 입력하지 않으면
-			MsgWinow.error("단어를 입력하세.요");
+			MsgWinow.error("단어를 입력하세요.");
 			return;
 		}
 
 		wordListModel.addElement(textInputBox.getText()/*.replaceAll(" ", "")*/); // 입력 단어의 " "를 ""로 대체
 		textInputBox.setText("");
 
-		// 스크롤 아래로 내리기.. 근데 아래로 내려간 후 위로 안올라감ㅎㅎㅎㅎㅎ
+		/* 임시코드 ↓*/
 		txtLog.append(textInputBox.getText() + "\n"); // 로그 내용을 JTextArea 위에 붙여주고
 		txtLog.setCaretPosition(txtLog.getDocument().getLength()); // 맨아래로 스크롤한다.
+		/* 임시코드 ↑*/
+
+		/* 오류코드 */
+
+		//JScrollBar e = wordScroll.getVerticalScrollBar();
+		//e.getMaximum();
+		//wordScroll.getVerticalScrollBar().setValue(e.getMaximum());
+		//e.setValue(e.getMinimum());
+		//wordScroll.getVerticalScrollBarPolicy();
+		// 스크롤 아래로 내리기.. 근데 아래로 내려간 후 위로 안올라감ㅎㅎㅎㅎㅎ
+
+		wordScroll.getVerticalScrollBar().setValue(wordScroll.getVerticalScrollBar().getMaximum() + 100);
 
 		//		wordScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 		//			public void adjustmentValueChanged(AdjustmentEvent e) {
@@ -208,7 +250,23 @@ public class WordSettingPanel extends BasePanel {
 		//				src.setValue(src.getMaximum());
 		//			}
 		//		});
+		//wordScroll.getVerticalScrollBar().removeAdjustmentListener();
 
+	}
+
+	private void writeWordDate() {
+		try {
+			fout = new FileWriter(MainFrame.FILEROOT + "\\word.txt"); // 경로 수정!
+			for (int i = 0; i < wordListModel.getSize(); i++) {
+				fout.write(wordListModel.getElementAt(i)/*.replaceAll(" ", "")*/ + "\n"); // 입력 단어의 " "를 ""로 대체
+			}
+			fout.close();
+		} catch (IOException e) {
+			System.out.println("입출력 오류 (단어 추가)");
+			System.exit(1);
+		}
+		panel.setContentPane(PanelManager.MENU);
+		repaint();
 	}
 
 	public void setFocus() {

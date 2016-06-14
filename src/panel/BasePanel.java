@@ -21,6 +21,7 @@ abstract public class BasePanel extends JPanel {
 	public BasePanel(String file) {
 		setLayout(null);
 		background = new ImageIcon(file);
+		setOpaque(false);
 		img = background.getImage();
 	}
 

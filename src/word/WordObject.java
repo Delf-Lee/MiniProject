@@ -12,8 +12,12 @@ public class WordObject extends JPanel {
 
 	public static final int RABBIT = 0;
 	public static final int SQUIRREL = 1;
+	public static final int DEER = 2;
+	
+	
 	public static final String RABBIT_IMG = "images\\Åä³¢¾îÇª.gif";
 	public static final String SQUIRREL_IMG = "images\\´Ù¶÷Áã¾îÇª.gif";
+	public static final String DEER_IMG = "images\\»ç½¿¾îÇª.gif";
 
 	private WordLabel wordLabel;
 	private JLabel imageLabel;
@@ -53,6 +57,10 @@ public class WordObject extends JPanel {
 			break;
 		case SQUIRREL:
 			animalImage = new ImageIcon(SQUIRREL_IMG);
+			break;
+		case DEER:
+			animalImage = new ImageIcon(DEER_IMG);
+			break;
 		}
 		// ÀÌ¹ÌÁö ·¹ÀÌºí ¼¼ÆÃ
 		imageLabel = new JLabel(animalImage);

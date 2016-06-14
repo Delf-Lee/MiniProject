@@ -31,7 +31,7 @@ public class LoginPanel extends BasePanel {
 
 	/** 생성자 */
 	public LoginPanel(int x, int y, int width, int height, PanelManager panel) {
-		super(/*이미지 경로*/);
+		super("images/소패널.png");
 		this.panel = panel;
 		setBounds(x, y, width, height);
 		setBackground(Color.CYAN); // 삭제 예정 라인
@@ -84,7 +84,6 @@ public class LoginPanel extends BasePanel {
 
 	/** 패널 내 버튼에 대한 리스너 */
 	class LoginListener implements ActionListener {
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton pressedBtn = (JButton) e.getSource();
 			switch (pressedBtn.getText()) {

@@ -10,7 +10,7 @@ public class HomePanel extends BasePanel {
 	private SignupPanel signup;
 
 	public HomePanel(PanelManager panel) {
-		super(/*이미지*/);
+		super("images/타이틀.gif");
 		setLocation(0, 25);
 		this.panel = panel;
 		login = panel.getLoninPanel();

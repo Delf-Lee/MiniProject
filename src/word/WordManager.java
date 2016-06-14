@@ -23,7 +23,7 @@ public class WordManager {
 	//private static final int BOUND_Y = 740;
 	private static final int APPEARANCE_X1 = 737;
 	private static final int APPEARANCE_X2 = 1117;
-	private static final int LIMIT_X1 = 20;
+	private static final int LIMIT_X1 = 110;
 	private static final int LIMIT_X2 = 515;
 	private static final int START_Y = 224;
 	private static final int END_Y = 721;
@@ -78,6 +78,7 @@ public class WordManager {
 		int speed = setSpeed(stage);
 		int endX = getEndX(appearanceCoordinate.x);
 		double slope = getSlope(appearanceCoordinate.x, endX); // 출현 위치에 따른 하강 기울기 결정
+		System.out.println(slope);
 
 		Word newWord = new Word(nextWord, speed, slope, appearanceCoordinate, endX - 100);
 		list.add(newWord); // list에 단어 추가
@@ -161,6 +162,7 @@ public class WordManager {
 	 */
 	public int getEndX(int x) {
 		int limitX = (x - APPEARANCE_X1) * (LIMIT_X2 - LIMIT_X1) / (APPEARANCE_X2 - APPEARANCE_X1) + LIMIT_X1;
+		//int limitX = 
 		return limitX;
 	}
 

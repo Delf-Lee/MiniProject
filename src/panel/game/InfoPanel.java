@@ -23,7 +23,7 @@ public class InfoPanel extends JPanel {
 
 	public InfoPanel() {
 		setComponent();
-		limitTime = 30;
+		limitTime = 10000;
 	}
 
 	private void setComponent() {

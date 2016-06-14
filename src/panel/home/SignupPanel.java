@@ -33,7 +33,7 @@ public class SignupPanel extends BasePanel {
 
 	/** 생성자 */
 	public SignupPanel(int x, int y, int width, int height, PanelManager panel) {
-		super(/*이미지 경로*/);
+		super("images/소패널.png");
 		this.panel = panel;
 		setBounds(x, y, width, height); // 좌표, 크기
 		setBackground(Color.LIGHT_GRAY); // 삭제 예정 라인
