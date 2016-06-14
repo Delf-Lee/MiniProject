@@ -76,7 +76,7 @@ public class MenuPanel extends BasePanel {
 		btnRanking.addMouseListener(menuEvent);
 		btnLogout.addMouseListener(menuEvent);
 	}
-
+	
 	/** 패널 내의 메뉴 버튼들 설정 및 부착 */
 	private void setMenu() {
 
