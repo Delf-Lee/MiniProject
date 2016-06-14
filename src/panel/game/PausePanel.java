@@ -146,11 +146,7 @@ public class PausePanel extends BasePanel {
 			switch (btnName) {
 			case RESUME:
 				setVisible(false);
-				JLabel timerLabel = new JLabel("3");
-				timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 150));
-				timerLabel.setBounds(490, 300, 100, 100);
-				panel.getGamePanel().add(timerLabel);
-				TimerThread th = new TimerThread(timerLabel);
+				TimerThread th = new TimerThread();
 				th.start();
 				break;
 
@@ -202,33 +198,39 @@ public class PausePanel extends BasePanel {
 					System.exit(0);
 				}
 				break;
+				
 			}
+			pauseBtns[btnName].setIcon(btnImages[btnName][EXITED]);
 		}
 	}
 
 	/** 일시정시에서 게임 재시작 시, 3초 카운트 다운 시행 */
 	class TimerThread extends Thread {
-		JLabel la;
+		JLabel timerLabel = new JLabel("3");
 
-		public TimerThread(JLabel la) {
-			this.la = la;
+		public TimerThread() {
+			timerLabel.setFont(new Font("Silkscreen", Font.BOLD, 150));
+			timerLabel.setBounds(490, 300, 100, 100);
+			screen.add(timerLabel);
+			
 		}
 
 		public void run() {
 			while (true) {
 				try {
+					repaint();
 					sleep(1000);
 				} catch (InterruptedException e) {
 					return;
 				}
-				int n = Integer.parseInt(la.getText());
-				n--;
-				if (n == 0) {
+				int n = Integer.parseInt(timerLabel.getText());
+				;
+				if ((n--) == 0) {
+					screen.remove(timerLabel);
 					thrd.continueGame();
-					la.setVisible(false);
 					return;
 				}
-				la.setText(Integer.toString(n));
+				timerLabel.setText(Integer.toString(n));
 			}
 		}
 	}

@@ -344,7 +344,6 @@ public class GameThread extends Thread {
 
 	private void popPausePanel() {
 		pauseMenu.setVisible(true); // ∞°Ω√»≠
-		screen.repaint();
 	}
 	
 	public void setKeyAccpet(boolean i) {
