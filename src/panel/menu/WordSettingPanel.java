@@ -85,7 +85,7 @@ public class WordSettingPanel extends BasePanel {
 		btnWordAdd.addMouseListener(buttonListener); // 추가 버튼
 		btnWordDelete.addMouseListener(buttonListener); // 삭제 버튼
 		btnBack.addMouseListener(buttonListener); // 뒤로가기
-		
+
 		btnFileOpen.addActionListener(openActionListener);
 	}
 
@@ -123,14 +123,14 @@ public class WordSettingPanel extends BasePanel {
 		btnBack.setFocusPainted(false);
 		btnBack.setContentAreaFilled(false);
 		btnBack.setBounds(910, 600, 80, 70);
-		
+
 		btnFileOpen = new JButton("파일열기", FileOpneIcon);
 		btnFileOpen.setBorderPainted(false);
 		btnFileOpen.setFocusPainted(false);
 		btnFileOpen.setContentAreaFilled(false);
 		btnFileOpen.setBounds(360, 45, 50, 50);
-		
-//		chooser.setFileFilter(filter);
+
+		//		chooser.setFileFilter(filter);
 
 		add(textInputBox);
 		add(btnWordAdd);
@@ -173,11 +173,11 @@ public class WordSettingPanel extends BasePanel {
 			case "+":
 				addWordEvent();
 				break;
-				
+
 			case "-":
 				deleteWordEvent();
 				break;
-				
+
 			case "뒤":
 				writeWordDate();
 				panel.setContentPane(PanelManager.MENU);
@@ -220,26 +220,27 @@ public class WordSettingPanel extends BasePanel {
 			}
 		}
 	}
-	
+
 	class OpenAtionListener implements ActionListener {
 		JFileChooser chooser;
-		
+
 		OpenAtionListener() {
 			chooser = new JFileChooser();
 		}
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			writeWordDate();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("txt","txt");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "txt");
 			chooser.setFileFilter(filter);
 			int ret = chooser.showOpenDialog(null);
-			if(ret != chooser.APPROVE_OPTION) {
+			if (ret != chooser.APPROVE_OPTION) {
 				MsgWinow.error("파일을 선택하지 않았습니다.");
 				return;
 			}
-			
+
 			String filePath = chooser.getSelectedFile().getPath();
-			
+
 			wordListModel = new DefaultListModel<String>();
 			openFilePath = filePath;
 			addWordList(wordListModel);
@@ -249,20 +250,17 @@ public class WordSettingPanel extends BasePanel {
 			wordList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 			wordScroll.setViewportView(wordList);
 		}
-		
+
 	}
 
 	private void deleteWordEvent() {
 		int index = wordList.getSelectedIndex(); //선택된 항목의 인덱스를 가져온다.
 
-		if(index == -1) {
+		if (index == -1) {
 			MsgWinow.error("삭제할 단어를 선택하세요.");
 			return;
 		}
 		wordListModel.remove(index); //리스트모델에서 선택된 항목을 지운다.
-		if (wordListModel.getSize() == 0) { //리스트모델의 사이즈가 0이되면 삭제버튼을 누를 수 없게 한다.
-			btnWordDelete.setEnabled(false);
-		}
 		if (index == wordListModel.getSize()) { //인덱스와 리스트모델의 마지막항목이 같으면
 			index--; //즉,선택된 인덱스가 리스트의 마지막 항목이었으면 인덱스를 -1해서 인덱스를 옮겨준다.
 		}
@@ -344,10 +342,10 @@ public class WordSettingPanel extends BasePanel {
 	public void setFocus() {
 		textInputBox.requestFocus();
 	}
-	
-//	public String getOpenFilePath() {
-//		return openFilePath;
-//	}
+
+	//	public String getOpenFilePath() {
+	//		return openFilePath;
+	//	}
 
 	@Override
 	public void initPanel() {

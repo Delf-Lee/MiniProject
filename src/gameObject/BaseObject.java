@@ -19,9 +19,7 @@ public class BaseObject extends JPanel {
 		setLocation(start);
 		setTextLabel(word);
 		
-		
 		setLayout(null);
-		
 
 		setOpaque(false);
 	}
@@ -69,4 +67,8 @@ public class BaseObject extends JPanel {
 			width = w;
 		}
 	}
+	public String getString() {
+		return wordLabel.getText();
+	}
+
 }

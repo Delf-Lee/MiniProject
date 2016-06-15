@@ -34,7 +34,7 @@ public class ReadyAnimation extends Thread {
 		int width = 430;
 		int height = 340;
 
-		levelLabel.setBounds(width, height, 200, 40); // 자동으로 설정하고 싶은데 하드로 떄려박음..
+		levelLabel.setBounds(width, height, 250, 40); // 자동으로 설정하고 싶은데 하드로 떄려박음..
 		panel.add(levelLabel);
 
 		try {

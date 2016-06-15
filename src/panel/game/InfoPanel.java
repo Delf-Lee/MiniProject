@@ -14,7 +14,7 @@ import thread.GameThread;
 
 public class InfoPanel extends JPanel {
 	private static final int[] LVL_LOCATION = { 20, 30 }; // 레벨 표기 위치
-	private static final int[] TIME_LOCATION = { 230, 10 }; // 시간 표기 위치
+	private static final int[] TIME_LOCATION = { 260, 15 }; // 시간 표기 위치
 	private static final int[] ITEM_LOCATION = { 700, 550 }; // 아이템 표기 위치
 	private static final int X = 0; // 좌표 인덱스
 	private static final int Y = 1;

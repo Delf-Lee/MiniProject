@@ -7,6 +7,7 @@ public class Timer extends Thread {
 	private int standatdTime;
 	private int stopTime;
 	private int idealTime;
+	private int resumeTime;
 
 	public Timer() {
 	}
@@ -25,8 +26,9 @@ public class Timer extends Thread {
 	}
 
 	public void resumeTimer() {
-		int resumeTime = (int) System.currentTimeMillis();
-		idealTime += resumeTime - stopTime;
+		resumeTime = (int) System.currentTimeMillis();
+		idealTime += (resumeTime - stopTime);
+		System.out.println(idealTime);
 	}
 
 	public int getPassTime() {
@@ -44,11 +46,16 @@ public class Timer extends Thread {
 		return false;
 	}
 
+	public void plusTime(int n) {
+		idealTime += n * 1000;
+	}
+
 	public void run() {
 		try {
 			standatdTime = (int) System.currentTimeMillis();
 			while (true) {
 				passTime = (int) System.currentTimeMillis() - standatdTime - idealTime;
+				//System.out.println(getRemainTime() / 1000);
 				sleep(100);
 			}
 		} catch (Exception e) {

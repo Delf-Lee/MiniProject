@@ -120,30 +120,41 @@ public class ObjectManager {
 		return null;
 	}
 
-	public void removeManyWord(String word) {
+	public Vector<GameObject> removeManyWord(String word) {
 		GameObject targetWord = searchWord(word); // 타겟을 찾아내서
 		if (targetWord == null) { // 없음 말구...
-			return;
+			return null;
 		}
 		else { // 타겟이 존재한다면,
 			Point targetLocation = targetWord.getLocation(); // 좌표를 얻은 다음
+			Vector<GameObject> tmpList = new Vector<GameObject>();
 			// (아이템인 아닌) 단어 이면서
 			Iterator<GameObject> it = list.iterator();
-			while (it.hasNext()) { // 리스트를 돌면서
-				if (targetWord.getObjecType() == GameObject.WORD) { // 단어들 중에
-					GameObject tmpWord = it.next();
+			while (it.hasNext()) { // 리스트를 돌면
+				GameObject tmpWord = it.next();
+				if (tmpWord.getObjecType() == GameObject.WORD) { // 단어들 중에
+
 					if (wordInArea(targetLocation, tmpWord)) { // 좌표 범위엔에 들면
-						list.remove(tmpWord);
+						System.out.println("걸렸다");
+						tmpList.add(tmpWord); // 패널에서 때어낼 객체를 임시저장하고
+						list.remove(tmpWord); // 리스트에서 단어 객체를 삭제
 					}
 				}
+				list.remove(targetWord);
+				tmpList.add(targetWord);
+
+				return tmpList; // 임시저장한 객체백터를 반환 
 			}
 		}
+		return null;
 	}
 
 	private boolean wordInArea(Point target, GameObject word) {
+		int range = 500;
 		Point p = word.getLocation();
-		if (p.x > target.x - 70 && p.x < target.x + 70) {
-			if (p.y < target.y - 70 && p.y > target.y + 70) {
+		System.out.println("검색함");
+		if (p.x > target.x - range && p.x < target.x + range) {
+			if (p.y > target.y - range && p.y < target.y + range) {
 				return true;
 			}
 		}
@@ -181,7 +192,9 @@ public class ObjectManager {
 				//list.remove(cursor); // ConcurrentModificationException 발생...ㅠㅠ
 				it.remove();
 				thr.removeWord(cursor); // 패널에서 객체 삭제
-				//thr.lostLife();
+				if (cursor.getObjecType() == GameObject.WORD) {
+					thr.lostLife();
+				}
 				it = list.iterator(); // Vector에서도 fail-fast 발생? 일단 한번 더 초기화... 
 			}
 		}

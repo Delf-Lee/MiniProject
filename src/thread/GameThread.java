@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.swing.JLabel;
 
+import animation.ReadyAnimation;
 import gameObject.GameObject;
 import gameObject.ObjectManager;
 import gameObject.item.Item;
@@ -22,11 +23,12 @@ import user.UserManager;
 public class GameThread extends Thread {
 	// 아이템 관련 상수 및 변수
 
-	private static boolean itemFlag[] = { false, false, false };
+	//private static boolean itemFlag[] = { false, false, false };
+	private static boolean itemFlag[] = { false, false };
 
 	private ObjectManager objectList;
 	private Player player; // 필요없겠네
-	private Timer gameTimer = new Timer();
+	public Timer gameTimer = new Timer();
 	private Timer slowItem;
 	private Timer unbeatableItem;
 	private Timer netModeItem;
@@ -72,7 +74,7 @@ public class GameThread extends Thread {
 		this.level = level; // 플레이어가 플레이 할 레벨
 		gameTimer.setLimitTime(30);
 
-		//new ReadyAnimation(screen, level, this); // 준비 애니메이션
+		new ReadyAnimation(screen, level, this); // 준비 애니메이션
 		preTime = (int) System.currentTimeMillis(); // 현재 시간 저장 (제한시간을 위함)
 		screen.setInfo(level, preTime); // 게임화면에서 정보창 설정
 	}
@@ -109,20 +111,21 @@ public class GameThread extends Thread {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_ENTER: // 엔터
 				String inputWord = screen.getWordString();
-				if (itemFlag[Item.NET_MODE] == false) {
-					removeOneWord(inputWord);
-				}
-				else if (itemFlag[Item.NET_MODE] == true) {
-					removeManyWord(inputWord);
-				}
+				//				if (itemFlag[Item.NET_MODE] == false) {
+				removeOneWord(inputWord);
+				//				}
+				//				else if (itemFlag[Item.NET_MODE] == true) {
+				//					removeManyWord(inputWord);
+				//				}
 				screen.initTextField();
 				break;
 			case KeyEvent.VK_ESCAPE: // ECS
 				if (pause()) {
-					popPausePanel();
 					gameTimer.stopTimer();
+					popPausePanel();
 				}
 				else {
+					gameTimer.stopTimer();
 					panel.getPausePanel().setVisible(false);
 					CountDown th = new CountDown();
 					th.start();
@@ -175,23 +178,31 @@ public class GameThread extends Thread {
 		}
 
 		public void run() {
-			while (true) {
-				try {
-					//repaint();
-					sleep(1000);
-				} catch (InterruptedException e) {
-					return;
-				}
+
+			try {
 				int n = Integer.parseInt(timerLabel.getText());
-				n--;
-				if (n == 0) {
-					screen.remove(timerLabel);
-					gameTimer.resumeTimer();
-					continueGame();
-					return;
+				gameTimer.stopTimer();
+				while (true) {
+					
+					sleep(1000);
+					timerLabel.setText(Integer.toString(n));
+					
+					n--;
+					if (n == 0) {
+						screen.remove(timerLabel);
+						continueGame();
+						gameTimer.resumeTimer();
+						return;
+					}
+					screen.repaint();
+					timerLabel.setText(Integer.toString(n));
+
 				}
-				timerLabel.setText(Integer.toString(n));
+
+			} catch (InterruptedException e) {
+				return;
 			}
+
 		}
 	}
 
@@ -202,6 +213,7 @@ public class GameThread extends Thread {
 			return false;
 		}
 		else {
+			gameTimer.stopTimer();
 			pause = true;
 			return true;
 		}
@@ -223,9 +235,9 @@ public class GameThread extends Thread {
 	/** 랜덤한 확률로 아이템 생성 */
 	private void createItem() {
 		if (objectList.isCreate) {
-			int appearRatio = (int) (Math.random() * 200 - (level * 1)); // 출현 확률
+			int appearRatio = (int) (Math.random() * 300); // 출현 확률
 
-			if (appearRatio < 10) {
+			if (appearRatio < 5) {
 				Item newItem = objectList.createItem(); // 생성
 				addWordToPanel(newItem); // 패널에 부착
 			}
@@ -274,7 +286,7 @@ public class GameThread extends Thread {
 
 	/** 해당 레벨을 클리어 시, 다음 레벨로 진입한다. */
 	public void nextLevel() {
-		if (level < 10) {
+		if (level <= 10) {
 			level++;
 			//initGame();
 			objectList.initwordList();
@@ -307,6 +319,7 @@ public class GameThread extends Thread {
 
 	/** pause에서 resume을 누를시 게임을 재개한다. */
 	public void continueGame() {
+		gameTimer.resumeTimer();
 		synchronized (this) {
 			while (pause) {
 				pause = false;
@@ -317,17 +330,17 @@ public class GameThread extends Thread {
 
 	/** 라이프 하나 소멸 */
 	public void lostLife() {
-		if (life > 0) {
-			screen.updateLife(life--);
+		if (life >= 0) {
+			screen.updateLife(--life);
 		}
 	}
 
 	private void checkLife() {
-		if (screen.getLife() == 0) {
+		if (life == 0) {
 			// 게임오버
 			gameOver();
-			//단어 떼줘
 			objectList.initwordList();
+			MsgWinow.error("Game Over");
 			panel.setContentPane(PanelManager.MENU);
 			interrupt(); // 일단 임시로 종료시킴
 		}
@@ -381,13 +394,13 @@ public class GameThread extends Thread {
 		case Item.NET_MODE: // 그물모드 아이템 사용
 			if (itemFlag[Item.NET_MODE] == false) {
 				itemFlag[Item.NET_MODE] = true;
-				netModeItem = new Timer(5);
+				netModeItem = new Timer(30);
 			}
 			break;
 
 		case Item.ADD_LIFE: // 회복 아이템 사용
 			if (life < 5) {
-				screen.updateLife(life++);
+				screen.updateLife(++life);
 			}
 			break;
 
@@ -411,11 +424,11 @@ public class GameThread extends Thread {
 				itemFlag[Item.UNBEATABLE] = false;
 			}
 		}
-		if (itemFlag[Item.NET_MODE] == true) {
-			if (netModeItem.isTerminate()) {
-				itemFlag[Item.NET_MODE] = false;
-			}
-		}
+		//		if (itemFlag[Item.NET_MODE] == true) {
+		//			if (netModeItem.isTerminate()) {
+		//				itemFlag[Item.NET_MODE] = false;
+		//			}
+		//		}
 	}
 
 	/** 게임 패널에 일시정지 패널을 띄운다. */
@@ -466,12 +479,15 @@ public class GameThread extends Thread {
 
 	/** 그물모드 아이템 사용 시, 입력된 단어의 주위 단어까지 함께 지운다. */
 	private void removeManyWord(String inputWord) {
-		GameObject targetWord = objectList.searchWord(inputWord);
-		if (targetWord == null) {
+		Vector<GameObject> removeList = objectList.removeManyWord(inputWord);
+		if (removeList == null) {
 			return;
 		}
 		else {
-
+			for (int i = 0; i < removeList.size(); i++) {
+				System.out.println(removeList.get(i).getWordObject().getString());
+				screen.remove(removeList.get(i).getWordObject()); // 반환된 임시리스트를 삭제
+			}
 		}
 	}
 

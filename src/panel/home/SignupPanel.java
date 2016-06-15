@@ -130,6 +130,7 @@ public class SignupPanel extends BasePanel {
 			switch (pressedBtn.getText()) {
 			case "확인":
 				if (checkInput()) { // 입력 체크
+					initPanel();
 					writeUserInfo(); // 유저 정보 저장
 					UserManager.saveUserData();
 					backToLogin();

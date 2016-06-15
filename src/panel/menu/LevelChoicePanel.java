@@ -25,7 +25,7 @@ public class LevelChoicePanel extends BasePanel {
 	private GameThread thrd;
 	// 레이블
 	JLabel stringBoxLevelChoice;
-	
+
 	private ImageIcon backIcon = new ImageIcon("images/back.png");
 	// 버튼
 	JButton[] level;
@@ -36,13 +36,14 @@ public class LevelChoicePanel extends BasePanel {
 	private static final int X = 22;
 	private static final int Y = 75;
 	private int nowPanel;
-	
+
 	private static final int EXITED = 0;
 	private static final int ENTERD = 1;
 	private static final int PRESSED = 2;
-	
+
 	private ImageIcon btnImages[][] = new ImageIcon[10][2];
-	private String[][] btnImageName = {{"1","1_2"}, {"2","2_2"}, {"3","3_2"} ,{"4","4_2"}, {"5","5_2"}, {"6","6_2"}, {"7","7_2"}, {"8","8_2"}, {"9","9_2"}, {"10","10_2"}};
+	private String[][] btnImageName = { { "1", "1_2" }, { "2", "2_2" }, { "3", "3_2" }, { "4", "4_2" }, { "5", "5_2" }, { "6", "6_2" },
+			{ "7", "7_2" }, { "8", "8_2" }, { "9", "9_2" }, { "10", "10_2" } };
 
 	public LevelChoicePanel(int x, int y, int width, int height, PanelManager panel) {
 		super("images/levelchoiceBG.png");
@@ -68,13 +69,13 @@ public class LevelChoicePanel extends BasePanel {
 		// 버튼 이미지 가져오기
 		for (int i = 0; i < btnImages.length; i++) {
 			for (int j = 0; j < btnImages[i].length; j++) {
-			btnImages[i][j] = new ImageIcon("images/" + btnImageName[i][j] + ".png");
+				btnImages[i][j] = new ImageIcon("images/" + btnImageName[i][j] + ".png");
 			}
 		}
-		
+
 		level = new JButton[10];
 		for (int i = 0; i < level.length; i++) {
-			level[i] = new JButton(Integer.toString(i+1), btnImages[i][0]);
+			level[i] = new JButton(Integer.toString(i + 1), btnImages[i][0]);
 			level[i].setName(Integer.toString(i));
 			if (i < 5) {
 				level[i].setBounds(X, Y + (65 * i), 185, 80);
@@ -96,7 +97,7 @@ public class LevelChoicePanel extends BasePanel {
 
 		add(btnBack);
 	}
-	
+
 	/** 메뉴패널에 대한 버튼들의 마우스리스너 */
 	class LevelMouseEvent extends MouseAdapter {
 		// 마우스 땜
@@ -158,8 +159,8 @@ public class LevelChoicePanel extends BasePanel {
 				if (nowPanel == PAUSE) {
 					thrd.initGame(); // pause에서 레벨 선택 시, 게임 재시작을 위해 초기화
 				}
-				String tmp = pressedBtn.getText();
-				int selectedLevel = Integer.parseInt(tmp.substring(tmp.length() - 1));
+				String tmp = pressedBtn.getName();
+				int selectedLevel = Integer.parseInt(tmp) + 1;
 				panel.setContentPane(PanelManager.GAME);
 				gameStart(selectedLevel);
 				break;
@@ -173,14 +174,14 @@ public class LevelChoicePanel extends BasePanel {
 		GameThread newGame = new GameThread(panel);
 		newGame.setGame(UserManager.user, level);
 		newGame.start();
-		newGame.setFocus(); 
+		newGame.setFocus();
 	}
 
 	public void setThread(GameThread thrd) {
 		this.thrd = thrd;
 	}
 
-	@Override 
+	@Override
 	public void initPanel() {
 		// TODO Auto-generated method stub
 	}

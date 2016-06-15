@@ -158,6 +158,7 @@ public class PausePanel extends BasePanel {
 					panel.setContentPane(PanelManager.GAME); // 화면 준비
 					levelChoice.gameStart(thrd.getLevel()); // 게임 재시작
 					setVisible(false); // 퍼즈 패널 비가시화
+					thrd.setKeyAccpet(false);
 				}
 				break;
 
@@ -169,6 +170,7 @@ public class PausePanel extends BasePanel {
 				screen.setComponentZOrder(levelChoice, 0); // 레벨 선택 패널 맨 앞으로
 				levelChoice.setVisible(true); // 레벨 선택 패널 가시화
 				levelChoice.setButtonEnable(); // 버튼 비활성화 설정
+				thrd.setKeyAccpet(false);
 				break;
 
 			case MENU:
@@ -178,6 +180,7 @@ public class PausePanel extends BasePanel {
 					panel.setContentPane(PanelManager.MENU);
 					thrd.initGame();
 					thrd.interrupt();
+					thrd.setKeyAccpet(false);
 					setVisible(false);
 				}
 				break;
@@ -220,23 +223,28 @@ public class PausePanel extends BasePanel {
 		}
 
 		public void run() {
-			while (true) {
-				try {
-					//repaint();
+
+			try {
+				thrd.gameTimer.stopTimer();
+				while (true) {
+					int n = Integer.parseInt(timerLabel.getText());
+					n--;
+					if (n == 0) {
+						screen.remove(timerLabel);
+						thrd.continueGame();
+						//thrd.gameTimer.plusTime(5);
+						thrd.gameTimer.resumeTimer();
+						return;
+					}
+					timerLabel.setText(Integer.toString(n));
 					sleep(1000);
-				} catch (InterruptedException e) {
-					return;
 				}
-				int n = Integer.parseInt(timerLabel.getText());
-				n--;
-				if (n == 0) {
-					screen.remove(timerLabel);
-					thrd.continueGame();
-					return;
-				}
-				timerLabel.setText(Integer.toString(n));
+			} catch (InterruptedException e) {
+				return;
 			}
+
 		}
+
 	}
 
 	/**

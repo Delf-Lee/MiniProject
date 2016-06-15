@@ -8,13 +8,13 @@ import gameObject.GameObject;
 
 public class Item extends GameObject {
 
-	public static final int ITEMS = 5; // 아이템 개수
+	public static final int ITEMS = 4; // 아이템 개수
 	// 아이템 종류
 	public static final int SLOW = 0; // 느려짐
 	public static final int UNBEATABLE = 1; // 무적
-	public static final int NET_MODE = 2; // 그물
-	public static final int ALL_SAVE = 3; // 모두 구조
-	public static final int ADD_LIFE = 4; // 라이프 추가
+	public static final int ALL_SAVE = 2; // 모두 구조
+	public static final int ADD_LIFE = 3; // 라이프 추가
+	public static final int NET_MODE = 4; // 그물
 
 	private static ImageIcon SLOW_IMAGE = new ImageIcon("images/슬로우.png");
 	private static ImageIcon UNBEATABLE_IMAGE = new ImageIcon("images/무적.png");
