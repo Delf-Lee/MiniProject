@@ -183,15 +183,13 @@ public class GameThread extends Thread {
 				int n = Integer.parseInt(timerLabel.getText());
 				gameTimer.stopTimer();
 				while (true) {
-					
-					sleep(1000);
 					timerLabel.setText(Integer.toString(n));
-					
+					sleep(1000);
 					n--;
 					if (n == 0) {
 						screen.remove(timerLabel);
 						continueGame();
-						gameTimer.resumeTimer();
+						gameTimer.resumeTimer(1000);
 						return;
 					}
 					screen.repaint();
@@ -319,7 +317,7 @@ public class GameThread extends Thread {
 
 	/** pause에서 resume을 누를시 게임을 재개한다. */
 	public void continueGame() {
-		gameTimer.resumeTimer();
+		gameTimer.resumeTimer(0);
 		synchronized (this) {
 			while (pause) {
 				pause = false;

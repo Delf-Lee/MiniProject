@@ -192,6 +192,7 @@ public class PausePanel extends BasePanel {
 					panel.getLoninPanel().initPanel();
 					panel.setContentPane(PanelManager.HOME);
 					thrd.initGame();
+					repaint();
 					thrd.interrupt();
 					thrd.setKeyAccpet(false);
 					setVisible(false);
@@ -233,7 +234,7 @@ public class PausePanel extends BasePanel {
 						screen.remove(timerLabel);
 						thrd.continueGame();
 						//thrd.gameTimer.plusTime(5);
-						thrd.gameTimer.resumeTimer();
+						thrd.gameTimer.resumeTimer(1000);
 						return;
 					}
 					timerLabel.setText(Integer.toString(n));
@@ -244,7 +245,6 @@ public class PausePanel extends BasePanel {
 			}
 
 		}
-
 	}
 
 	/**

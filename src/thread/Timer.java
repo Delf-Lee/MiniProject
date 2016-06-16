@@ -25,9 +25,9 @@ public class Timer extends Thread {
 		stopTime = (int) System.currentTimeMillis();
 	}
 
-	public void resumeTimer() {
+	public void resumeTimer(int n) {
 		resumeTime = (int) System.currentTimeMillis();
-		idealTime += (resumeTime - stopTime);
+		idealTime += (resumeTime - stopTime) - n;
 		System.out.println(idealTime);
 	}
 
