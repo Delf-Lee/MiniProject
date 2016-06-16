@@ -1,0 +1,31 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MenuPanel extends JPanel {
+	public MenuPanel() {
+		setBackground(Color.CYAN);
+		this.setLayout(null);
+		
+		JButton btn = new JButton("°ÔÀÓÇÏ±â");
+		btn.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+		btn.setBounds(400, 200, 200, 70);
+		
+		JButton btn2 = new JButton("´Ü¾îÀÔ·Â");
+		btn.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+		btn.setBounds(400, 300, 200, 70);
+		
+		JButton btn3 = new JButton("·©Å·º¸±â");
+		btn.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+		btn.setBounds(400, 400, 200, 70);
+		
+		JButton btn4 = new JButton("·Î±×¾Æ¿ô");
+		btn.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
+		btn.setBounds(400, 500, 200, 70);
+		
+		add(btn);
+		add(btn2);
+		add(btn3);
+		add(btn4);
+	}
+}

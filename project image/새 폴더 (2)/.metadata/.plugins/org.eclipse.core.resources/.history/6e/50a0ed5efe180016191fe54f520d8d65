@@ -1,0 +1,24 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MenuPanel extends JPanel {
+	public MenuPanel() {
+		JButton btn = new JButton("게임하기");
+		JButton btn2 = new JButton("단어입력하기");
+		JButton btn3 = new JButton("랭킹보기");
+		JButton btn4 = new JButton("로그아웃");
+		
+		setBackground(Color.CYAN);
+		add(btn);
+		add(btn2);
+		add(btn3);
+		add(btn4);
+
+	}
+	
+	public static void main(String[] args) {
+		new MenuPanel();
+	}
+
+}

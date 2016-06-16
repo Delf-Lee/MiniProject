@@ -1,0 +1,128 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+public class WordSettingPanel extends BasePanel {
+   // 리스트
+   private DefaultListModel<String> wordListModel;
+   private JList<String> wordList;
+   // 스크롤
+   private JScrollPane wordScroll;
+   // 텍스트 필드
+   private JTextField textInputBox; // 단어 입력창
+   // 버튼
+   private JButton btnWordAdd;
+   public JButton btnBack;
+   // 파일 입출력
+   private FileWriter fout = null;
+   private FileReader fin = null;
+
+   public WordSettingPanel() {
+      // 창 설정
+      setSize(MainApplication.WIDTH, MainApplication.HEIGHT);
+      setBackground(Color.CYAN); // 삭제 예정 라인
+
+      wordScroll = new JScrollPane();
+      wordScroll.setBounds(400, 257, 300, 300);
+
+      // list에 파일안의 단어 목록 추가
+      wordListModel = new DefaultListModel<String>();
+      addWordList(wordListModel);
+
+      wordList = new JList<String>();
+      wordList.setModel(wordListModel);
+      wordList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+
+      wordScroll.setViewportView(wordList);
+
+      textInputBox = new JTextField();
+      textInputBox.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+      textInputBox.setBounds(400, 660, 200, 55);
+
+      btnWordAdd = new JButton("단어 추가");
+      btnWordAdd.setBounds(600, 660, 100, 55);
+      
+      btnBack = new JButton("뒤로");
+      btnBack.setBounds(900, 680, 100, 55);
+
+      add(textInputBox);
+      add(btnWordAdd);
+      add(wordScroll);
+      add(btnBack);
+
+      btnWordAdd.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent arg) {
+            // 중복된 단어 체크
+            try {
+               fin = new FileReader(MainApplication.FILEROOT + "\\word.txt"); // 경로 수정!
+               /* 나중에 이 경로를 고정 */
+               BufferedReader reader = new BufferedReader(fin);
+
+               String word = null;
+
+               while ((word = reader.readLine()) != null) { // 한 줄 단위로 읽어옴
+                  if (word.equals(textInputBox.getText().replaceAll(" ", ""))) { // 입력 단어의 " "를 ""로 대체
+                     JOptionPane.showMessageDialog(new WordSettingPanel(), "이미 존재하는 단어입니다.", "Message", JOptionPane.ERROR_MESSAGE);
+                     return;
+                  }
+               }
+               reader.close();
+            } catch (IOException e) {
+               System.out.println("입출력 오류 (중복단어 체크)");
+               System.exit(1);
+            }
+            // 단어 추가
+            try {
+               if(textInputBox.getText().length()==0) { // 아무것도 입력하지 않으면
+                  JOptionPane.showMessageDialog(new WordSettingPanel(), "단어를 입력하세요.", "Message", JOptionPane.ERROR_MESSAGE);
+                  return;
+               }
+               fout = new FileWriter(MainApplication.FILEROOT + "\\word.txt", true); // 경로 수정!
+               fout.write(textInputBox.getText().replaceAll(" ", "") + "\n"); // 입력 단어의 " "를 ""로 대체
+               wordListModel.addElement(textInputBox.getText().replaceAll(" ", "")); // 입력 단어의 " "를 ""로 대체
+               fout.close();
+            } catch (IOException e) {
+               System.out.println("입출력 오류 (단어 추가)");
+               System.exit(1);
+            }
+            textInputBox.setText(""); // 단어추가를 누루면 단어입력필드를 ""로 초기화
+         }
+      });
+      
+      
+   }
+
+   public void addWordList(DefaultListModel<String> wordListModel) {
+      try {
+         fin = new FileReader(MainApplication.FILEROOT + "\\word.txt"); // 경로 수정!
+         BufferedReader reader = new BufferedReader(fin);
+
+         String word = null;
+
+         while ((word = reader.readLine()) != null) { // 한 줄 단위로 읽어옴
+            wordListModel.addElement(word);
+         }
+         reader.close();
+      } catch (IOException e) {
+         System.out.println("입출력 오류 addwordList");
+         //System.exit(1);
+      }
+   }
+
+   @Override
+   public void initPanel() {
+      textInputBox.setText("");
+   }
+}

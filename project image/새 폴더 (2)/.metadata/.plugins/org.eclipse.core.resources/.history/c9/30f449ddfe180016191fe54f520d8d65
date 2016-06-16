@@ -1,0 +1,29 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MenuPanel extends JPanel {
+	public MenuPanel() {
+		setBackground(Color.CYAN);
+		this.setLayout(null);
+		
+		JButton btn = new JButton("게임하기");
+		btn.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		btn.setBounds(500, 100, 200, 70);
+		
+		JButton btn2 = new JButton("단어입력");
+		JButton btn3 = new JButton("랭킹보기");
+		JButton btn4 = new JButton("로그아웃");
+		
+		
+		add(btn);
+		add(btn2);
+		add(btn3);
+		add(btn4);
+
+	}
+	
+	public static void main(String[] args) {
+		new MenuPanel();
+	}
+}

@@ -1,0 +1,157 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class SignUpPanel extends BasePanel {
+   // 문자열
+   private JLabel stringBoxID = new JLabel("ID");
+   private JLabel stringBoxPassword = new JLabel("PW");
+   private JLabel stringBoxCheckPassword = new JLabel("PW확인");
+   // 텍스트 필드
+   private JTextField IDFeild = new JTextField();
+   private JPasswordField PassWordFeild = new JPasswordField();
+   private JPasswordField checkPasswordFeild = new JPasswordField();
+   // 버튼
+   private JButton btnOK = new JButton("확인");
+   private JButton btnCancel = new JButton("취소");
+   // 파일 입출력
+//   private FileWriter fout = null;
+//   private FileReader fin = null;
+
+   public SignUpPanel(int x, int y, int width, int height) {
+      super(/*이미지 경로*/);
+
+      setBounds(x, y, width, height); // 좌표, 크기
+      setBackground(Color.LIGHT_GRAY); // 삭제 예정 라인
+
+      stringBoxID.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+      stringBoxID.setBounds(80, 20, 100, 100);
+
+      IDFeild.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+      IDFeild.setBounds(160, 55, 270, 40);
+
+      stringBoxPassword.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+      stringBoxPassword.setBounds(70, 70, 100, 100);
+
+      PassWordFeild.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+      PassWordFeild.setBounds(160, 105, 270, 40);
+
+      stringBoxCheckPassword.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+      stringBoxCheckPassword.setBounds(40, 120, 150, 100);
+
+      checkPasswordFeild.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+      checkPasswordFeild.setBounds(160, 155, 270, 40);
+
+      btnOK.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+      btnOK.setBounds(160, 220, 130, 40);
+
+      btnCancel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+      btnCancel.setBounds(300, 220, 130, 40);
+
+      addTwo(stringBoxID, IDFeild);
+      addTwo(stringBoxPassword, PassWordFeild);
+      addTwo(stringBoxCheckPassword, checkPasswordFeild);
+      addTwo(btnOK, btnCancel);
+   }
+
+   @SuppressWarnings("deprecation")
+   public void writeUserInfo() {
+      UserManager.userList.add(new User(IDFeild.getText(), PassWordFeild.getText(), 1, 0));
+//            
+//            try {
+//               //fout = new FileWriter("C:\\Users\\TEST\\Desktop\\JP_ing\\UserInfo.txt", true); // 경로 수정!
+//               fout = new FileWriter("C:\\Users\\delf\\Desktop\\UserInfo.txt", true); // 경로 수정!
+//               fout.write(IDFeild.getText() + " " + PassWordFeild.getText() + " " + 0 + " " + 1 + "\n"); // ID PW score stage
+//               fout.close();
+//            } catch (IOException e) {
+//               System.out.println("입출력 오류 writeUserInfo()");
+//               System.exit(1);
+//            }
+   }
+
+   public boolean checkInput() {
+
+      String inputID = getID();
+      String inputPassWord = getPassword();
+      String inputPassWordConfirm = getCheckPassword();
+
+      if (!checkID(inputID)) { // 아이디 체킹
+         return false;
+
+      }
+      else if (!checkPassword(inputPassWord, inputPassWordConfirm)) { // 패스워드 체킹
+         return false;
+      }
+      return true;
+   }
+
+   public boolean checkID(String inputID) {
+      /* 임시 공백처리 */
+      // 길이 체크
+      if (inputID.length() == 0) {
+         JOptionPane.showMessageDialog(this, "아이디를 입력하세요.", "Message", JOptionPane.ERROR_MESSAGE);
+         return false;
+      }
+
+      // 아이디 중복 체크
+      for (int i = 0; i < UserManager.userList.size(); i++) {
+         if (UserManager.userList.get(i).getUserName().equals(inputID)) {
+            JOptionPane.showMessageDialog(this, "이미 존재하는 아이디입니다.", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+   // 패스워드 체킹
+   public boolean checkPassword(String inputPassWord, String inputPassWordConfirm) {
+      if (inputPassWord.length() == 0 || inputPassWordConfirm.length() == 0) {
+         JOptionPane.showMessageDialog(this, "비밀번호를 입력하세요.", "Message", JOptionPane.ERROR_MESSAGE);
+         return false; // 패스워드 공백
+      }
+      else if (!inputPassWord.equals(inputPassWordConfirm)) {
+         JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다.", "Message", JOptionPane.ERROR_MESSAGE);
+         return false; /// 패스워드 불일치
+      }
+      return true;
+   }
+
+   public String getID() {
+      return IDFeild.getText().trim();
+   }
+
+   @SuppressWarnings("deprecation")
+   public String getPassword() {
+      return PassWordFeild.getText().trim();
+   }
+
+   @SuppressWarnings("deprecation")
+   public String getCheckPassword() {
+      return checkPasswordFeild.getText().trim();
+
+   }
+
+   public JButton getOkButton() {
+      return btnOK;
+   }
+
+   public JButton getCancelButton() {
+      return btnCancel;
+   }
+
+   @Override
+   public void initPanel() {
+      IDFeild.setText("");
+      PassWordFeild.setText("");
+      checkPasswordFeild.setText("");
+   }
+}

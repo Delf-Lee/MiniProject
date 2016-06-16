@@ -1,0 +1,94 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+public class UserManager {
+   /* 임시 클래스 
+    * 삭제 가능성 있음*/
+   
+   // user 벡터
+   public static Vector<User> userList = new Vector<User>();
+   // 파일 읽기
+   private FileWriter fout = null;
+   private FileReader fin = null;
+
+   // UserManager생성하면 파일 읽어 vector에 userInfo 추가
+   public UserManager() {
+      try {
+         fin = new FileReader(MainApplication.FILEROOT + "\\UserInfo.txt");
+         BufferedReader reader = new BufferedReader(fin);
+         String userInfo = null;
+         while ((userInfo = reader.readLine()) != null) {
+            StringTokenizer token = new StringTokenizer(userInfo, " ");
+            String ID = token.nextToken();
+            String PW = token.nextToken();
+            int stage = Integer.parseInt(token.nextToken());
+            int score = Integer.parseInt(token.nextToken());
+            userList.add(new User(ID, PW, stage, score));
+         }
+         reader.close();
+      } catch (IOException e) {
+         System.out.println("입출력 오류");
+         System.exit(1);
+      }
+   }
+
+   // vector score 내림차순
+   public static void sortUserList() {
+      Collections.sort(userList, new NoDescCompare());
+   }
+
+   static class NoDescCompare implements Comparator<User> {
+      /**
+       * 내림차순(DESC)
+       */
+      @Override
+      public int compare(User arg0, User arg1) {
+         // TODO Auto-generated method stub
+         return arg0.getBestScore() > arg1.getBestScore() ? -1 : arg0.getBestScore() < arg1.getBestScore() ? 1 : 0;
+      }
+
+   }
+
+//   public static boolean removeUser(String ID, String pwd) {
+//      /* 위와 동일 */
+//      return true;
+//   }
+//
+//   public static boolean confirmUser(String ID, String pwd) {
+//      /* 생성된 해시값과 DB의 해시 값 비교 후, 접속 승인 */
+//      return true;
+//   }
+//   
+//   public static boolean saveBestScore(User user, int score) {
+//      user.setBestScore(score);
+//      saveUserData(user);
+//      return true;
+//   }
+//   
+//   public static boolean saveLastStage(User user, int stage) {
+//      user.setLastStage(stage);
+//      saveUserData(user);
+//      return true;
+//   }
+
+   public void saveUserData() {
+      /* 파일에 쓰기 */
+      try {
+         fout = new FileWriter(MainApplication.FILEROOT + "\\UserInfo.txt"); // 경로 수정!
+         for(int i=0; i<userList.size(); i++) {
+            fout.write(userList.get(i).getUserName() + " " + userList.get(i).getPassword()+ " " + userList.get(i).getLastStage() + " " + userList.get(i).getBestScore() + "\n"); // ID PW stage score
+         }
+         fout.close();
+      } catch (IOException e) {
+         System.out.println("입출력 오류 writeUserInfo()");
+         System.exit(1);
+      }
+   }
+}

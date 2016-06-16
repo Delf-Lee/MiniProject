@@ -1,0 +1,62 @@
+create table student (
+	stu_id		varchar2(10),
+	name		varchar2(10),
+	phone		varchar2(12),
+	num_lending	int,
+	rsv_book		varchar2(20),
+	constraint pk_student primary key(stu_id),
+	constraint chk_num check (num_lending>=0 and num_lending<=5)
+)
+
+create table booklist (
+	IBSN		varchar2(20),
+	title		varchar2(20)	not null,
+	author		varchar2(10),
+	publisher		varchar2(10),
+	published_date	varchar2(10),
+	num_subscription	int
+	constraint pk_booklist primary key(IBSN)
+)
+
+create table request (
+	stu_id		varchar2(10)	not null,
+	title		varchar2(20)	not null,
+	author		varchar(10)	not null,
+	publisher		varchar2(10),
+	IBSN		varchar2(20),
+	date		varchar2(10),
+	is_selected	boolean, // 확인
+	constraint pk_request primary key(stu_id, title, author),
+	constraint fk_request foreign key(stu_id) references student(stu_id)
+)
+
+
+create table ownedbook (
+	S/N		varchar2(15),
+	IBSN		varchar2(20),
+	is_lended		boolean // 확인
+	constraint pk_ownedbook primary key(S/N, IBSN),
+	constraint fk_ownedbook foreign key(IBSN), references booklist(IBSN)
+)
+
+create table own (
+	S/N		varchar2(15),
+	IBSN		varchar2(20),	
+	constraint pk_ownedbook primary key(S/N, IBSN),
+	constraint fk_ownedbook foreign key(S/N), references ownedbook(S/N)
+	constraint fk_ownedbook foreign key(IBSN), references booklist(IBSN)
+)
+
+create table lend (
+	lending_date	varchar2(10),
+	due_date		varchar2(10),
+	return_date	varchar2(10),
+	std_id		varchar2(10),
+	S/N		varchar2(20),
+	is_extended	boolean,
+	is_paid_fee	boolean,
+	constraint pk_ownedbook primary key(std_id, S/N),
+	constraint fk_ownedbook foreign key(IBSN), references booklist(IBSN)	
+)
+
+lend(lending_date, due_date, return_date, std_id, S/N, is_extended, is_paid_fee)

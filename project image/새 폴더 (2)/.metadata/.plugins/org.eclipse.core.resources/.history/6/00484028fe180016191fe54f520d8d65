@@ -1,0 +1,14 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MenuPanel extends JPanel {
+	public MenuPanel() {
+		
+	}
+	
+	public static void main(String[] args) {
+		new MenuPanel();
+	}
+
+}
