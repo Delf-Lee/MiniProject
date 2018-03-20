@@ -6,6 +6,9 @@ Pass me a tube는 계곡에 빠진 동물을 구출하는 게임입니다. 동�
 
 # 프로젝트 개요
  Java와 Swing을 이용한 타이핑 연습개임입니다.
+ 
+# 게임 방법
+내려오는 동물에 적혀진 단어를 입력하면 동물들을 구해줄 수 있습니다. 또한 떠내려오는 상자에서 동물들을 구하는데 도움이 되는 아이템을 얻을 수 있습니다!
 
 # 구현 결과
 <img name="login-panel" src="https://www.evernote.com/shard/s480/sh/8230e6ef-a63c-45f3-98ec-1287fc69b0c5/0163e05327926797/res/8ef0d5e6-2cdf-4eed-8c06-6141b1ce893a/003.PNG?resizeSmall&width=832" alt="alt text" width="70%" align="center">
